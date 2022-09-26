@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 //import Logo from '../../../../assets/images/FEO-words.png';
 import CustomInput from '../../components/ui/CustomInput';
 import CustomButton from '../../components/ui/Auth/CustomButton';
+import SocialSignInButtons from '../../components/ui/Auth/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
