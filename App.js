@@ -12,7 +12,7 @@ import Navigation from './src/navigation/Navigation';
 import { store } from './src/app/store';
 import { Provider, useSelector } from 'react-redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-
+import theme from './theme';
 import awsconfig from './src/aws-exports';
 Amplify.configure({
     ...awsconfig,
@@ -44,7 +44,7 @@ function App() {
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
-                <PaperProvider theme={mtrTheme}>
+                <PaperProvider theme={theme}>
                     <SafeAreaView
                         style={
                             Platform === 'ios'

@@ -24,14 +24,17 @@ import NewPasswordScreen from '../screens/Auth/NewPassword';
 import AuthDrawer from './AuthDrawer';
 import { Auth, Hub } from 'aws-amplify';
 const Stack = createNativeStackNavigator();
-function MeeterStack() {
+function MeeterStack(props) {
     const meeter = useSelector((state) => state.system);
+    // const AuthDrawerComponent = (props) => (
+    //     <AuthDrawer theme={props.theme} {...props} />
+    // );
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name='AuthenticatedDrawer'
-                // component={AuthenticatedDrawer}
                 component={AuthDrawer}
+                // component={AuthDrawerComponent}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

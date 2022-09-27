@@ -11,7 +11,15 @@ import { printObject } from '../utils/helpers';
 
 const LandingScreen = (props) => {
     const navigation = useNavigation();
-    const { colors } = props.theme;
+    const {
+        colors,
+        fonts,
+        weight,
+        screenTitle,
+        subTitle,
+        paragraph,
+        primaryButton,
+    } = props.theme;
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users.currentUser);
@@ -22,7 +30,7 @@ const LandingScreen = (props) => {
         navigation.setOptions({
             title: meeter.appName,
         });
-    }, [navigation, feo]);
+    }, [navigation, meeter]);
 
     return (
         <ImageBackground
@@ -48,7 +56,8 @@ const LandingScreen = (props) => {
                             padding: 5,
                         }}
                     >
-                        <Text>WELCOME</Text>
+                        <Text style={screenTitle}>WELCOME</Text>
+                        <Text style={subTitle}>Now What?</Text>
                     </View>
                 </Surface>
             </>

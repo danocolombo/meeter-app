@@ -1,4 +1,5 @@
 import React from 'react';
+import { withTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,9 +13,10 @@ import { printObject } from '../utils/helpers';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const AuthDrawer = (navigation) => {
+const AuthDrawer = (navigation, theme) => {
+    const { colors } = theme;
     const user = useSelector((state) => state.users.currentUser);
-    const feo = useSelector((state) => state.system);
+    const meeter = useSelector((state) => state.system);
     // printObject('PF:17-->user', user);
     let manager = false;
     if (
@@ -33,41 +35,46 @@ const AuthDrawer = (navigation) => {
     ) {
         patron = true;
     }
+    const LandingComponent = (props) => (
+        <LandingScreen theme={props.theme} {...props} />
+    );
     // {user?.stateRep || user?.stateLead || user?.superuser} : (
+
     return (
         <Drawer.Navigator
             screenOptions={({ navigation }) => ({
                 headerStyle: {
-                    backgroundColor: Colors.primary,
+                    backgroundColor: 'blue',
                 },
                 headerTintColor: 'white',
                 tabBarStyle: {
-                    backgroundColor: Colors.primary,
+                    backgroundColor: 'blue',
                 },
                 tabBarActiveTintColor: 'white',
             })}
         >
             <Drawer.Screen
                 name='Landing'
-                component={LandingScreen}
+                // component={() => <LandingScreen theme={props.theme} />}
+                component={LandingComponent}
                 options={({ navigation }) => ({
-                    title: feo.appName,
+                    title: meeter.appName,
                     drawerLabel: 'Home',
                     headerStyle: {
-                        backgroundColor: Colors.primary,
+                        backgroundColor: 'blue',
                     },
 
                     headerTintColor: 'white',
                     tabBarStyle: {
-                        backgroundColor: Colors.primary,
+                        backgroundColor: 'blue',
                     },
                     tabBarActiveTintColor: 'white',
                 })}
             />
 
-            <Stack.Screen name='Logout' component={PateSignOut} />
+            <Stack.Screen name='Logout' component={MeeterSignOut} />
         </Drawer.Navigator>
     );
 };
 
-export default AuthDrawer;
+export default withTheme(AuthDrawer);
