@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 // import { ALL_EVENTS } from '../../../../data/getRegionalEvents';
 import { updateCurrentUser } from '../../features/usersSlice';
 // import { getProfile } from '../../providers/users';
-// import { getAffiliate } from '../../providers/system';
+import { getAffiliate } from '../../providers/system';
 // import { loadRallies } from '../../features/ralliesSlice';
 import { loadRegistrations } from '../../features/usersSlice';
 import {
@@ -169,208 +169,100 @@ const SignInScreen = () => {
             dispatch(updateCurrentUser(fullUserInfo));
             //   get system.region and system.eventRegion
         });
-
+        //   ----------------------------------------------
+        //   get affiliate info from DDB
+        //   ----------------------------------------------
+        if (!fullUserInfo?.affiliations) {
+            let defaultAff = {
+                options: [
+                    {
+                        value: 'MTR',
+                        label: 'MTR Testing',
+                        role: 'guest',
+                    },
+                ],
+                active: {
+                    value: 'MTR',
+                    label: 'MTR Testing',
+                    role: 'guest',
+                },
+            };
+            fullUserInfo = { ...fullUserInfo, affiliations: defaultAff };
+        }
+        dispatch(updateCurrentUser(fullUserInfo));
+        getAffiliate(fullUserInfo.affiliations.active.value)
+            .then((response) => {
+                if (response.statusCode === 200) {
+                    dispatch(
+                        updateAffiliationString(
+                            fullUserInfo.affiliations.active.value
+                        )
+                    );
+                    dispatch(updateAffiliate(response.body[0]));
+                    dispatch(updateAppName(response.body[0].appName));
+                    dispatch(
+                        updateAffiliateTitle(
+                            fullUserInfo?.affiliations?.active?.label
+                        )
+                    );
+                    if (fullUserInfo?.affiliations?.active?.role) {
+                        dispatch(
+                            updateUserRole(
+                                fullUserInfo?.affiliations?.active?.role
+                            )
+                        );
+                    } else {
+                        dispatch(updateUserRole('guest'));
+                    }
+                } else {
+                    console.log('response.statusCode:', response.statusCode);
+                }
+            })
+            .catch((err) => {
+                console.log('OH SNAP\n', err);
+            });
         // dispatch(updateCurrentUser(fullUserInfo));
         return;
     };
     const onSignInPressed1 = async (data) => {
-        const { username, password } = data;
-        let alertPayload = {};
-        // this loading feature prevents user from sending another request before the first one returns
-        if (loading) {
-            return;
-        }
-        setLoading(true);
-        // authenticate with AWS cognito
-        let setAlert = {};
-        await Auth.signIn(username, password)
-            .then((user) => {
-                if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-                    const { requiredAttributes } = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
-                    Auth.completeNewPassword(
-                        username, // the Cognito User Object
-                        password,
-                        []
-                    )
-                        .then((user) => {
-                            // at this time the user is logged in if no MFA required
-                            console.log(user);
-                        })
-                        .catch((e) => {
-                            const alertPayload = {
-                                msg: 'Authentication failed. Please check your credentials',
-                                alertType: 'danger',
-                            };
-                            setAlert(alertPayload);
-                            console.log(' need to return');
-                            // return;
-                        });
-                } else {
-                    // console.log('the user is good...');
-                }
-            })
-            .catch((e) => {
-                switch (e.code) {
-                    case 'UserNotFoundException':
-                        alertPayload = {
-                            msg: e.message,
-                            alertType: 'danger',
-                        };
-                        break;
-                    case 'PasswordResetRequiredException':
-                        alertPayload = {
-                            msg: e.message,
-                            alertType: 'danger',
-                        };
-                        break;
-                    case 'NotAuthorizedException':
-                        alertPayload = {
-                            msg: e.message,
-                            alertType: 'danger',
-                        };
-                        break;
-                    default:
-                        alertPayload = {
-                            msg: 'Signin error: [' + e.message + ']',
-                            alertType: 'danger',
-                        };
-                        break;
-                }
-            });
-        // if we have error loaded, let's return
-        if (alertPayload.msg) {
-            Alert.alert(alertPayload.msg);
-            alertPayload = {};
-            setLoading(false);
-            return;
-        }
-        let currentUserInfo = {};
-        let currentSession = {};
-        await Auth.currentUserInfo().then((u) => {
-            currentUserInfo = u;
-        });
-        await Auth.currentSession().then((data) => {
-            currentSession = data;
-        });
-
-        //   WAIT
-        let i = currentSession?.idToken?.payload?.sub;
-        let u = currentSession?.idToken?.payload['cognito:username'];
-        let e = currentSession?.idToken?.payload?.email;
-        let j = currentSession?.idToken?.jwtToken;
-        let g = currentSession?.idToken?.payload['cognito:groups']; //todo: necessary?
-        let theUser = {};
-
-        theUser.uid = i;
-        theUser.username = u;
-        theUser.email = e;
-        theUser.jwtToken = j;
-        theUser.groups = g; //todo: necessary?
-
-        //   ########################
-        //   get user profile
-        //   ########################
-        let fullUserInfo = {};
-        // let region = 'us#east#south#ga';
-        let region = '';
-        //let eventRegion = 'east'; //todo: necessary?
-        let eventRegion = ''; //todo: necessary?
-        await getProfile(theUser.uid).then((profileResponse) => {
-            // console.log('profileResponse', profileResponse);
-            switch (profileResponse.statusCode) {
-                case 200:
-                    // profile found
-                    let profileInfo = profileResponse.userProfile;
-                    fullUserInfo = { ...theUser, ...profileInfo };
-                    fullUserInfo.profile = true;
-                    break;
-                case 404:
-                    // no profile for uid
-                    fullUserInfo = theUser;
-                    fullUserInfo.profile = false;
-                    break;
-                default:
-                    // we should get the error code, message and error
-                    console.log('StatusCode: ', profileResponse.statusCode);
-                    console.log('Message: ', profileResponse.message);
-                    console.log('Error:', profileResponse.error);
-                    // Alert.alert('Error getting the profile information');
-                    fullUserInfo = theUser;
-                    fullUserInfo.profile = false;
-                    break;
-            }
-            // printObject('SIS:168:--fullUserInfo:', fullUserInfo);
-            // if profile does not have affiliations, set default to FEO
-            if (!fullUserInfo?.affiliations) {
-                let defaultAff = {
-                    options: [
-                        {
-                            value: 'FEO',
-                            label: 'FEO Testing',
-                            region: 'us#east#south',
-                            role: 'guest',
-                        },
-                        {
-                            value: 'CRP8',
-                            label: 'CR P8 Rallies',
-                            region: 'us#east#south',
-                            role: 'guest',
-                        },
-                    ],
-                    active: {
-                        value: 'FEO',
-                        label: 'FEO Testing',
-                        region: 'us#east#south',
-                        role: 'guest',
-                    },
-                };
-                fullUserInfo = { ...fullUserInfo, affiliations: defaultAff };
-                //fullUserInfo = { ...fullUserInfo, affiliate: 'FEO' };
-            }
-            dispatch(updateCurrentUser(fullUserInfo));
-            //   get/set system.region and system.eventRegion
-            getAffiliate(fullUserInfo.affiliations.active.value)
-                .then((response) => {
-                    if (response.statusCode === 200) {
+        //   get/set system.region and system.eventRegion
+        getAffiliate(fullUserInfo.affiliations.active.value)
+            .then((response) => {
+                if (response.statusCode === 200) {
+                    dispatch(
+                        updateAffiliationString(
+                            fullUserInfo.affiliations.active.value
+                        )
+                    );
+                    dispatch(updateAffiliate(response.body[0]));
+                    dispatch(updateAppName(response.body[0].appName));
+                    dispatch(
+                        updateAffiliateTitle(
+                            fullUserInfo?.affiliations?.active?.label
+                        )
+                    );
+                    dispatch(
+                        updateStateProv(fullUserInfo?.residence?.stateProv)
+                    );
+                    if (fullUserInfo?.affiliations?.active?.role) {
                         dispatch(
-                            updateAffiliationString(
-                                fullUserInfo.affiliations.active.value
+                            updateUserRole(
+                                fullUserInfo?.affiliations?.active?.role
                             )
-                        );
-                        dispatch(updateAffiliate(response.body[0]));
-                        dispatch(updateAppName(response.body[0].appName));
-                        dispatch(
-                            updateAffiliateTitle(
-                                fullUserInfo?.affiliations?.active?.label
-                            )
-                        );
-                        dispatch(
-                            updateStateProv(fullUserInfo?.residence?.stateProv)
-                        );
-                        if (fullUserInfo?.affiliations?.active?.role) {
-                            dispatch(
-                                updateUserRole(
-                                    fullUserInfo?.affiliations?.active?.role
-                                )
-                            );
-                        } else {
-                            dispatch(updateUserRole('guest'));
-                        }
-                        dispatch(setRegion(response.body[0].regions[0]));
-                        dispatch(
-                            setEventRegion(response.body[0].eventRegions[0])
                         );
                     } else {
-                        console.log(
-                            'response.statusCode:',
-                            response.statusCode
-                        );
+                        dispatch(updateUserRole('guest'));
                     }
-                })
-                .catch((err) => {
-                    console.log('OH SNAP\n', err);
-                });
-        });
+                    dispatch(setRegion(response.body[0].regions[0]));
+                    dispatch(setEventRegion(response.body[0].eventRegions[0]));
+                } else {
+                    console.log('response.statusCode:', response.statusCode);
+                }
+            })
+            .catch((err) => {
+                console.log('OH SNAP\n', err);
+            });
+
         // let's load redux with rallies.
 
         //   ====================================
