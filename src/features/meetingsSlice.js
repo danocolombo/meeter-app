@@ -5,6 +5,8 @@ import { printObject, getToday, getPateDate } from '../utils/helpers';
 
 const initialState = {
     meetings: [],
+    activeMeetings: [],
+    historicMeetings: [],
     tmpMeeting: {},
     isLoading: false,
 };
@@ -31,6 +33,14 @@ export const meetingsSlice = createSlice({
     name: 'meetings',
     initialState,
     reducers: {
+        loadActiveMeetings: (state, action) => {
+            state.activeMeetings = action.payload;
+            return state;
+        },
+        loadHistoricMeetings: (state, action) => {
+            state.historicMeetings = action.payload;
+            return state;
+        },
         createTmp: (state, action) => {
             state.tmpMeeting = {};
             state.tmpMeeting = action.payload;
@@ -98,6 +108,8 @@ export const meetingsSlice = createSlice({
 
         logout: (state) => {
             state.meetings = [];
+            state.activeMeetings = [];
+            state.historicMeetings = [];
             state.tmpMeeting = {};
             return state;
         },
@@ -120,6 +132,8 @@ export const meetingsSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
+    loadActiveMeetings,
+    loadHistoricMeetings,
     loadMeetings,
     getMeetings,
     getMeeting,

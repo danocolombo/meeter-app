@@ -1,30 +1,31 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import {
+    View,
+    Text,
+    ImageBackground,
+    StyleSheet,
+    Image,
+    FlatList,
+} from 'react-native';
 import Constants from 'expo-constants';
 import * as Application from 'expo-application';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import CustomButton from '../components/ui/CustomButton';
 // import { Colors } from '../constants/colors';
-import { Surface, withTheme } from 'react-native-paper';
+import { Surface, withTheme, useTheme } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
-
-const LandingScreen = (props) => {
+import MeetingListCard from '../components/Meeting.List.Card';
+const LandingScreen = () => {
+    const mtrTheme = useTheme();
     const navigation = useNavigation();
-    const {
-        colors,
-        fonts,
-        weight,
-        screenTitle,
-        subTitle,
-        paragraph,
-        primaryButton,
-    } = props.theme;
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users.currentUser);
-
     const meeter = useSelector((state) => state.system);
+    const activeMeetings = useSelector(
+        (state) => state.meetings.activeMeetings
+    );
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -33,35 +34,23 @@ const LandingScreen = (props) => {
     }, [navigation, meeter]);
 
     return (
-        <ImageBackground
-            source={require('../components/images/background.png')}
-            style={styles.bgImageContainer}
-        >
-            <>
-                <Surface style={styles.welcomeSurface}>
-                    <View style={styles.heroImageContainer}>
-                        {/* <Image
-                            source={require('../../assets/images/FEO.png')}
-                            style={{ resizeMode: 'cover' }}
-                        ></Image> */}
-                    </View>
-
-                    <View
-                        style={{
-                            marginTop: 15,
-                            marginHorizontal: 40,
-                            marginBottom: 20,
-                            // backgroundColor: 'white',
-                            borderRadius: 10,
-                            padding: 5,
-                        }}
-                    >
-                        <Text style={screenTitle}>WELCOME</Text>
-                        <Text style={subTitle}>Now What?</Text>
-                    </View>
-                </Surface>
-            </>
-        </ImageBackground>
+        <>
+            <Surface style={styles.welcomeSurface}>
+                <View>
+                    <Text style={mtrTheme.screenTitle}>WELCOME</Text>
+                    <Text style={mtrTheme.subTitle}>Now What?</Text>
+                </View>
+                <View>
+                    <FlatList
+                        data={activeMeetings}
+                        keyExtractor={(item) => item.meetingId}
+                        renderItem={({ item }) => (
+                            <MeetingListCard meeting={item} />
+                        )}
+                    />
+                </View>
+            </Surface>
+        </>
     );
 };
 export default withTheme(LandingScreen);
@@ -130,17 +119,18 @@ const styles = StyleSheet.create({
         // alignSelf: 'flex-end',
     },
     welcomeSurface: {
-        padding: 12,
-        marginVertical: 8,
+        flex: 1,
+        // padding: 12,
+        // marginVertical: 8,
         // backgroundColor: Colors.primary500,
-        marginHorizontal: 20,
-        justifyContent: 'space-between',
-        borderRadius: 10,
-        elevation: 5,
-        shadowColor: 'grey',
-        shadowRadius: 8,
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.6,
+        // marginHorizontal: 10,
+        // justifyContent: 'space-between',
+        // borderRadius: 10,
+        // elevation: 5,
+        // shadowColor: 'grey',
+        // shadowRadius: 8,
+        // shadowOffset: { width: 2, height: 2 },
+        // shadowOpacity: 0.6,
     },
     modalSurface: {
         marginTop: '50%',

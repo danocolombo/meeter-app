@@ -3,6 +3,7 @@ const primaryBackground = '#000';
 const primaryColor = '#A7D2CB';
 const accentColor = '#F2D388';
 const alternateColor = '#fff';
+const darkText = '#000';
 const theme = {
     ...DefaultTheme,
     // Specify custom property
@@ -34,6 +35,7 @@ const theme = {
         onSurface: 'yellow',
         // background color for badges
         notification: 'red',
+        darkText: darkText,
     },
     fonts: {
         regular: 16,
@@ -71,6 +73,25 @@ const theme = {
     },
     primaryButton: {
         fontWeight: '900',
+    },
+    meetingCardTypeText: {
+        fontSize: 26,
+        fontWeight: '600',
+        paddingLeft: 20,
+    },
+    meetingCardTitleText: {
+        fontSize: 26,
+        paddingLeft: 20,
+        fontWeight: '600',
+        letterSpacing: 0.5,
+        borderWidth: 1,
+        borderColor: 'blue',
+    },
+    meetingCardPersonText: {
+        fontSize: 24,
+        paddingLeft: 20,
+        fontWeight: '400',
+        letterSpacing: 0.5,
     },
 };
 export default theme;

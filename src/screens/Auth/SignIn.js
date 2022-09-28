@@ -14,7 +14,7 @@ import CustomButton from '../../components/ui/Auth/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 import { useForm } from 'react-hook-form';
 import { Auth } from 'aws-amplify';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { ALL_EVENTS } from '../../../../data/getRegionalEvents';
 import { updateCurrentUser } from '../../features/usersSlice';
 // import { getProfile } from '../../providers/users';
@@ -32,13 +32,16 @@ import {
     updateUserRole,
 } from '../../features/systemSlice';
 import { getProfile } from '../../providers/users';
-import { getToday, printObject, getPateDate } from '../../utils/helpers';
+import { loadActiveMeetings } from '../../features/meetingsSlice';
+import { getActiveMeetings } from '../../providers/rallies';
+import { getToday, printObject, dateNumToDateDash } from '../../utils/helpers';
 import { REGION } from '../../constants/regions';
 const SignInScreen = () => {
     const [loading, setLoading] = useState(false);
     const { height } = useWindowDimensions();
     const navigation = useNavigation();
     const dispatch = useDispatch();
+    const meeter = useSelector((state) => state.system);
     const {
         control,
         handleSubmit,
@@ -123,8 +126,8 @@ const SignInScreen = () => {
         await Auth.currentSession().then((data) => {
             currentSession = data;
         });
-        printObject('currentUserInfo:', currentUserInfo);
-        printObject('currentSession:', currentSession);
+        // printObject('currentUserInfo:', currentUserInfo);
+        // printObject('currentSession:', currentSession);
         //   ----------------------------------------------
         //   build theUser object
         //   ----------------------------------------------
@@ -165,7 +168,7 @@ const SignInScreen = () => {
                     fullUserInfo = theUser;
                     break;
             }
-            printObject('SI:168-> profileResponse:', profileResponse);
+
             dispatch(updateCurrentUser(fullUserInfo));
             //   get system.region and system.eventRegion
         });
@@ -221,9 +224,23 @@ const SignInScreen = () => {
             .catch((err) => {
                 console.log('OH SNAP\n', err);
             });
+        let today = dateNumToDateDash(meeter.today);
+        getActiveMeetings(fullUserInfo.affiliations.active.value, today)
+            .then((results) => {
+                dispatch(loadActiveMeetings(results.body));
+            })
+            .catch((error) => {
+                console.log('WE GOT ERROR GETTING ACTIVE MEETINGS');
+                printObject('error', error);
+                return;
+            });
         // dispatch(updateCurrentUser(fullUserInfo));
+
         return;
     };
+    //   ################################################
+    //   OLD
+    //   ################################################
     const onSignInPressed1 = async (data) => {
         //   get/set system.region and system.eventRegion
         getAffiliate(fullUserInfo.affiliations.active.value)

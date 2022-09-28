@@ -52,7 +52,7 @@ function App() {
                                 : styles.container
                         }
                     >
-                        <Navigation />
+                        <Navigation theme={theme} />
                     </SafeAreaView>
                 </PaperProvider>
             </QueryClientProvider>

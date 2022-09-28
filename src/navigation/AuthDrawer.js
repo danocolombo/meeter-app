@@ -1,5 +1,6 @@
 import React from 'react';
 import { withTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,8 +14,9 @@ import { printObject } from '../utils/helpers';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const AuthDrawer = (navigation, theme) => {
-    const { colors } = theme;
+const AuthDrawer = (navigation) => {
+    const mtrTheme = useTheme();
+    // printObject('mtrTheme:', mtrTheme);
     const user = useSelector((state) => state.users.currentUser);
     const meeter = useSelector((state) => state.system);
     // printObject('PF:17-->user', user);
@@ -44,11 +46,11 @@ const AuthDrawer = (navigation, theme) => {
         <Drawer.Navigator
             screenOptions={({ navigation }) => ({
                 headerStyle: {
-                    backgroundColor: 'blue',
+                    backgroundColor: 'black',
                 },
                 headerTintColor: 'white',
                 tabBarStyle: {
-                    backgroundColor: 'blue',
+                    backgroundColor: mtrTheme.colors.background,
                 },
                 tabBarActiveTintColor: 'white',
             })}
@@ -61,12 +63,12 @@ const AuthDrawer = (navigation, theme) => {
                     title: meeter.appName,
                     drawerLabel: 'Home',
                     headerStyle: {
-                        backgroundColor: 'blue',
+                        backgroundColor: mtrTheme.colors.background,
                     },
 
                     headerTintColor: 'white',
                     tabBarStyle: {
-                        backgroundColor: 'blue',
+                        backgroundColor: mtrTheme.colors.background,
                     },
                     tabBarActiveTintColor: 'white',
                 })}
