@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 import { useTheme, withTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -6,59 +6,77 @@ import MeetingCardDate from './ui/Meeting.Card.Date';
 import { printObject } from '../utils/helpers';
 const MeetingListCard = ({ meeting }) => {
     const navigation = useNavigation();
-    const meeterTheme = useTheme();
-    printObject('meeterTheme:', meeterTheme);
+    const mtrTheme = useTheme();
+    printObject('mtrTheme:', mtrTheme);
+    function meetingPressHandler() {
+        // if the user is registered, take them to registerForm
+
+        navigation.navigate('MeetingDetails', {
+            meeting: meeting,
+        });
+    }
     return (
         <>
-            <View style={styles.rootContainer}>
-                <View
-                    style={[
-                        styles.meetingItem,
-                        { backgroundColor: meeterTheme.colors.primary },
-                    ]}
-                >
-                    <View style={styles.firstRow}>
-                        <View style={styles.dateWrapper}>
-                            <MeetingCardDate date={meeting?.meetingDate} />
-                        </View>
-                        <View
-                            style={{
-                                borderWidth: 1,
-                                borderColor: 'white',
-                                width: '75%',
-                            }}
-                        >
-                            <View style={{ flexDirection: 'column' }}>
-                                <View>
-                                    <Text
-                                        style={meeterTheme.meetingCardTypeText}
-                                    >
-                                        {meeting.meetingType}
-                                    </Text>
-                                </View>
-                                <View style={{ alignContent: 'flex-start' }}>
-                                    <Text
-                                        style={meeterTheme.meetingCardTitleText}
-                                    >
-                                        {meeting.title}
-                                    </Text>
-                                </View>
-                                {meeting.meetingType === 'Lesson' && (
+            <Pressable
+                onPress={meetingPressHandler}
+                style={({ pressed }) => pressed && styles.pressed}
+            >
+                <View style={styles.rootContainer}>
+                    <View
+                        style={[
+                            styles.meetingItem,
+                            { backgroundColor: mtrTheme.colors.primary },
+                        ]}
+                    >
+                        <View style={styles.firstRow}>
+                            <View style={styles.dateWrapper}>
+                                <MeetingCardDate date={meeting?.meetingDate} />
+                            </View>
+                            <View
+                                style={
+                                    {
+                                        // borderWidth: 1,
+                                        // borderColor: 'white',
+                                        // width: '75%',
+                                    }
+                                }
+                            >
+                                <View style={{ flexDirection: 'column' }}>
                                     <View>
                                         <Text
-                                            style={
-                                                meeterTheme.meetingCardPersonText
-                                            }
+                                            style={mtrTheme.meetingCardTypeText}
                                         >
-                                            {meeting.supportContact}
+                                            {meeting.meetingType}
                                         </Text>
                                     </View>
-                                )}
+                                    <View
+                                        style={{ alignContent: 'flex-start' }}
+                                    >
+                                        <Text
+                                            style={
+                                                mtrTheme.meetingCardTitleText
+                                            }
+                                        >
+                                            {meeting.title}
+                                        </Text>
+                                    </View>
+                                    {meeting.meetingType === 'Lesson' && (
+                                        <View>
+                                            <Text
+                                                style={
+                                                    mtrTheme.meetingCardPersonText
+                                                }
+                                            >
+                                                {meeting.supportContact}
+                                            </Text>
+                                        </View>
+                                    )}
+                                </View>
                             </View>
                         </View>
                     </View>
                 </View>
-            </View>
+            </Pressable>
         </>
     );
 };

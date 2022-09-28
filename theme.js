@@ -1,9 +1,10 @@
 import { DefaultTheme } from 'react-native-paper';
-const primaryBackground = '#000';
-const primaryColor = '#A7D2CB';
-const accentColor = '#F2D388';
-const alternateColor = '#fff';
+const primaryBackground = '#293462';
+const primaryColor = '#1CD6CE';
+const accentColor = '#FEDB39';
+const alternateColor = '#D61C4E';
 const darkText = '#000';
+const lightText = '#fff';
 const theme = {
     ...DefaultTheme,
     // Specify custom property
@@ -23,7 +24,7 @@ const theme = {
         //background color for pages, such as lists
         background: primaryBackground,
         // background color for elements containing content, such as cards
-        surface: '#002',
+        surface: primaryBackground,
         text: '#eee',
         //color for the disabled elements
         disabled: '#dfdfdf',
@@ -36,6 +37,7 @@ const theme = {
         // background color for badges
         notification: 'red',
         darkText: darkText,
+        lightText: lightText,
     },
     fonts: {
         regular: 16,
@@ -84,14 +86,29 @@ const theme = {
         paddingLeft: 20,
         fontWeight: '600',
         letterSpacing: 0.5,
-        borderWidth: 1,
-        borderColor: 'blue',
+        //borderWidth: 1,
+        //borderColor: 'blue',
     },
     meetingCardPersonText: {
         fontSize: 24,
         paddingLeft: 20,
         fontWeight: '400',
         letterSpacing: 0.5,
+    },
+    //   MEETING DETAILS
+    detailsTitle: {
+        color: lightText,
+        fontSize: 24,
+        marginLeft: 10,
+    },
+    detailsRowLabel: {
+        color: lightText,
+        fontSize: 18,
+        fontWeight: '600',
+    },
+    detailsRowValue: {
+        color: lightText,
+        fontSize: 18,
     },
 };
 export default theme;

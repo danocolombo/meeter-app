@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, SafeAreaView } from 'react-native';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import { useTheme } from 'react-native-paper';
 import { Button } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -20,11 +21,13 @@ import SignUpScreen from '../screens/Auth/SignUp';
 import ConfirmEmailScreen from '../screens/Auth/ConfirmEmail';
 import ForgotPasswordScreen from '../screens/Auth/ForgotPassword';
 import NewPasswordScreen from '../screens/Auth/NewPassword';
+import MeetingDetailsScreen from '../screens/MeetingDetailsScreen';
 
 import AuthDrawer from './AuthDrawer';
 import { Auth, Hub } from 'aws-amplify';
 const Stack = createNativeStackNavigator();
 function MeeterStack(props) {
+    const mtrTheme = useTheme();
     const meeter = useSelector((state) => state.system);
     // const AuthDrawerComponent = (props) => (
     //     <AuthDrawer theme={props.theme} {...props} />
@@ -36,6 +39,17 @@ function MeeterStack(props) {
                 component={AuthDrawer}
                 // component={AuthDrawerComponent}
                 options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name='MeetingDetails'
+                component={MeetingDetailsScreen}
+                options={({ navigation }) => ({
+                    title: 'FEO',
+                    headerStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
+                    headerTintColor: 'white',
+                })}
             />
         </Stack.Navigator>
     );
