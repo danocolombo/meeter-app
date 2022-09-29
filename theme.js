@@ -110,5 +110,22 @@ const theme = {
         color: lightText,
         fontSize: 18,
     },
+    dateChipContainer: {
+        height: 80,
+        width: 80,
+        justifyContent: 'center',
+        alignSelf: 'center',
+        backgroundColor: accentColor,
+        alignItems: 'center',
+        borderRadius: 20,
+    },
+    dateChipNonDayText: {
+        color: darkText,
+    },
+    dateChipDayText: {
+        color: darkText,
+        fontSize: 28,
+        fontWeight: '700',
+    },
 };
 export default theme;

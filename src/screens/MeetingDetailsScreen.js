@@ -8,6 +8,7 @@ import CustomButton from '../components/ui/CustomButton';
 import { Surface, withTheme, useTheme } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
+import DateChip from '../components/ui/DateChip';
 import MeetingCardDate from '../components/ui/Meeting.Card.Date';
 const MeetingDetails = ({ route, navigation }) => {
     const meeting = route.params.meeting;
@@ -35,7 +36,7 @@ const MeetingDetails = ({ route, navigation }) => {
                     )}
                     <View style={styles.firstRow}>
                         <View style={styles.dateWrapper}>
-                            <MeetingCardDate date={meeting?.meetingDate} />
+                            <DateChip date={meeting?.meetingDate} />
                         </View>
                         <View>
                             <View style={{ flexDirection: 'column' }}>
@@ -49,6 +50,7 @@ const MeetingDetails = ({ route, navigation }) => {
                             </View>
                         </View>
                     </View>
+
                     <View style={styles.row}>
                         <View>
                             <Text style={mtrTheme.detailsRowLabel}>
