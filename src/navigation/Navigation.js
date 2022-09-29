@@ -15,6 +15,7 @@ import {
     DrawerItem,
 } from '@react-navigation/drawer';
 
+import LoginScreen from '../screens/LoginScreen';
 import LandingScreen from '../screens/LandingScreen';
 import SignInScreen from '../screens/Auth/SignIn';
 import SignUpScreen from '../screens/Auth/SignUp';
@@ -44,7 +45,18 @@ function MeeterStack(props) {
                 name='MeetingDetails'
                 component={MeetingDetailsScreen}
                 options={({ navigation }) => ({
-                    title: 'FEO',
+                    title: 'Meeter',
+                    headerStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
+                    headerTintColor: 'white',
+                })}
+            />
+            <Stack.Screen
+                name='Login'
+                component={LoginScreen}
+                options={({ navigation }) => ({
+                    title: 'Meeter',
                     headerStyle: {
                         backgroundColor: mtrTheme.colors.background,
                     },

@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import CustomButton from '../components/ui/CustomButton';
 // import { Colors } from '../constants/colors';
-import { Surface, withTheme, useTheme } from 'react-native-paper';
+import { Surface, withTheme, useTheme, Button } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
 const LandingScreen = () => {
@@ -32,7 +32,11 @@ const LandingScreen = () => {
             title: meeter.appName,
         });
     }, [navigation, meeter]);
-
+    const onLoginPress = () => {
+        navigation.navigate('Login', {
+            meeting: 'meeting',
+        });
+    };
     return (
         <>
             <Surface style={styles.welcomeSurface}>
@@ -48,6 +52,11 @@ const LandingScreen = () => {
                             <MeetingListCard meeting={item} />
                         )}
                     />
+                </View>
+                <View>
+                    <Button title='Login' onPress={onLoginPress}>
+                        LOGIN
+                    </Button>
                 </View>
             </Surface>
         </>
