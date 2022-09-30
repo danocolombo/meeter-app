@@ -4,6 +4,7 @@ import { useTheme } from 'react-native-paper';
 import { useSelector } from 'react-redux';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import MeetingsConfig from './BottomNav';
 // import MainScreen from '../screens/MainScreen';
 
 import LandingScreen from '../screens/LandingScreen';
@@ -62,7 +63,7 @@ const AuthDrawer = (navigation) => {
                 component={LandingComponent}
                 options={({ navigation }) => ({
                     title: meeter.appName,
-                    drawerLabel: 'Home',
+                    drawerLabel: 'Main',
                     headerStyle: {
                         backgroundColor: mtrTheme.colors.background,
                     },
@@ -77,7 +78,7 @@ const AuthDrawer = (navigation) => {
             <Drawer.Screen
                 name='Meetings'
                 // component={() => <LandingScreen theme={props.theme} />}
-                component={ActiveScreen}
+                component={MeetingsConfig}
                 options={({ navigation }) => ({
                     title: meeter.appName,
                     drawerLabel: 'Meetings',

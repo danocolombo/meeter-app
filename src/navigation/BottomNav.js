@@ -8,7 +8,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import ActiveScreen from '../screens/ActiveScreen';
 import AdminScreen from '../screens/AdminScreen';
 const BottomTab = createBottomTabNavigator();
-const ServeConfig = () => {
+const MeetingsConfig = () => {
     let user = useSelector((state) => state.users.currentUser);
     let director = false;
     if (user.affiliations.active.role === 'director') {
@@ -59,4 +59,4 @@ const ServeConfig = () => {
     );
 };
 
-export default ServeConfig;
+export default MeetingsConfig;
