@@ -3,6 +3,7 @@ import React from 'react';
 import { useTheme, withTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import MeetingCardDate from './ui/Meeting.Card.Date';
+import DateBall from './ui/DateBall';
 import { printObject } from '../utils/helpers';
 const MeetingListCard = ({ meeting }) => {
     const navigation = useNavigation();
@@ -29,9 +30,14 @@ const MeetingListCard = ({ meeting }) => {
                         ]}
                     >
                         <View style={styles.firstRow}>
-                            <View style={styles.dateWrapper}>
-                                <MeetingCardDate date={meeting?.meetingDate} />
+                            <View>
+                                <DateBall date={meeting.meetingDate} />
                             </View>
+
+                            {/* <View style={styles.dateWrapper}>
+                                <MeetingCardDate date={meeting?.meetingDate} />
+                            </View> */}
+
                             <View
                                 style={
                                     {

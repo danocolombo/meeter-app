@@ -8,7 +8,7 @@ import CustomButton from '../components/ui/CustomButton';
 import { Surface, withTheme, useTheme } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
-import DateChip from '../components/ui/DateChip';
+import DateBall from '../components/ui/DateBall';
 import MeetingCardDate from '../components/ui/Meeting.Card.Date';
 const MeetingDetails = ({ route, navigation }) => {
     const meeting = route.params.meeting;
@@ -31,15 +31,20 @@ const MeetingDetails = ({ route, navigation }) => {
                     <Text style={mtrTheme.screenTitle}>
                         {meeting.meetingType}
                     </Text>
-                    {meeting.meetingType === 'Lesson' && (
-                        <Text style={mtrTheme.subTitle}>{meeting.title}</Text>
-                    )}
+
                     <View style={styles.firstRow}>
                         <View style={styles.dateWrapper}>
-                            <DateChip date={meeting?.meetingDate} />
+                            <DateBall date={meeting?.meetingDate} />
                         </View>
                         <View>
                             <View style={{ flexDirection: 'column' }}>
+                                {meeting.meetingType === 'Lesson' && (
+                                    <View style={{ marginLeft: 10 }}>
+                                        <Text style={mtrTheme.subTitle}>
+                                            {meeting.title}
+                                        </Text>
+                                    </View>
+                                )}
                                 <View style={{ alignContent: 'flex-start' }}>
                                     <Text style={mtrTheme.detailsTitle}>
                                         {meeting.meetingType === 'Lesson'
@@ -52,7 +57,7 @@ const MeetingDetails = ({ route, navigation }) => {
                     </View>
 
                     <View style={styles.row}>
-                        <View>
+                        <View style={{ marginLeft: 20 }}>
                             <Text style={mtrTheme.detailsRowLabel}>
                                 Meal Plans:
                             </Text>

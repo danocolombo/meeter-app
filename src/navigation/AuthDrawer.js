@@ -7,6 +7,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // import MainScreen from '../screens/MainScreen';
 
 import LandingScreen from '../screens/LandingScreen';
+import ActiveScreen from '../screens/ActiveScreen';
 import MeeterSignOut from '../screens/MeeterSignOut';
 
 //import { Colors } from '../constants/colors';
@@ -73,7 +74,24 @@ const AuthDrawer = (navigation) => {
                     tabBarActiveTintColor: 'white',
                 })}
             />
+            <Drawer.Screen
+                name='Meetings'
+                // component={() => <LandingScreen theme={props.theme} />}
+                component={ActiveScreen}
+                options={({ navigation }) => ({
+                    title: meeter.appName,
+                    drawerLabel: 'Meetings',
+                    headerStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
 
+                    headerTintColor: 'white',
+                    tabBarStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
+                    tabBarActiveTintColor: 'white',
+                })}
+            />
             <Stack.Screen name='Logout' component={MeeterSignOut} />
         </Drawer.Navigator>
     );

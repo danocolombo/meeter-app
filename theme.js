@@ -103,13 +103,15 @@ const theme = {
     },
     detailsRowLabel: {
         color: lightText,
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: '600',
     },
     detailsRowValue: {
         color: lightText,
-        fontSize: 18,
+        fontSize: 24,
+        padding: 10,
     },
+    //   DATE BALL/CHIP
     dateChipContainer: {
         height: 80,
         width: 80,
