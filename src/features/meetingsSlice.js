@@ -11,6 +11,7 @@ const initialState = {
     meetings: [],
     activeMeetings: [],
     historicMeetings: [],
+    groups: [],
     tmpMeeting: {},
     isLoading: false,
 };
@@ -109,11 +110,25 @@ export const meetingsSlice = createSlice({
         getMeetings: (state, action) => {
             return state.meetings;
         },
+        loadGroups: (state, action) => {
+            state.groups = action.payload;
+        },
+        getGroup: (state, action) => {
+            const grp = state.groups.filter(
+                (g) => g.meetingId === action.payload
+            );
+            return grp;
+        },
+        clearGroups: (state) => {
+            state.groups = [];
+            return state;
+        },
 
         logout: (state) => {
             state.meetings = [];
             state.activeMeetings = [];
             state.historicMeetings = [];
+            state.groups = [];
             state.tmpMeeting = {};
             return state;
         },
@@ -146,13 +161,34 @@ export const {
     deleteMeeting,
     createTmp,
     updateTmp,
+    loadGroups,
+    clearGroups,
+    getGroup,
     logout,
 } = meetingsSlice.actions;
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-
+export const getMeetingGroups = (meetingId) => (dispatch) => {
+    // this will get some remove data
+    const getData = async (meetingId) => {
+        dispatch(clearGroups());
+        let obj = {
+            operation: 'getGroupsByMeetingId',
+            payload: {
+                meetingId: meetingId,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        const results = res.data.body;
+        dispatch(loadGroups(results));
+        return results;
+    };
+    getData(meetingId);
+};
 export const getHistoricMeetings = () => (dispatch) => {
     // this will get some remove data
     const getData = async () => {

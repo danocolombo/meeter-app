@@ -1,4 +1,4 @@
-import React, { useEffect, useState, FlatList, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
 import Constants from 'expo-constants';
 import * as Application from 'expo-application';
@@ -12,7 +12,6 @@ import MeetingListCard from '../components/Meeting.List.Card';
 import { getMeetingGroups, clearGroups } from '../features/meetingsSlice';
 import DateBall from '../components/ui/DateBall';
 import MeetingCardDate from '../components/ui/Meeting.Card.Date';
-import GroupListCard from '../components/Group.List.Card';
 const MeetingDetails = ({ route, navigation }) => {
     const meeting = route.params.meeting;
     const mtrTheme = useTheme();
@@ -20,7 +19,7 @@ const MeetingDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users.currentUser);
     const groups = useSelector((state) => state.meetings.groups);
-    const [displayGroups, setDisplayGroups] = useState([]);
+
     const meeter = useSelector((state) => state.system);
 
     // determin if active or historic
@@ -40,9 +39,7 @@ const MeetingDetails = ({ route, navigation }) => {
             // setGroups(groups);
         }
     }, []);
-    // useEffect(() => {
-    //     setDisplayGroups(groups);
-    // }, [groups]);
+
     return (
         <>
             <Surface style={styles.surface}>
@@ -139,22 +136,6 @@ const MeetingDetails = ({ route, navigation }) => {
                             </View>
                         </View>
                     )}
-                    {groups.length > 0
-                        ? groups.forEach((element) => {
-                              console.log(element.groupId);
-                          })
-                        : null}
-
-                    <View>
-                        <FlatList
-                            data={groups}
-                            keyExtractor={(item) => item.groupId}
-                            renderItem={({ item }) => (
-                                <GroupListCard group={item} />
-                            )}
-                        />
-                    </View>
-
                     <View>
                         <Text style={{ color: 'white' }}>
                             Groups.length: {groups.length}
