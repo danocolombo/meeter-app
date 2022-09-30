@@ -26,12 +26,12 @@ const MeetingsConfig = () => {
                 component={HistoricScreen}
                 options={{
                     title: 'Meeter',
-                    tabBarLabel: 'Active',
+                    tabBarLabel: 'HISTORY',
                     tabBarInactiveBackgroundColor: mtrTheme.colors.disabled,
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome
-                            name='users'
-                            size={size}
+                        <AntDesign
+                            name='caretleft'
+                            size={24}
                             color={mtrTheme.colors.darkText}
                         />
                     ),

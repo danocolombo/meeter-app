@@ -398,3 +398,12 @@ export function pateTimeToSpinner(pDate, pTime) {
 
     return date;
 }
+export function todayMinus60() {
+    const today = new Date();
+
+    document.write('Today is: ' + d.toLocaleString());
+
+    today.setDate(d.getDate() - 60);
+
+    return today;
+}

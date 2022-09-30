@@ -29,9 +29,35 @@ const Stack = createNativeStackNavigator();
 function MeeterStack(props) {
     const mtrTheme = useTheme();
     const meeter = useSelector((state) => state.system);
-    // const AuthDrawerComponent = (props) => (
-    //     <AuthDrawer theme={props.theme} {...props} />
-    // );
+    const [userCheck, setUserCheck] = useState(undefined);
+    const checkUser = async () => {
+        try {
+            const authUser = await Auth.currentAuthenticatedUser({
+                bypassCache: true,
+            });
+            setUserCheck(authUser);
+        } catch (e) {
+            setUserCheck(null);
+        }
+    };
+
+    useEffect(() => {
+        checkUser();
+    }, []);
+
+    useEffect(() => {
+        const listener = (data) => {
+            if (
+                data.payload.event === 'signIn' ||
+                data.payload.event === 'signOut'
+            ) {
+                checkUser();
+            }
+        };
+
+        Hub.listen('auth', listener);
+        return () => Hub.remove('auth', listener);
+    }, []);
     return (
         <Stack.Navigator>
             <Stack.Screen

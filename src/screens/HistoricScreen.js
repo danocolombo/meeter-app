@@ -5,13 +5,15 @@ import {
     ViewBase,
     ImageBackground,
 } from 'react-native';
-import React, { useLayoutEffect } from 'react';
+import React, { useLayoutEffect, useEffect } from 'react';
 import { Surface, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getHistoricMeetings } from '../features/meetingsSlice';
 
 const HistoricScreen = () => {
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     const mtrTheme = useTheme();
     const meeter = useSelector((state) => state.system);
     useLayoutEffect(() => {
@@ -30,6 +32,10 @@ const HistoricScreen = () => {
             ),
         });
     }, [navigation, meeter]);
+    useEffect(() => {
+        dispatch(getHistoricMeetings());
+    }, []);
+
     return (
         <>
             <Surface style={mtrTheme.screenSurface}>

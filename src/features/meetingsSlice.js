@@ -2,7 +2,11 @@ import { createAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { printObject, getToday, getPateDate } from '../utils/helpers';
 //   this is url for all meetings
-
+const config = {
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    },
+};
 const initialState = {
     meetings: [],
     activeMeetings: [],
@@ -144,5 +148,34 @@ export const {
     updateTmp,
     logout,
 } = meetingsSlice.actions;
+// The function below is called a thunk and allows us to perform async logic. It
+// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
+// will call the thunk with the `dispatch` function as the first argument. Async
+// code can then be executed and other actions can be dispatched
 
+export const getHistoricMeetings = () => (dispatch) => {
+    // this will get some remove data
+    const getData = async () => {
+        let obj = {
+            operation: 'getMeetingsBetweenDates',
+            payload: {
+                clientId: 'wbc',
+                startDate: '2022-08-01',
+                stopDate: '2022-09-30',
+                direction: 'DESC',
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/meetings';
+        let res = await axios.post(api2use, body, config);
+        const results = res.data.body.Items;
+        dispatch(loadHistoricMeetings(results));
+        return;
+    };
+    getData();
+};
+
+// The function below is called a selector and allows us to select a value from
+// the state. Selectors can also be defined inline where they're used instead of
+// in the slice file. For example: `useSelector((state) => state.counter.value)`
 export default meetingsSlice.reducer;
