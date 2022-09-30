@@ -48,7 +48,7 @@ const ActiveScreen = () => {
                         data={aMeetings}
                         keyExtractor={(item) => item.meetingId}
                         renderItem={({ item }) => (
-                            <MeetingListCard meeting={item} />
+                            <MeetingListCard meeting={item} active={true} />
                         )}
                     />
                 )}

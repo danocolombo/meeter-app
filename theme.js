@@ -3,6 +3,9 @@ const primaryBackground = '#293462';
 const primaryColor = '#1CD6CE';
 const accentColor = '#FEDB39';
 const alternateColor = '#D61C4E';
+const historyTileColor = '#fff';
+const darkColor = '#000';
+const lightColor = '#fff';
 const darkText = '#000';
 const lightText = '#fff';
 const theme = {
@@ -85,6 +88,60 @@ const theme = {
     primaryButton: {
         fontWeight: '900',
     },
+    //   MEETING CARD - ACTIVE
+    meetingCardActivePrimary: {
+        backgroundColor: primaryColor,
+    },
+    meetingCardActiveTypeText: {
+        fontSize: 26,
+        fontWeight: '600',
+        paddingLeft: 0,
+    },
+    meetingCardActiveTitleText: {
+        fontSize: 26,
+        paddingLeft: 0,
+        fontWeight: '600',
+        textAlign: 'left',
+        letterSpacing: 0.5,
+    },
+    meetingCardActivePersonText: {
+        fontSize: 24,
+        paddingLeft: 0,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+    },
+    meetingCardActiveDateBall: {
+        backgroundColor: accentColor,
+        textColor: darkText,
+    },
+    //   MEETING CARD - HISTORIC
+    meetingCardHistoricPrimary: {
+        backgroundColor: historyTileColor,
+    },
+    meetingCardHistoricTypeText: {
+        fontSize: 26,
+        fontWeight: '600',
+        paddingLeft: 20,
+    },
+    meetingCardHistoricTitleText: {
+        fontSize: 26,
+        paddingLeft: 20,
+        fontWeight: '600',
+        letterSpacing: 0.5,
+    },
+    meetingCardHistoricPersonText: {
+        fontSize: 24,
+        paddingLeft: 20,
+        fontWeight: '400',
+        letterSpacing: 0.5,
+    },
+    meetingCardHistoricAttendanceBadge: {
+        backgroundColor: primaryBackground,
+    },
+    //   MEETING CARD - COMMON
+    meetingCardActiveAccent: {
+        backgroundColor: accentColor,
+    },
     meetingCardTypeText: {
         fontSize: 26,
         fontWeight: '600',
@@ -112,13 +169,17 @@ const theme = {
     },
     detailsRowLabel: {
         color: lightText,
-        fontSize: 22,
+        fontSize: 30,
         fontWeight: '600',
     },
     detailsRowValue: {
         color: lightText,
-        fontSize: 24,
+        fontSize: 28,
         padding: 10,
+    },
+    detailsBadge: {
+        backgroundColor: lightColor,
+        textColor: darkText,
     },
     //   DATE BALL/CHIP
     dateChipContainer: {

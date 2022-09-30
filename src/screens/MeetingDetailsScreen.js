@@ -5,8 +5,9 @@ import * as Application from 'expo-application';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import CustomButton from '../components/ui/CustomButton';
+import { Badge } from 'react-native-paper';
 import { Surface, withTheme, useTheme } from 'react-native-paper';
-import { printObject } from '../utils/helpers';
+import { printObject, isDateDashBeforeToday } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
 import DateBall from '../components/ui/DateBall';
 import MeetingCardDate from '../components/ui/Meeting.Card.Date';
@@ -17,6 +18,9 @@ const MeetingDetails = ({ route, navigation }) => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.users.currentUser);
     const meeter = useSelector((state) => state.system);
+
+    // determin if active or historic
+    const historic = isDateDashBeforeToday(meeting.meetingDate);
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -59,7 +63,7 @@ const MeetingDetails = ({ route, navigation }) => {
                     <View style={styles.row}>
                         <View style={{ marginLeft: 20 }}>
                             <Text style={mtrTheme.detailsRowLabel}>
-                                Meal Plans:
+                                {historic ? 'Meal:' : 'Meal Plans:'}
                             </Text>
                         </View>
                         <View>
@@ -67,7 +71,42 @@ const MeetingDetails = ({ route, navigation }) => {
                                 {meeting.meal === '' ? 'TBD' : meeting.meal}
                             </Text>
                         </View>
+                        {historic && (
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.mealCount}
+                                </Badge>
+                            </View>
+                        )}
                     </View>
+                    <View style={styles.row}>
+                        <View style={{ marginLeft: 20 }}>
+                            <Text style={mtrTheme.detailsRowLabel}>
+                                Attendance:
+                            </Text>
+                        </View>
+
+                        <View style={{ marginLeft: 'auto', padding: 10 }}>
+                            <Badge size={50} style={mtrTheme.detailsBadge}>
+                                {meeting.attendanceCount}
+                            </Badge>
+                        </View>
+                    </View>
+                    {meeting.newcomersCount > 0 && (
+                        <View style={styles.row}>
+                            <View style={{ marginLeft: 20 }}>
+                                <Text style={mtrTheme.detailsRowLabel}>
+                                    Newcomers:
+                                </Text>
+                            </View>
+
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.newcomersCount}
+                                </Badge>
+                            </View>
+                        </View>
+                    )}
                 </View>
             </Surface>
         </>
@@ -86,7 +125,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 10,
+        padding: 5,
     },
 
     dateWrapper: {

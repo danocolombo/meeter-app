@@ -55,7 +55,7 @@ const HistoricScreen = () => {
                         data={hMeetings}
                         keyExtractor={(item) => item.meetingId}
                         renderItem={({ item }) => (
-                            <MeetingListCard meeting={item} />
+                            <MeetingListCard meeting={item} active={false} />
                         )}
                     />
                 )}

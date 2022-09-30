@@ -160,7 +160,7 @@ export const getHistoricMeetings = () => (dispatch) => {
             operation: 'getMeetingsBetweenDates',
             payload: {
                 clientId: 'wbc',
-                startDate: '2022-08-01',
+                startDate: '2022-01-01',
                 stopDate: '2022-09-30',
                 direction: 'DESC',
             },

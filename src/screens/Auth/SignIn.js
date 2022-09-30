@@ -227,7 +227,7 @@ const SignInScreen = () => {
         let today = dateNumToDateDash(meeter.today);
         getActiveMeetings(fullUserInfo.affiliations.active.value, today)
             .then((results) => {
-                dispatch(loadActiveMeetings(results.body));
+                dispatch(loadActiveMeetings(results));
             })
             .catch((error) => {
                 console.log('WE GOT ERROR GETTING ACTIVE MEETINGS');

@@ -200,6 +200,7 @@ const ActiveMeetings = () => {
                             >
                                 <MeetingListCard
                                     key={mtg.uid}
+                                    active={true}
                                     // rallyId={ral.uid}
                                     meeting={mtg}
                                     deletePress={handleDeleteRequest}

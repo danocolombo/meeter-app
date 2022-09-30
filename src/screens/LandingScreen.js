@@ -45,7 +45,7 @@ const LandingScreen = () => {
                         data={activeMeetings}
                         keyExtractor={(item) => item.meetingId}
                         renderItem={({ item }) => (
-                            <MeetingListCard meeting={item} />
+                            <MeetingListCard meeting={item} active={true} />
                         )}
                     />
                 </View>

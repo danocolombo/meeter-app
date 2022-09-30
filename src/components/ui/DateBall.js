@@ -7,7 +7,7 @@ const DateBall = ({ date }) => {
         return null;
     }
     //   YYYY-MM-DD get rid of dashes
-    console.log('date:', date);
+    // console.log('date:', date);
     const parts = date.split('-');
     const yr = parts[0];
     const mo = parts[1];

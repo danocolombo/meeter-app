@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
 import React from 'react';
-import { useTheme, withTheme } from 'react-native-paper';
+import { useTheme, withTheme, Badge } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import MeetingCardDate from './ui/Meeting.Card.Date';
 import DateBall from './ui/DateBall';
 import { printObject } from '../utils/helpers';
-const MeetingListCard = ({ meeting }) => {
+const MeetingListCard = ({ meeting, active }) => {
     const navigation = useNavigation();
     const mtrTheme = useTheme();
     printObject('mtrTheme:', mtrTheme);
@@ -26,57 +26,100 @@ const MeetingListCard = ({ meeting }) => {
                     <View
                         style={[
                             styles.meetingItem,
-                            { backgroundColor: mtrTheme.colors.primary },
+
+                            active
+                                ? mtrTheme.meetingCardActivePrimary
+                                : mtrTheme.meetingCardHistoricPrimary,
                         ]}
                     >
                         <View style={styles.firstRow}>
                             {Platform.OS === 'ios' && (
-                                <View>
-                                    <DateBall date={meeting.meetingDate} />
+                                <View style={{ padding: 5 }}>
+                                    <DateBall
+                                        date={meeting.meetingDate}
+                                        style={
+                                            mtrTheme.meetingCardActiveDateBall
+                                        }
+                                    />
                                 </View>
                             )}
-                            {/* <View style={styles.dateWrapper}>
-                                <MeetingCardDate date={meeting?.meetingDate} />
-                            </View> */}
 
                             <View
-                                style={
-                                    {
-                                        // borderWidth: 1,
-                                        // borderColor: 'white',
-                                        // width: '75%',
-                                    }
-                                }
+                                style={{
+                                    flexDirection: 'row',
+                                    // borderWidth: 1,
+                                    // borderColor: 'blue',
+                                    width: '85%',
+                                }}
                             >
-                                <View style={{ flexDirection: 'column' }}>
-                                    <View>
-                                        <Text
-                                            style={mtrTheme.meetingCardTypeText}
-                                        >
-                                            {meeting.meetingType}
-                                        </Text>
-                                    </View>
+                                <View
+                                    style={{
+                                        // borderWidth: 1,
+                                        // borderColor: 'blue',
+                                        width: '75%',
+                                    }}
+                                >
                                     <View
-                                        style={{ alignContent: 'flex-start' }}
+                                        style={{
+                                            flexDirection: 'column',
+                                            paddingLeft: 10,
+                                        }}
                                     >
-                                        <Text
+                                        <View
                                             style={
-                                                mtrTheme.meetingCardTitleText
+                                                {
+                                                    // borderWidth: 1,
+                                                    // borderColor: 'blue',
+                                                }
                                             }
                                         >
-                                            {meeting.title}
-                                        </Text>
-                                    </View>
-                                    {meeting.meetingType === 'Lesson' && (
-                                        <View>
                                             <Text
                                                 style={
-                                                    mtrTheme.meetingCardPersonText
+                                                    mtrTheme.meetingCardActiveTypeText
                                                 }
                                             >
-                                                {meeting.supportContact}
+                                                {meeting.meetingType.trim()}
                                             </Text>
                                         </View>
+                                        <View
+                                            style={
+                                                {
+                                                    // borderWidth: 1,
+                                                    // borderColor: 'blue',
+                                                }
+                                            }
+                                        >
+                                            <Text
+                                                style={
+                                                    mtrTheme.meetingCardActiveTitleText
+                                                }
+                                            >
+                                                {meeting.title.trim()}
+                                            </Text>
+                                        </View>
+                                        {meeting.meetingType === 'Lesson' && (
+                                            <View>
+                                                <Text
+                                                    style={
+                                                        mtrTheme.meetingCardActivePersonText
+                                                    }
+                                                >
+                                                    {meeting.supportContact.trim()}
+                                                </Text>
+                                            </View>
+                                        )}
+                                    </View>
+                                </View>
+                                <View style={{ marginTop: 5 }}>
+                                    {!active && (
+                                        <Badge
+                                            size={30}
+                                            style={
+                                                mtrTheme.meetingCardHistoricAttendanceBadge
+                                            }
+                                        >
+                                            {meeting.attendanceCount}
+                                        </Badge>
                                     )}
                                 </View>
                             </View>
