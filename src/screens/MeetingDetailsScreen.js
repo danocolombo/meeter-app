@@ -79,19 +79,21 @@ const MeetingDetails = ({ route, navigation }) => {
                             </View>
                         )}
                     </View>
-                    <View style={styles.row}>
-                        <View style={{ marginLeft: 20 }}>
-                            <Text style={mtrTheme.detailsRowLabel}>
-                                Attendance:
-                            </Text>
-                        </View>
+                    {historic && (
+                        <View style={styles.row}>
+                            <View style={{ marginLeft: 20 }}>
+                                <Text style={mtrTheme.detailsRowLabel}>
+                                    Attendance:
+                                </Text>
+                            </View>
 
-                        <View style={{ marginLeft: 'auto', padding: 10 }}>
-                            <Badge size={50} style={mtrTheme.detailsBadge}>
-                                {meeting.attendanceCount}
-                            </Badge>
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.attendanceCount}
+                                </Badge>
+                            </View>
                         </View>
-                    </View>
+                    )}
                     {meeting.newcomersCount > 0 && (
                         <View style={styles.row}>
                             <View style={{ marginLeft: 20 }}>
