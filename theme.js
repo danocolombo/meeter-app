@@ -68,6 +68,12 @@ const theme = {
         color: accentColor,
         textAlign: 'center',
     },
+    subTitleSmall: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: accentColor,
+        textAlign: 'center',
+    },
     paragraph: {
         margin: 24,
         marginTop: 0,

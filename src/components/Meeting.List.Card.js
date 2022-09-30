@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
 import React from 'react';
 import { useTheme, withTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
@@ -30,10 +30,11 @@ const MeetingListCard = ({ meeting }) => {
                         ]}
                     >
                         <View style={styles.firstRow}>
-                            {/* <View>
-                                <DateBall date={meeting.meetingDate} />
-                            </View> */}
-
+                            {Platform.OS === 'ios' && (
+                                <View>
+                                    <DateBall date={meeting.meetingDate} />
+                                </View>
+                            )}
                             {/* <View style={styles.dateWrapper}>
                                 <MeetingCardDate date={meeting?.meetingDate} />
                             </View> */}

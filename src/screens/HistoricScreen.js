@@ -3,12 +3,14 @@ import {
     Text,
     View,
     ViewBase,
+    FlatList,
     ImageBackground,
 } from 'react-native';
 import React, { useLayoutEffect, useEffect } from 'react';
 import { Surface, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector, useDispatch } from 'react-redux';
+import MeetingListCard from '../components/Meeting.List.Card';
 import { getHistoricMeetings } from '../features/meetingsSlice';
 
 const HistoricScreen = () => {
@@ -16,6 +18,7 @@ const HistoricScreen = () => {
     const dispatch = useDispatch();
     const mtrTheme = useTheme();
     const meeter = useSelector((state) => state.system);
+    const hMeetings = useSelector((state) => state.meetings.historicMeetings);
     useLayoutEffect(() => {
         navigation.setOptions({
             title: meeter.appName,
@@ -42,6 +45,20 @@ const HistoricScreen = () => {
                 <View>
                     <Text style={mtrTheme.screenTitle}>HISTORIC</Text>
                 </View>
+                <View style={{ padding: 10 }}>
+                    <Text style={mtrTheme.subTitleSmall}>
+                        Click event for details.
+                    </Text>
+                </View>
+                {hMeetings && (
+                    <FlatList
+                        data={hMeetings}
+                        keyExtractor={(item) => item.meetingId}
+                        renderItem={({ item }) => (
+                            <MeetingListCard meeting={item} />
+                        )}
+                    />
+                )}
             </Surface>
         </>
     );
