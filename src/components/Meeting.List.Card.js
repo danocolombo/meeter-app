@@ -30,9 +30,9 @@ const MeetingListCard = ({ meeting }) => {
                         ]}
                     >
                         <View style={styles.firstRow}>
-                            <View>
+                            {/* <View>
                                 <DateBall date={meeting.meetingDate} />
-                            </View>
+                            </View> */}
 
                             {/* <View style={styles.dateWrapper}>
                                 <MeetingCardDate date={meeting?.meetingDate} />

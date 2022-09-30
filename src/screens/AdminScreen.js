@@ -1,55 +1,58 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
-import Constants from 'expo-constants';
-import * as Application from 'expo-application';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import CustomButton from '../components/ui/CustomButton';
-import { Surface, withTheme, useTheme } from 'react-native-paper';
-import { printObject } from '../utils/helpers';
-import MeetingListCard from '../components/Meeting.List.Card';
-import DateBall from '../components/ui/DateBall';
-import MeetingCardDate from '../components/ui/Meeting.Card.Date';
-const AdminScreen = ({ route, navigation }) => {
-    const mtrTheme = useTheme();
-    const isFocused = useIsFocused();
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.users.currentUser);
-    //const meeter = useSelector((state) => state.system);
+import {
+    StyleSheet,
+    Text,
+    View,
+    ViewBase,
+    ImageBackground,
+} from 'react-native';
+import React, { useLayoutEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
+const AdminScreen = () => {
+    const navigation = useNavigation();
+    const meeter = useSelector((state) => state.system);
     useLayoutEffect(() => {
         navigation.setOptions({
             title: meeter.appName,
+            headerRight: () => (
+                <Button
+                    onPress={() =>
+                        navigation.navigate('MeeterEdit', {
+                            meetingId: meeting.meetingId,
+                        })
+                    }
+                    // color='white'
+                    title='NEW'
+                />
+            ),
         });
     }, [navigation, meeter]);
-
     return (
         <>
-            <Surface style={styles.surface}>
-                <View>
-                    <Text>ADMIN</Text>
-                </View>
-            </Surface>
+            <View>
+                <Text>AdMiN SCreEN</Text>
+            </View>
         </>
     );
 };
-export default withTheme(AdminScreen);
+
+export default AdminScreen;
+
 const styles = StyleSheet.create({
-    surface: {
+    rootContainer: {
         flex: 1,
     },
-    firstRow: {
-        flexDirection: 'row',
+    screenHeader: {
         alignItems: 'center',
-        marginTop: 10,
     },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 10,
+    screenHeaderText: {
+        fontSize: 30,
+        fontWeight: 'bold',
     },
-
-    dateWrapper: {
-        margin: 5,
+    bgImageContainer: {
+        flex: 1,
+        height: '100%',
+        width: '100%',
     },
 });

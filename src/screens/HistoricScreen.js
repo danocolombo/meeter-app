@@ -9,7 +9,7 @@ import React, { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
-const ActiveScreen = () => {
+const HistoricScreen = () => {
     const navigation = useNavigation();
     const meeter = useSelector((state) => state.system);
     useLayoutEffect(() => {
@@ -31,13 +31,13 @@ const ActiveScreen = () => {
     return (
         <>
             <View>
-                <Text>AcTIVE SCreEN</Text>
+                <Text>HisToRiC SCreEN</Text>
             </View>
         </>
     );
 };
 
-export default ActiveScreen;
+export default HistoricScreen;
 
 const styles = StyleSheet.create({
     rootContainer: {
