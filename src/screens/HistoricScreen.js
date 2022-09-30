@@ -6,11 +6,13 @@ import {
     ImageBackground,
 } from 'react-native';
 import React, { useLayoutEffect } from 'react';
+import { Surface, useTheme } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 
 const HistoricScreen = () => {
     const navigation = useNavigation();
+    const mtrTheme = useTheme();
     const meeter = useSelector((state) => state.system);
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -30,9 +32,11 @@ const HistoricScreen = () => {
     }, [navigation, meeter]);
     return (
         <>
-            <View>
-                <Text>HisToRiC SCreEN</Text>
-            </View>
+            <Surface style={mtrTheme.screenSurface}>
+                <View>
+                    <Text style={mtrTheme.screenTitle}>HISTORIC</Text>
+                </View>
+            </Surface>
         </>
     );
 };

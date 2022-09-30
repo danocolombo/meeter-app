@@ -8,8 +8,9 @@ import {
 import React, { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-
+import { Surface, useTheme } from 'react-native-paper';
 const ActiveScreen = () => {
+    const mtrTheme = useTheme();
     const navigation = useNavigation();
     const meeter = useSelector((state) => state.system);
     useLayoutEffect(() => {
@@ -30,9 +31,11 @@ const ActiveScreen = () => {
     }, [navigation, meeter]);
     return (
         <>
-            <View>
-                <Text>AcTIVE SCreEN</Text>
-            </View>
+            <Surface style={mtrTheme.screenSurface}>
+                <View>
+                    <Text style={mtrTheme.screenTitle}>ACTIVE</Text>
+                </View>
+            </Surface>
         </>
     );
 };

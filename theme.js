@@ -27,7 +27,7 @@ const theme = {
         surface: primaryBackground,
         text: '#eee',
         //color for the disabled elements
-        disabled: '#dfdfdf',
+        disabled: '#cccccc',
         //color for placeholder text, such as input placeholder
         placeholder: 'lightgrey',
         // color for backdrops of various components such as modals
@@ -36,6 +36,8 @@ const theme = {
         onSurface: 'yellow',
         // background color for badges
         notification: 'red',
+        navActive: '#D61C4E',
+        navInactive: '#8c8c8c',
         darkText: darkText,
         lightText: lightText,
     },
@@ -58,6 +60,7 @@ const theme = {
         fontWeight: '700',
         color: primaryColor,
         textAlign: 'center',
+        paddingTop: 20,
     },
     subTitle: {
         fontSize: 24,
@@ -128,6 +131,11 @@ const theme = {
         color: darkText,
         fontSize: 28,
         fontWeight: '700',
+    },
+    //   SCREEN BACKGROUND
+    screenSurface: {
+        flex: 1,
+        backgroundColor: primaryBackground,
     },
 };
 export default theme;
