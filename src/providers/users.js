@@ -30,8 +30,6 @@ export async function getProfile(uid) {
     };
     let body = JSON.stringify(obj);
     let api2use = process.env.AWS_API_ENDPOINT + '/users';
-    console.log('api2use', api2use);
-    console.log('body', body);
     try {
         let res = await axios.post(api2use, body, config);
         if (res.data.statusCode === 200) {
@@ -65,7 +63,7 @@ export async function getProfile(uid) {
 }
 //
 export async function getAffiliateProfiles(affiliate) {
-    console.log('getAffiliateProfiles for ', affiliate);
+    // console.log('getAffiliateProfiles for ', affiliate);
     let obj = {
         operation: 'getAffiliateUsers',
         payload: {

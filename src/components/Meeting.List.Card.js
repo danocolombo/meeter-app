@@ -4,11 +4,12 @@ import { useTheme, withTheme, Badge } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import MeetingCardDate from './ui/Meeting.Card.Date';
 import DateBall from './ui/DateBall';
+import DateStack from './ui/DateStack';
 import { printObject } from '../utils/helpers';
 const MeetingListCard = ({ meeting, active }) => {
     const navigation = useNavigation();
     const mtrTheme = useTheme();
-    printObject('mtrTheme:', mtrTheme);
+    //printObject('mtrTheme:', mtrTheme);
     function meetingPressHandler() {
         // if the user is registered, take them to registerForm
 
@@ -41,6 +42,11 @@ const MeetingListCard = ({ meeting, active }) => {
                                             mtrTheme.meetingCardActiveDateBall
                                         }
                                     />
+                                </View>
+                            )}
+                            {Platform.OS === 'android' && (
+                                <View style={{ padding: 1 }}>
+                                    <DateStack date={meeting?.meetingDate} />
                                 </View>
                             )}
 

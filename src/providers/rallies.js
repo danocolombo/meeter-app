@@ -9,8 +9,8 @@ const config = {
 };
 
 export async function getActiveMeetings(affiliate, today) {
-    console.log('affiliate', affiliate);
-    console.log('today', today);
+    // console.log('affiliate', affiliate);
+    // console.log('today', today);
     let obj = {
         operation: 'getMeetingsOnAfterDate',
         payload: {
@@ -27,8 +27,8 @@ export async function getActiveMeetings(affiliate, today) {
     return returnValue;
 }
 export async function WASgetActiveMeetings(affiliate, today) {
-    console.log('affiliate', affiliate);
-    console.log('today', today);
+    // console.log('affiliate', affiliate);
+    // console.log('today', today);
     let obj = {
         operation: 'getActiveMeetings',
         payload: {

@@ -218,5 +218,25 @@ const theme = {
         color: darkText,
         fontSize: 20,
     },
+    //   Date Stack UI Component
+    dateStackContainer: {
+        backgroundColor: accentColor,
+        paddingVertical: 1,
+        paddingHorizontal: 10,
+        width: 90,
+        height: 90,
+        borderRadius: 8,
+        textAlign: 'center',
+    },
+    dateStackDay: {
+        color: darkText,
+        fontSize: 28,
+        fontWeight: '900',
+    },
+    dateStackText: {
+        color: darkText,
+        fontSize: 14,
+        fontWeight: '900',
+    },
 };
 export default theme;

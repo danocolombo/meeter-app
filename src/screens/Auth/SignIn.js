@@ -54,7 +54,7 @@ const SignInScreen = () => {
     const user = watch('username');
     const onSignInPressed = async (data) => {
         const { username, password } = data;
-        console.log(username, password);
+        //console.log(username, password);
         let alertPayload = {};
         let setAlert = {};
         await Auth.signIn(username, password)

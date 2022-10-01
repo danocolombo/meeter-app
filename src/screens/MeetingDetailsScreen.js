@@ -6,6 +6,7 @@ import {
     StyleSheet,
     Image,
     FlatList,
+    Platform,
 } from 'react-native';
 import Constants from 'expo-constants';
 // import * as Application from 'expo-application';
@@ -14,6 +15,7 @@ import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { getMeetingGroups, clearGroups } from '../features/meetingsSlice';
 import CustomButton from '../components/ui/CustomButton';
 import DateBall from '../components/ui/DateBall';
+import DateStack from '../components/ui/DateStack';
 import { Surface, withTheme, useTheme, Badge } from 'react-native-paper';
 import { printObject, isDateDashBeforeToday } from '../utils/helpers';
 import GroupListCard from '../components/Group.List.Card';
@@ -44,17 +46,29 @@ const MeetingDetails = ({ route }) => {
             //check for groups
             dispatch(clearGroups());
             const groups = dispatch(getMeetingGroups(meeting.meetingId));
-            printObject('groups:', groups);
             // setGroups(groups);
         }
     }, []);
     return (
         <>
             <Surface style={styles.surface}>
-                <Text style={mtrTheme.screenTitle}>{meeting.meetingType}</Text>
+                <View>
+                    <Text style={mtrTheme.screenTitle}>
+                        {meeting.meetingType}
+                    </Text>
+                </View>
                 <View style={styles.firstRow}>
                     <View style={styles.dateWrapper}>
-                        <DateBall date={meeting?.meetingDate} />
+                        {Platform.OS === 'ios' && (
+                            <View style={{ padding: 5 }}>
+                                <DateBall date={meeting?.meetingDate} />
+                            </View>
+                        )}
+                        {Platform.OS === 'android' && (
+                            <View style={{ padding: 1 }}>
+                                <DateStack date={meeting?.meetingDate} />
+                            </View>
+                        )}
                     </View>
                     <View>
                         <View style={{ flexDirection: 'column' }}>
