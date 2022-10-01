@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, Pressable, Platform } from 'react-native';
 import React from 'react';
-import { useTheme, withTheme, Badge } from 'react-native-paper';
+import { useTheme, withTheme, Surface, Badge } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { printObject } from '../utils/helpers';
 const GroupListCard = ({ group }) => {
@@ -8,12 +8,76 @@ const GroupListCard = ({ group }) => {
     const mtrTheme = useTheme();
 
     return (
-        <>
-            <View>
-                <Text>GROUP</Text>
-            </View>
+        <View style={{ alignItems: 'center' }}>
+            <Surface
+                style={{
+                    backgroundColor: 'white',
+                    width: '80%',
+                    marginVertical: 5,
+                    borderRadius: 5,
+                    paddingVertical: 10,
+                }}
             >
-        </>
+                <View style={{ marginLeft: 20 }}>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            marginHorizontal: 10,
+                        }}
+                    >
+                        <View>
+                            <View>
+                                {group.gender === 'f' && (
+                                    <Text style={mtrTheme.groupListCardTitle}>
+                                        Women's {group.title}
+                                    </Text>
+                                )}
+                                {group.gender === 'm' && (
+                                    <Text style={mtrTheme.groupListCardTitle}>
+                                        Men's {group.title}
+                                    </Text>
+                                )}
+                            </View>
+                            {group.facilitator && (
+                                <View>
+                                    <Text style={mtrTheme.groupListCardText}>
+                                        {group.facilitator}
+                                    </Text>
+                                </View>
+                            )}
+                            {group.cofacilitator && (
+                                <View>
+                                    <Text style={mtrTheme.groupListCardText}>
+                                        {group.cofacilitator}
+                                    </Text>
+                                </View>
+                            )}
+                            {group.location && (
+                                <View>
+                                    <Text style={mtrTheme.groupListCardText}>
+                                        {group.location}
+                                    </Text>
+                                </View>
+                            )}
+                        </View>
+                        <View
+                            style={{
+                                marginLeft: 'auto',
+                                marginRight: 1,
+                                justifyContent: 'center',
+                            }}
+                        >
+                            <Badge
+                                size={30}
+                                style={mtrTheme.groupListCardAttendanceBadge}
+                            >
+                                {group.attendance}
+                            </Badge>
+                        </View>
+                    </View>
+                </View>
+            </Surface>
+        </View>
     );
 };
 

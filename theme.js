@@ -204,5 +204,19 @@ const theme = {
         flex: 1,
         backgroundColor: primaryBackground,
     },
+    //   GROUP LIST CARD
+    groupListCardAttendanceBadge: {
+        backgroundColor: primaryBackground,
+        color: lightText,
+    },
+    groupListCardTitle: {
+        color: darkText,
+        fontWeight: '600',
+        fontSize: 24,
+    },
+    groupListCardText: {
+        color: darkText,
+        fontSize: 20,
+    },
 };
 export default theme;
