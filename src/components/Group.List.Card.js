@@ -6,78 +6,108 @@ import { printObject } from '../utils/helpers';
 const GroupListCard = ({ group }) => {
     const navigation = useNavigation();
     const mtrTheme = useTheme();
+    function groupPressHandler() {
+        // if the user is registered, take them to registerForm
 
+        navigation.navigate('GroupDetails', {
+            group: group,
+        });
+    }
     return (
-        <View style={{ alignItems: 'center' }}>
-            <Surface
-                style={{
-                    backgroundColor: 'white',
-                    width: '80%',
-                    marginVertical: 5,
-                    borderRadius: 5,
-                    paddingVertical: 10,
-                }}
+        <>
+            <Pressable
+                onPress={groupPressHandler}
+                style={({ pressed }) => pressed && styles.pressed}
             >
-                <View style={{ marginLeft: 20 }}>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            marginHorizontal: 10,
-                        }}
-                    >
-                        <View>
-                            <View>
-                                {group.gender === 'f' && (
-                                    <Text style={mtrTheme.groupListCardTitle}>
-                                        Women's {group.title}
-                                    </Text>
+                {/* <Surface
+                    style={{
+                        backgroundColor: 'white',
+                        width: '80%',
+                        marginVertical: 5,
+                        borderRadius: 5,
+                        paddingVertical: 10,
+                    }}
+                > */}
+                <View style={styles.rootContainer}>
+                    <View style={{ marginHorizontal: 20 }}>
+                        <View
+                            style={[
+                                styles.groupItem,
+                                mtrTheme.groupCardPrimary,
+                            ]}
+                        >
+                            <View
+                                style={{
+                                    paddingHorizontal: 15,
+                                    paddingVertical: 10,
+                                }}
+                            >
+                                <View>
+                                    {group.gender === 'f' && (
+                                        <Text
+                                            style={mtrTheme.groupListCardTitle}
+                                        >
+                                            Women's {group.title}
+                                        </Text>
+                                    )}
+                                    {group.gender === 'm' && (
+                                        <Text
+                                            style={mtrTheme.groupListCardTitle}
+                                        >
+                                            Men's {group.title}
+                                        </Text>
+                                    )}
+                                </View>
+                                {group.location && (
+                                    <View>
+                                        <Text
+                                            style={mtrTheme.groupListCardText}
+                                        >
+                                            {group.location}
+                                        </Text>
+                                    </View>
                                 )}
-                                {group.gender === 'm' && (
-                                    <Text style={mtrTheme.groupListCardTitle}>
-                                        Men's {group.title}
-                                    </Text>
+                                {group.facilitator && (
+                                    <View>
+                                        <Text
+                                            style={mtrTheme.groupListCardText}
+                                        >
+                                            {group.facilitator}
+                                        </Text>
+                                    </View>
+                                )}
+                                {group.cofacilitator && (
+                                    <View>
+                                        <Text
+                                            style={mtrTheme.groupListCardText}
+                                        >
+                                            {group.cofacilitator}
+                                        </Text>
+                                    </View>
                                 )}
                             </View>
-                            {group.facilitator && (
-                                <View>
-                                    <Text style={mtrTheme.groupListCardText}>
-                                        {group.facilitator}
-                                    </Text>
-                                </View>
-                            )}
-                            {group.cofacilitator && (
-                                <View>
-                                    <Text style={mtrTheme.groupListCardText}>
-                                        {group.cofacilitator}
-                                    </Text>
-                                </View>
-                            )}
-                            {group.location && (
-                                <View>
-                                    <Text style={mtrTheme.groupListCardText}>
-                                        {group.location}
-                                    </Text>
-                                </View>
-                            )}
-                        </View>
-                        <View
-                            style={{
-                                marginLeft: 'auto',
-                                marginRight: 1,
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Badge
-                                size={30}
-                                style={mtrTheme.groupListCardAttendanceBadge}
+                            <View
+                                style={{
+                                    marginLeft: 'auto',
+                                    marginRight: 10,
+                                    justifyContent: 'center',
+                                }}
                             >
-                                {group.attendance}
-                            </Badge>
+                                <Badge
+                                    size={30}
+                                    style={
+                                        mtrTheme.groupListCardAttendanceBadge
+                                    }
+                                >
+                                    {group.attendance}
+                                </Badge>
+                            </View>
                         </View>
                     </View>
                 </View>
-            </Surface>
-        </View>
+                {/* </Surface> */}
+            </Pressable>
+        </>
     );
 };
 
@@ -90,7 +120,7 @@ const styles = StyleSheet.create({
     rootContainer: {
         marginHorizontal: 5,
     },
-    meetingItem: {
+    groupItem: {
         marginVertical: 5,
         paddingBottom: 5,
         backgroundColor: 'darkgrey',

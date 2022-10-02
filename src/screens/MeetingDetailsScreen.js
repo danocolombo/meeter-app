@@ -4,6 +4,7 @@ import {
     Text,
     ImageBackground,
     StyleSheet,
+    ScrollView,
     Image,
     FlatList,
     Platform,
@@ -52,124 +53,126 @@ const MeetingDetails = ({ route }) => {
     return (
         <>
             <Surface style={styles.surface}>
-                <View>
-                    <Text style={mtrTheme.screenTitle}>
-                        {meeting.meetingType}
-                    </Text>
-                </View>
-                <View style={styles.firstRow}>
-                    <View style={styles.dateWrapper}>
-                        {Platform.OS === 'ios' && (
-                            <View style={{ padding: 5 }}>
-                                <DateBall date={meeting?.meetingDate} />
-                            </View>
-                        )}
-                        {Platform.OS === 'android' && (
-                            <View style={{ padding: 1 }}>
-                                <DateStack date={meeting?.meetingDate} />
-                            </View>
-                        )}
-                    </View>
+                <ScrollView>
                     <View>
-                        <View style={{ flexDirection: 'column' }}>
-                            {meeting.meetingType === 'Lesson' && (
-                                <View style={{ marginLeft: 10 }}>
-                                    <Text style={mtrTheme.subTitle}>
-                                        {meeting.title}
-                                    </Text>
+                        <Text style={mtrTheme.screenTitle}>
+                            {meeting.meetingType}
+                        </Text>
+                    </View>
+                    <View style={styles.firstRow}>
+                        <View style={styles.dateWrapper}>
+                            {Platform.OS === 'ios' && (
+                                <View style={{ padding: 5 }}>
+                                    <DateBall date={meeting?.meetingDate} />
                                 </View>
                             )}
-                            <View style={{ alignContent: 'flex-start' }}>
-                                <Text style={mtrTheme.detailsTitle}>
-                                    {meeting.meetingType === 'Lesson'
-                                        ? meeting.supportContact
-                                        : meeting.title}
-                                </Text>
+                            {Platform.OS === 'android' && (
+                                <View style={{ padding: 1 }}>
+                                    <DateStack date={meeting?.meetingDate} />
+                                </View>
+                            )}
+                        </View>
+                        <View>
+                            <View style={{ flexDirection: 'column' }}>
+                                {meeting.meetingType === 'Lesson' && (
+                                    <View style={{ marginLeft: 10 }}>
+                                        <Text style={mtrTheme.subTitle}>
+                                            {meeting.title}
+                                        </Text>
+                                    </View>
+                                )}
+                                <View style={{ alignContent: 'flex-start' }}>
+                                    <Text style={mtrTheme.detailsTitle}>
+                                        {meeting.meetingType === 'Lesson'
+                                            ? meeting.supportContact
+                                            : meeting.title}
+                                    </Text>
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-                <View style={styles.row}>
-                    <View style={{ marginLeft: 20 }}>
-                        <Text style={mtrTheme.detailsRowLabel}>
-                            {historic ? 'Meal:' : 'Meal Plans:'}
-                        </Text>
-                    </View>
-                    <View>
-                        <Text style={mtrTheme.detailsRowValue}>
-                            {meeting.meal === '' ? 'TBD' : meeting.meal}
-                        </Text>
+                    <View style={styles.row}>
+                        <View style={{ marginLeft: 20 }}>
+                            <Text style={mtrTheme.detailsRowLabel}>
+                                {historic ? 'Meal:' : 'Meal Plans:'}
+                            </Text>
+                        </View>
+                        <View>
+                            <Text style={mtrTheme.detailsRowValue}>
+                                {meeting.meal === '' ? 'TBD' : meeting.meal}
+                            </Text>
+                        </View>
+                        {historic && (
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.mealCount}
+                                </Badge>
+                            </View>
+                        )}
                     </View>
                     {historic && (
-                        <View style={{ marginLeft: 'auto', padding: 10 }}>
-                            <Badge size={50} style={mtrTheme.detailsBadge}>
-                                {meeting.mealCount}
-                            </Badge>
+                        <View style={styles.row}>
+                            <View style={{ marginLeft: 20 }}>
+                                <Text style={mtrTheme.detailsRowLabel}>
+                                    Attendance:
+                                </Text>
+                            </View>
+
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.attendanceCount}
+                                </Badge>
+                            </View>
                         </View>
                     )}
-                </View>
-                {historic && (
-                    <View style={styles.row}>
-                        <View style={{ marginLeft: 20 }}>
-                            <Text style={mtrTheme.detailsRowLabel}>
-                                Attendance:
-                            </Text>
-                        </View>
+                    {meeting.newcomersCount > 0 && (
+                        <View style={styles.row}>
+                            <View style={{ marginLeft: 20 }}>
+                                <Text style={mtrTheme.detailsRowLabel}>
+                                    Newcomers:
+                                </Text>
+                            </View>
 
-                        <View style={{ marginLeft: 'auto', padding: 10 }}>
-                            <Badge size={50} style={mtrTheme.detailsBadge}>
-                                {meeting.attendanceCount}
-                            </Badge>
+                            <View style={{ marginLeft: 'auto', padding: 10 }}>
+                                <Badge size={50} style={mtrTheme.detailsBadge}>
+                                    {meeting.newcomersCount}
+                                </Badge>
+                            </View>
                         </View>
-                    </View>
-                )}
-                {meeting.newcomersCount > 0 && (
-                    <View style={styles.row}>
-                        <View style={{ marginLeft: 20 }}>
-                            <Text style={mtrTheme.detailsRowLabel}>
-                                Newcomers:
-                            </Text>
-                        </View>
-
-                        <View style={{ marginLeft: 'auto', padding: 10 }}>
-                            <Badge size={50} style={mtrTheme.detailsBadge}>
-                                {meeting.newcomersCount}
-                            </Badge>
-                        </View>
-                    </View>
-                )}
-                <View
-                    style={{
-                        borderTopColor: 'yellow',
-                        borderBottomColor: 'yellow',
-                        marginHorizontal: 20,
-                        marginBottom: 20,
-                        borderBottomWidth: StyleSheet.hairlineWidth,
-                        borderTopWidth: StyleSheet.hairlineWidth,
-                    }}
-                >
-                    <Text
+                    )}
+                    <View
                         style={{
-                            color: 'white',
-                            fontSize: 20,
-                            fontWeight: '400',
-                            textAlign: 'center',
-                            paddingVertical: 5,
+                            borderTopColor: 'yellow',
+                            borderBottomColor: 'yellow',
+                            marginHorizontal: 20,
+                            marginBottom: 20,
+                            borderBottomWidth: StyleSheet.hairlineWidth,
+                            borderTopWidth: StyleSheet.hairlineWidth,
                         }}
                     >
-                        Open-Share Groups
-                    </Text>
-                </View>
+                        <Text
+                            style={{
+                                color: 'white',
+                                fontSize: 20,
+                                fontWeight: '400',
+                                textAlign: 'center',
+                                paddingVertical: 5,
+                            }}
+                        >
+                            Open-Share Groups
+                        </Text>
+                    </View>
 
-                <View>
-                    <FlatList
-                        data={groups}
-                        keyExtractor={(item) => item.groupId}
-                        renderItem={({ item }) => (
-                            <GroupListCard group={item} />
-                        )}
-                    />
-                </View>
+                    <View>
+                        <FlatList
+                            data={groups}
+                            keyExtractor={(item) => item.groupId}
+                            renderItem={({ item }) => (
+                                <GroupListCard group={item} />
+                            )}
+                        />
+                    </View>
+                </ScrollView>
             </Surface>
         </>
     );

@@ -22,6 +22,7 @@ import ConfirmEmailScreen from '../screens/Auth/ConfirmEmail';
 import ForgotPasswordScreen from '../screens/Auth/ForgotPassword';
 import NewPasswordScreen from '../screens/Auth/NewPassword';
 import MeetingDetailsScreen from '../screens/MeetingDetailsScreen';
+import GroupDetailsScreen from '../screens/GroupDetailsScreen';
 
 import AuthDrawer from './AuthDrawer';
 import { Auth, Hub } from 'aws-amplify';
@@ -69,6 +70,17 @@ function MeeterStack(props) {
             <Stack.Screen
                 name='MeetingDetails'
                 component={MeetingDetailsScreen}
+                options={({ navigation }) => ({
+                    title: 'FEO',
+                    headerStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
+                    headerTintColor: 'white',
+                })}
+            />
+            <Stack.Screen
+                name='GroupDetails'
+                component={GroupDetailsScreen}
                 options={({ navigation }) => ({
                     title: 'FEO',
                     headerStyle: {

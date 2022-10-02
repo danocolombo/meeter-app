@@ -88,6 +88,47 @@ const theme = {
     primaryButton: {
         fontWeight: '900',
     },
+    //   SCREEN NAVIGATION
+    navButtonLight: {
+        color: 'white',
+    },
+    //   GROUP DETAILS CARD
+    groupCardPrimary: {
+        backgroundColor: primaryColor,
+    },
+    groupCardDetailsLabel: {
+        fontSize: 26,
+        paddingLeft: 0,
+        fontWeight: '600',
+        textAlign: 'left',
+        letterSpacing: 0.5,
+        color: lightText,
+    },
+    groupCardDetailsData: {
+        fontSize: 26,
+        fontWeight: '400',
+        paddingLeft: 10,
+        color: lightText,
+    },
+    groupCardTopRow: {
+        flexDirection: 'row',
+        marginTop: 30,
+    },
+    groupCardRow: {
+        flexDirection: 'row',
+        marginTop: 10,
+    },
+    groupDetailsAttendanceBadge: {
+        backgroundColor: lightColor,
+        textColor: darkText,
+    },
+    groupDetailsNotesText: {
+        fontSize: 24,
+        color: lightText,
+        fontWeight: '200',
+        letterSpacing: 0.2,
+        paddingBottom: 10,
+    },
     //   MEETING CARD - ACTIVE
     meetingCardActivePrimary: {
         backgroundColor: primaryColor,
