@@ -7,6 +7,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 const GroupForm = ({ route, navigation }) => {
     const meeter = useSelector((state) => state.system);
     const [title, setTitle] = useState('');
+    const [gender, setGender] = useState('m');
     const inputStyle = {
         paddingLeft: 0,
         fontSize: 24,
@@ -14,9 +15,21 @@ const GroupForm = ({ route, navigation }) => {
         color: 'black',
         marginHorizontal: 10,
     };
+    const handleMaleClick = (value) => {
+        console.log('men:', value);
+    };
+    const handleFemailClick = (value) => {
+        console.log('women:', value);
+    };
+    const handleMixedClick = (value) => {
+        console.log('mixed:', value);
+    };
 
     return (
         <>
+            <View>
+                <Text>gender:{gender}</Text>
+            </View>
             <View style={styles.formContainer}>
                 <View
                     style={{
@@ -29,30 +42,39 @@ const GroupForm = ({ route, navigation }) => {
                         fillColor='red'
                         unfillColor='#FFFFFF'
                         text='Men'
+                        isChecked={gender === 'm' ? true : false}
                         iconStyle={{ borderColor: 'red' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {}}
+                        onPress={(isChecked: boolean) => {
+                            handleMaleClick(isChecked);
+                        }}
                     />
                     <BouncyCheckbox
                         size={25}
                         fillColor='red'
                         unfillColor='#FFFFFF'
                         text='Women'
+                        isChecked={gender === 'f' ? true : false}
                         iconStyle={{ borderColor: 'red' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {}}
+                        onPress={(isChecked: boolean) => {
+                            setGender('f');
+                        }}
                     />
                     <BouncyCheckbox
                         size={25}
                         fillColor='red'
                         unfillColor='#FFFFFF'
                         text='Mixed'
+                        isChecked={gender === 'x' ? true : false}
                         iconStyle={{ borderColor: 'red' }}
                         innerIconStyle={{ borderWidth: 2 }}
                         textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {}}
+                        onPress={(isChecked: boolean) => {
+                            setGender('x');
+                        }}
                     />
                 </View>
                 <View style={styles.rowStyle}>
