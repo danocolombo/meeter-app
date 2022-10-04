@@ -13,6 +13,7 @@ import { getMeetingGroups, clearGroups } from '../features/meetingsSlice';
 import DateBall from '../components/ui/DateBall';
 import MeetingCardDate from '../components/ui/Meeting.Card.Date';
 import { Style } from 'domelementtype';
+import GroupForm from '../components/GroupForm';
 const GroupDetailsEditScreen = ({ route, navigation }) => {
     const group = route.params.group;
     const mtrTheme = useTheme();
@@ -21,11 +22,11 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
     const user = useSelector((state) => state.users.currentUser);
     const meeter = useSelector((state) => state.system);
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: meeter.appName,
-        });
-    }, [navigation, meeter]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         title: meeter.appName,
+    //     });
+    // }, [navigation, meeter]);
 
     return (
         <>
@@ -56,7 +57,14 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
                                 height: '100%',
                             }}
                         >
-                            <Text>GROUP DETAILS</Text>
+                            <View>
+                                <Text style={mtrTheme.screenTitle}>
+                                    GROUP DETAILS
+                                </Text>
+                            </View>
+                            <View>
+                                <GroupForm />
+                            </View>
                         </View>
                     </View>
                 </View>

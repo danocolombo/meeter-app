@@ -23,6 +23,7 @@ import ForgotPasswordScreen from '../screens/Auth/ForgotPassword';
 import NewPasswordScreen from '../screens/Auth/NewPassword';
 import MeetingDetailsScreen from '../screens/MeetingDetailsScreen';
 import GroupDetailsScreen from '../screens/GroupDetailsScreen';
+import GroupDetailsEditScreen from '../screens/GroupDetailsEditScreen';
 
 import AuthDrawer from './AuthDrawer';
 import { Auth, Hub } from 'aws-amplify';
@@ -71,7 +72,7 @@ function MeeterStack(props) {
                 name='MeetingDetails'
                 component={MeetingDetailsScreen}
                 options={({ navigation }) => ({
-                    title: 'FEO',
+                    title: 'Meeter',
                     headerStyle: {
                         backgroundColor: mtrTheme.colors.background,
                     },
@@ -82,7 +83,18 @@ function MeeterStack(props) {
                 name='GroupDetails'
                 component={GroupDetailsScreen}
                 options={({ navigation }) => ({
-                    title: 'FEO',
+                    title: 'Meeter',
+                    headerStyle: {
+                        backgroundColor: mtrTheme.colors.background,
+                    },
+                    headerTintColor: 'white',
+                })}
+            />
+            <Stack.Screen
+                name='GroupEdit'
+                component={GroupDetailsEditScreen}
+                options={({ navigation }) => ({
+                    title: 'Meeter',
                     headerStyle: {
                         backgroundColor: mtrTheme.colors.background,
                     },
