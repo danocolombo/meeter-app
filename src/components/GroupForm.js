@@ -2,12 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Input from './ui/Input';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-
-const GroupForm = ({ route, navigation }) => {
+import GenderSelectors from './GenderSelectors';
+const GroupForm = ({ route, navigation, group }) => {
     const meeter = useSelector((state) => state.system);
     const [title, setTitle] = useState('');
-    const [gender, setGender] = useState('m');
+    const [gender, setGender] = useState(group.gender);
     const inputStyle = {
         paddingLeft: 0,
         fontSize: 24,
@@ -15,73 +14,23 @@ const GroupForm = ({ route, navigation }) => {
         color: 'black',
         marginHorizontal: 10,
     };
-    const handleMaleClick = (value) => {
-        console.log('men:', value);
-    };
-    const handleFemailClick = (value) => {
-        console.log('women:', value);
-    };
-    const handleMixedClick = (value) => {
-        console.log('mixed:', value);
-    };
-
     return (
         <>
-            <View>
-                <Text>gender:{gender}</Text>
-            </View>
             <View style={styles.formContainer}>
                 <View
                     style={{
                         flexDirection: 'row',
-                        justifyContent: 'space-around',
+                        marginHorizontal: 5,
                     }}
                 >
-                    <BouncyCheckbox
-                        size={25}
-                        fillColor='red'
-                        unfillColor='#FFFFFF'
-                        text='Men'
-                        isChecked={gender === 'm' ? true : false}
-                        iconStyle={{ borderColor: 'red' }}
-                        innerIconStyle={{ borderWidth: 2 }}
-                        textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {
-                            handleMaleClick(isChecked);
-                        }}
-                    />
-                    <BouncyCheckbox
-                        size={25}
-                        fillColor='red'
-                        unfillColor='#FFFFFF'
-                        text='Women'
-                        isChecked={gender === 'f' ? true : false}
-                        iconStyle={{ borderColor: 'red' }}
-                        innerIconStyle={{ borderWidth: 2 }}
-                        textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {
-                            setGender('f');
-                        }}
-                    />
-                    <BouncyCheckbox
-                        size={25}
-                        fillColor='red'
-                        unfillColor='#FFFFFF'
-                        text='Mixed'
-                        isChecked={gender === 'x' ? true : false}
-                        iconStyle={{ borderColor: 'red' }}
-                        innerIconStyle={{ borderWidth: 2 }}
-                        textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-                        onPress={(isChecked: boolean) => {
-                            setGender('x');
-                        }}
-                    />
+                    <GenderSelectors setPick={setGender} pick={gender} />
                 </View>
                 <View style={styles.rowStyle}>
                     <Input
                         label='Group Title'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
+                            value: group.title,
                             padding: 10,
                             fontSize: 24,
                             color: 'black',
@@ -90,6 +39,7 @@ const GroupForm = ({ route, navigation }) => {
                             style: { color: 'white' },
                             fontWeight: '600', // placeholder: 'Group Title',
                         }}
+                        value={group.title}
                         onChangeText={(title) => setTitle(title)}
                     />
                 </View>
@@ -99,6 +49,7 @@ const GroupForm = ({ route, navigation }) => {
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             padding: 10,
+                            value: group.location,
                             fontSize: 24,
                             color: 'black',
                             capitalize: 'words',
@@ -117,6 +68,7 @@ const GroupForm = ({ route, navigation }) => {
                             backgroundColor: 'lightgrey',
                             padding: 10,
                             fontSize: 24,
+                            value: group.facilitator,
                             color: 'black',
                             capitalize: 'words',
                             marginHorizontal: 20,
@@ -134,6 +86,7 @@ const GroupForm = ({ route, navigation }) => {
                             backgroundColor: 'lightgrey',
                             padding: 10,
                             fontSize: 24,
+                            value: group.cofacilitator,
                             color: 'black',
                             capitalize: 'words',
                             marginHorizontal: 20,
@@ -152,6 +105,7 @@ const GroupForm = ({ route, navigation }) => {
                             padding: 10,
                             fontSize: 24,
                             color: 'black',
+                            value: group.notes,
                             capitalize: 'sentence',
                             marginHorizontal: 20,
                             placeholder: '',
@@ -174,6 +128,6 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     rowStyle: {
-        marginTop: 10,
+        marginTop: 5,
     },
 });

@@ -58,12 +58,12 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
                             }}
                         >
                             <View>
-                                <Text style={mtrTheme.screenTitle}>
+                                <Text style={mtrTheme.editScreenTitle}>
                                     GROUP DETAILS
                                 </Text>
                             </View>
                             <View>
-                                <GroupForm />
+                                <GroupForm group={group} />
                             </View>
                         </View>
                     </View>
