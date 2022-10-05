@@ -38,15 +38,17 @@ const LandingScreen = () => {
             <Surface style={styles.welcomeSurface}>
                 <View>
                     <Text style={mtrTheme.screenTitle}>WELCOME</Text>
-                    <Text style={mtrTheme.subTitle}>Now What?</Text>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                    <Text>LOGO</Text>
                 </View>
                 <View>
-                    <FlatList
-                        data={activeMeetings}
-                        keyExtractor={(item) => item.meetingId}
-                        renderItem={({ item }) => (
-                            <MeetingListCard meeting={item} active={true} />
-                        )}
+                    <Text style={styles.announcement}>Next Meeting...</Text>
+                </View>
+                <View style={{ marginHorizontal: 20 }}>
+                    <MeetingListCard
+                        meeting={activeMeetings[0]}
+                        active={true}
                     />
                 </View>
             </Surface>
@@ -85,9 +87,12 @@ const styles = StyleSheet.create({
         // color: 'white',
         textAlign: 'center',
     },
-    subTitle: {
-        fontSize: 18,
+    announcement: {
+        marginVertical: 20,
+        color: 'white',
+        fontSize: 24,
         fontWeight: '600',
+        textAlign: 'center',
         // color: 'white',
     },
     affiliateHeader: {

@@ -1,6 +1,11 @@
 import { createAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { printObject, getToday, getPateDate } from '../utils/helpers';
+import {
+    printObject,
+    getToday,
+    getPateDate,
+    getDateMinusDays,
+} from '../utils/helpers';
 //   this is url for all meetings
 const config = {
     headers: {
@@ -190,14 +195,17 @@ export const getMeetingGroups = (meetingId) => (dispatch) => {
     getData(meetingId);
 };
 export const getHistoricMeetings = () => (dispatch) => {
-    // this will get some remove data
+    var d = new Date();
+    let yesterday = getDateMinusDays(d, 1);
+    let twoMonthsAgo = getDateMinusDays(d, 120);
+
     const getData = async () => {
         let obj = {
             operation: 'getMeetingsBetweenDates',
             payload: {
                 clientId: 'wbc',
-                startDate: '2022-08-01',
-                stopDate: '2022-09-30',
+                startDate: twoMonthsAgo,
+                stopDate: yesterday,
                 direction: 'DESC',
             },
         };
