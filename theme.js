@@ -38,6 +38,7 @@ const theme = {
         //background color for snackbars
         onSurface: 'yellow',
         // background color for badges
+        landingAppName: '#FEDB39',
         notification: 'red',
         navActive: '#D61C4E',
         navInactive: '#8c8c8c',

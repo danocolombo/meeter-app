@@ -162,8 +162,7 @@ const MeetingDetails = ({ route }) => {
                             Open-Share Groups
                         </Text>
                     </View>
-
-                    <View>
+                    {groups.length > 0 && (
                         <FlatList
                             data={groups}
                             keyExtractor={(item) => item.groupId}
@@ -171,7 +170,7 @@ const MeetingDetails = ({ route }) => {
                                 <GroupListCard group={item} />
                             )}
                         />
-                    </View>
+                    )}
                 </ScrollView>
             </Surface>
         </>
