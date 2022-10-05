@@ -1,12 +1,39 @@
-import { StyleSheet, Text, View } from 'react-native';
-import React, { useState, useLayoutEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import Input from './ui/Input';
 import GenderSelectors from './GenderSelectors';
+import NumberInput from './ui/NumberInput/NumberInput';
+import { Button } from 'react-native-paper';
 const GroupForm = ({ route, navigation, group }) => {
     const meeter = useSelector((state) => state.system);
-    const [title, setTitle] = useState('');
-    const [gender, setGender] = useState(group.gender);
+
+    const [values, setValeus] = useState({
+        gender: group.gender,
+        title: group.title,
+        attendance: group.attendance,
+        location: group.location,
+        facilitator: group.facilitator,
+        cofacilitator: group.cofacilitator,
+        notes: group.notes,
+    });
+
+    function inputChangedHandler(inputIdentifier, enteredValue) {
+        setValeus((curInputValues) => {
+            return {
+                ...curInputValues,
+                [inputIdentifier]: enteredValue,
+            };
+        });
+    }
+    function setGenderValue(enteredValue) {
+        setValeus((curInputValues) => {
+            return {
+                ...curInputValues,
+                gender: enteredValue,
+            };
+        });
+    }
     const inputStyle = {
         paddingLeft: 0,
         fontSize: 24,
@@ -23,24 +50,35 @@ const GroupForm = ({ route, navigation, group }) => {
                         marginHorizontal: 5,
                     }}
                 >
-                    <GenderSelectors setPick={setGender} pick={gender} />
+                    <GenderSelectors
+                        setPick={setGenderValue}
+                        pick={values.gender}
+                    />
+                </View>
+                <View>
+                    <NumberInput
+                        value={values.attendance}
+                        onAction={inputChangedHandler.bind(this, 'attendance')}
+                    />
                 </View>
                 <View style={styles.rowStyle}>
                     <Input
                         label='Group Title'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
-                            value: group.title,
+                            value: values.title,
                             padding: 10,
                             fontSize: 24,
                             color: 'black',
                             marginHorizontal: 20,
                             placeholder: 'Group Title',
                             style: { color: 'white' },
-                            fontWeight: '600', // placeholder: 'Group Title',
+                            fontWeight: '600',
+                            onChangeText: inputChangedHandler.bind(
+                                this,
+                                'title'
+                            ),
                         }}
-                        value={group.title}
-                        onChangeText={(title) => setTitle(title)}
                     />
                 </View>
                 <View style={styles.rowStyle}>
@@ -49,16 +87,19 @@ const GroupForm = ({ route, navigation, group }) => {
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             padding: 10,
-                            value: group.location,
+                            value: values.location,
                             fontSize: 24,
                             color: 'black',
                             capitalize: 'words',
                             marginHorizontal: 20,
                             placeholder: 'where was group?',
                             style: { color: 'white' },
-                            fontWeight: '600', // placeholder: 'Group Title',
+                            fontWeight: '600',
+                            onChangeText: inputChangedHandler.bind(
+                                this,
+                                'location'
+                            ),
                         }}
-                        onChangeText={(title) => setTitle(title)}
                     />
                 </View>
                 <View style={styles.rowStyle}>
@@ -68,15 +109,18 @@ const GroupForm = ({ route, navigation, group }) => {
                             backgroundColor: 'lightgrey',
                             padding: 10,
                             fontSize: 24,
-                            value: group.facilitator,
+                            value: values.facilitator,
                             color: 'black',
                             capitalize: 'words',
                             marginHorizontal: 20,
                             placeholder: 'who facilitated?',
                             style: { color: 'white' },
-                            fontWeight: '600', // placeholder: 'Group Title',
+                            fontWeight: '600',
+                            onChangeText: inputChangedHandler.bind(
+                                this,
+                                'facilitator'
+                            ),
                         }}
-                        onChangeText={(title) => setTitle(title)}
                     />
                 </View>
                 <View style={styles.rowStyle}>
@@ -86,15 +130,18 @@ const GroupForm = ({ route, navigation, group }) => {
                             backgroundColor: 'lightgrey',
                             padding: 10,
                             fontSize: 24,
-                            value: group.cofacilitator,
+                            value: values.cofacilitator,
                             color: 'black',
                             capitalize: 'words',
                             marginHorizontal: 20,
                             placeholder: 'who co-facilitated?',
                             style: { color: 'white' },
-                            fontWeight: '600', // placeholder: 'Group Title',
+                            fontWeight: '600',
+                            onChangeText: inputChangedHandler.bind(
+                                this,
+                                'cofacilitator'
+                            ),
                         }}
-                        onChangeText={(title) => setTitle(title)}
                     />
                 </View>
                 <View style={styles.rowStyle}>
@@ -105,16 +152,37 @@ const GroupForm = ({ route, navigation, group }) => {
                             padding: 10,
                             fontSize: 24,
                             color: 'black',
-                            value: group.notes,
+                            value: values.notes,
                             capitalize: 'sentence',
+                            autoCorrect: true,
                             marginHorizontal: 20,
                             placeholder: '',
                             style: { color: 'white' },
                             fontWeight: '600',
-                            multiline: true, // placeholder: 'Group Title',
+                            multiline: true,
+                            minHeight: 100,
+                            onChangeText: inputChangedHandler.bind(
+                                this,
+                                'notes'
+                            ),
                         }}
-                        onChangeText={(title) => setTitle(title)}
                     />
+                </View>
+                <View>
+                    <Button
+                        style={styles.button}
+                        onPress={() => Alert.alert('Simple Button pressed')}
+                    >
+                        <Text
+                            style={{
+                                color: 'white',
+                                fontSize: 20,
+                                fontWeight: '600',
+                            }}
+                        >
+                            SAVE
+                        </Text>
+                    </Button>
                 </View>
             </View>
         </>
@@ -129,5 +197,10 @@ const styles = StyleSheet.create({
     },
     rowStyle: {
         marginTop: 5,
+    },
+    button: {
+        backgroundColor: 'blue',
+        marginHorizontal: 20,
+        marginTop: 20,
     },
 });

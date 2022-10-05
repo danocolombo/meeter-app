@@ -8,11 +8,13 @@ const Input = ({ label, textInputConfig }) => {
     }
     return (
         <>
-            <View style={{ marginLeft: 22 }}>
-                <Text style={{ fontSize: 20 }}>{label}</Text>
-            </View>
-            <View>
-                <TextInput style={inputStyles} {...textInputConfig} />
+            <View style={styles.inputContainer}>
+                <View style={{ marginLeft: 22 }}>
+                    <Text style={{ fontSize: 20 }}>{label}</Text>
+                </View>
+                <View>
+                    <TextInput style={inputStyles} {...textInputConfig} />
+                </View>
             </View>
         </>
     );
@@ -28,4 +30,5 @@ const styles = StyleSheet.create({
         minHeight: 100,
         textAlignVertical: 'top',
     },
+    inputContainer: {},
 });

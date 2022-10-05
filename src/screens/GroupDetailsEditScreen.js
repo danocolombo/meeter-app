@@ -22,12 +22,12 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
     const user = useSelector((state) => state.users.currentUser);
     const meeter = useSelector((state) => state.system);
 
-    // useLayoutEffect(() => {
-    //     navigation.setOptions({
-    //         title: meeter.appName,
-    //     });
-    // }, [navigation, meeter]);
-
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: meeter.appName,
+            headerBackTitle: 'Cancel',
+        });
+    }, [navigation, group]);
     return (
         <>
             <Surface style={styles.surface}>
