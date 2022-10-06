@@ -124,6 +124,18 @@ export const meetingsSlice = createSlice({
             );
             return grp;
         },
+        updateGroup: (state, action) => {
+            const newValue = action.payload;
+            // console.log('newValue:', newValue);
+            const newGroupList = state.groups.map((g) => {
+                // console.log('typeof ral:', typeof ral);
+                // console.log('typeof action.payload', typeof action.payload);
+                return g.groupId === newValue.groupId ? newValue : g;
+            });
+
+            state.meetings = newGroupList;
+            return state;
+        },
         clearGroups: (state) => {
             state.groups = [];
             return state;
@@ -168,6 +180,7 @@ export const {
     updateTmp,
     loadGroups,
     clearGroups,
+    updateGroup,
     getGroup,
     logout,
 } = meetingsSlice.actions;
@@ -217,6 +230,23 @@ export const getHistoricMeetings = () => (dispatch) => {
         return;
     };
     getData();
+};
+export const updateGroupValues = (values) => (dispatch) => {
+    const saveGroupToDDB = async () => {
+        let obj = {
+            operation: 'updateGroup',
+            payload: {
+                Item: values,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        //const results = res.data.body.Items;
+        dispatch(updateGroup(values));
+        return;
+    };
+    saveGroupToDDB();
 };
 
 // The function below is called a selector and allows us to select a value from

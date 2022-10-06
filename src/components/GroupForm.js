@@ -1,25 +1,48 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 import Input from './ui/Input';
 import GenderSelectors from './GenderSelectors';
+import CustomButton from './ui/CustomButton';
 import NumberInput from './ui/NumberInput/NumberInput';
-import { Button } from 'react-native-paper';
-const GroupForm = ({ route, navigation, group }) => {
+import { printObject } from '../utils/helpers';
+import { updateGroupValues } from '../features/meetingsSlice';
+const GroupForm = ({ route, group }) => {
+    const navigation = useNavigation();
+    const dispatch = useDispatch();
     const meeter = useSelector((state) => state.system);
-
+    printObject('GF:11-->group', group);
     const [values, setValeus] = useState({
+        meetingId: group.meetingId,
+        groupId: group.groupId,
         gender: group.gender,
-        title: group.title,
-        attendance: group.attendance,
-        location: group.location,
-        facilitator: group.facilitator,
-        cofacilitator: group.cofacilitator,
-        notes: group.notes,
+        title: group.title ? group.title : '',
+        attendance: group.attendance ? group.attendance : '0',
+        location: group.location ? group.location : '',
+        facilitator: group.facilitator ? group.facilitator : '',
+        cofacilitator: group.cofacilitator ? group.cofacilitator : '',
+        notes: group.notes ? group.notes : '',
     });
+    const [isLocationValid, setIsLocationValid] = useState(false);
+    const [isTitleValid, setIsTitleValid] = useState(false);
 
     function inputChangedHandler(inputIdentifier, enteredValue) {
         setValeus((curInputValues) => {
+            if (inputIdentifier === 'title') {
+                if (enteredValue.length > 2) {
+                    setIsTitleValid(false);
+                } else {
+                    setIsTitleValid(true);
+                }
+            }
+            if (inputIdentifier === 'location') {
+                if (enteredValue.length > 2) {
+                    setIsLocationValid(false);
+                } else {
+                    setIsLocationValid(true);
+                }
+            }
             return {
                 ...curInputValues,
                 [inputIdentifier]: enteredValue,
@@ -34,6 +57,32 @@ const GroupForm = ({ route, navigation, group }) => {
             };
         });
     }
+    const handleFormSubmit = () => {
+        //   handle SAVE request
+        // validate the information
+
+        if (values.title.length < 3) {
+            setIsTitleValid(false);
+        } else {
+            setIsTitleValid(true);
+        }
+        if (values.location.length < 3) {
+            setIsLocationValid(false);
+        } else {
+            setIsLocationValid(true);
+        }
+        if (isTitleValid && isLocationValid) {
+            Alert.alert('VALID');
+        } else {
+            Alert.alert('NOT VALID');
+        }
+        return;
+
+        dispatch(updateGroupValues(values));
+        navigation.navigate('GroupDetails', {
+            group: values,
+        });
+    };
     const inputStyle = {
         paddingLeft: 0,
         fontSize: 24,
@@ -41,6 +90,7 @@ const GroupForm = ({ route, navigation, group }) => {
         color: 'black',
         marginHorizontal: 10,
     };
+    printObject('GF:50-->values', values);
     return (
         <>
             <View style={styles.formContainer}>
@@ -81,6 +131,11 @@ const GroupForm = ({ route, navigation, group }) => {
                         }}
                     />
                 </View>
+                {!isTitleValid && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>group length > 2</Text>
+                    </View>
+                )}
                 <View style={styles.rowStyle}>
                     <Input
                         label='Location'
@@ -102,6 +157,13 @@ const GroupForm = ({ route, navigation, group }) => {
                         }}
                     />
                 </View>
+                {!setIsLocationValid && (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>
+                            location length > 2
+                        </Text>
+                    </View>
+                )}
                 <View style={styles.rowStyle}>
                     <Input
                         label='Faciliatator'
@@ -169,20 +231,14 @@ const GroupForm = ({ route, navigation, group }) => {
                     />
                 </View>
                 <View>
-                    <Button
-                        style={styles.button}
-                        onPress={() => Alert.alert('Simple Button pressed')}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 20,
-                                fontWeight: '600',
-                            }}
-                        >
-                            SAVE
-                        </Text>
-                    </Button>
+                    <CustomButton
+                        text='SAVE'
+                        bgColor='blue'
+                        fgColor='white'
+                        type='PRIMARY'
+                        enabled={isTitleValid && isLocationValid}
+                        onPress={handleFormSubmit}
+                    />
                 </View>
             </View>
         </>
@@ -197,6 +253,14 @@ const styles = StyleSheet.create({
     },
     rowStyle: {
         marginTop: 5,
+    },
+    errorContainer: {
+        marginTop: 2,
+        marginLeft: 20,
+    },
+    errorText: {
+        color: 'red',
+        fontWeight: '700',
     },
     button: {
         backgroundColor: 'blue',
