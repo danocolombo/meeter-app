@@ -24,20 +24,24 @@ const GroupForm = ({ route, group }) => {
         cofacilitator: group.cofacilitator ? group.cofacilitator : '',
         notes: group.notes ? group.notes : '',
     });
-    const [isLocationValid, setIsLocationValid] = useState(false);
-    const [isTitleValid, setIsTitleValid] = useState(false);
+    const [isLocationValid, setIsLocationValid] = useState(
+        group?.location?.length > 2 ? true : false
+    );
+    const [isTitleValid, setIsTitleValid] = useState(
+        group?.title?.length > 2 ? true : false
+    );
 
     function inputChangedHandler(inputIdentifier, enteredValue) {
         setValeus((curInputValues) => {
             if (inputIdentifier === 'title') {
-                if (enteredValue.length > 2) {
+                if (enteredValue.length < 3) {
                     setIsTitleValid(false);
                 } else {
                     setIsTitleValid(true);
                 }
             }
             if (inputIdentifier === 'location') {
-                if (enteredValue.length > 2) {
+                if (enteredValue.length < 3) {
                     setIsLocationValid(false);
                 } else {
                     setIsLocationValid(true);
@@ -59,24 +63,6 @@ const GroupForm = ({ route, group }) => {
     }
     const handleFormSubmit = () => {
         //   handle SAVE request
-        // validate the information
-
-        if (values.title.length < 3) {
-            setIsTitleValid(false);
-        } else {
-            setIsTitleValid(true);
-        }
-        if (values.location.length < 3) {
-            setIsLocationValid(false);
-        } else {
-            setIsLocationValid(true);
-        }
-        if (isTitleValid && isLocationValid) {
-            Alert.alert('VALID');
-        } else {
-            Alert.alert('NOT VALID');
-        }
-        return;
 
         dispatch(updateGroupValues(values));
         navigation.navigate('GroupDetails', {
@@ -133,7 +119,7 @@ const GroupForm = ({ route, group }) => {
                 </View>
                 {!isTitleValid && (
                     <View style={styles.errorContainer}>
-                        <Text style={styles.errorText}>group length > 2</Text>
+                        <Text style={styles.errorText}>minimum length = 3</Text>
                     </View>
                 )}
                 <View style={styles.rowStyle}>
@@ -157,11 +143,9 @@ const GroupForm = ({ route, group }) => {
                         }}
                     />
                 </View>
-                {!setIsLocationValid && (
+                {!isLocationValid && (
                     <View style={styles.errorContainer}>
-                        <Text style={styles.errorText}>
-                            location length > 2
-                        </Text>
+                        <Text style={styles.errorText}>minimum length = 3</Text>
                     </View>
                 )}
                 <View style={styles.rowStyle}>
@@ -230,7 +214,8 @@ const GroupForm = ({ route, group }) => {
                         }}
                     />
                 </View>
-                <View>
+
+                <View style={styles.buttonContainer}>
                     <CustomButton
                         text='SAVE'
                         bgColor='blue'
@@ -262,6 +247,7 @@ const styles = StyleSheet.create({
         color: 'red',
         fontWeight: '700',
     },
+    buttonContainer: { marginTop: 20, marginHorizontal: 20 },
     button: {
         backgroundColor: 'blue',
         marginHorizontal: 20,
