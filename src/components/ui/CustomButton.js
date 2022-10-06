@@ -5,6 +5,7 @@ const CustomButton = ({
     onPress,
     text,
     type = 'PRIMARY',
+    enabled = true,
     bgColor,
     fgColor,
 }) => {
@@ -28,24 +29,28 @@ const CustomButton = ({
             break;
     }
     return (
-        <Pressable
-            onPress={onPress}
-            style={[
-                styles.container,
-                styles[cStyle],
-                bgColor ? { backgroundColor: bgColor } : {},
-            ]}
-        >
-            <Text
-                style={[
-                    styles.text,
-                    styles[tStyle],
-                    fgColor ? { color: fgColor } : {},
-                ]}
-            >
-                {text}
-            </Text>
-        </Pressable>
+        <>
+            {enabled && (
+                <Pressable
+                    onPress={onPress}
+                    style={[
+                        styles.container,
+                        styles[cStyle],
+                        bgColor ? { backgroundColor: bgColor } : {},
+                    ]}
+                >
+                    <Text
+                        style={[
+                            styles.text,
+                            styles[tStyle],
+                            fgColor ? { color: fgColor } : {},
+                        ]}
+                    >
+                        {text}
+                    </Text>
+                </Pressable>
+            )}
+        </>
     );
 };
 

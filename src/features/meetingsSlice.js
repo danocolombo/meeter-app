@@ -1,6 +1,11 @@
 import { createAction, createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { printObject, getToday, getPateDate } from '../utils/helpers';
+import {
+    printObject,
+    getToday,
+    getPateDate,
+    getDateMinusDays,
+} from '../utils/helpers';
 //   this is url for all meetings
 const config = {
     headers: {
@@ -11,6 +16,7 @@ const initialState = {
     meetings: [],
     activeMeetings: [],
     historicMeetings: [],
+    groups: [],
     tmpMeeting: {},
     isLoading: false,
 };
@@ -109,11 +115,37 @@ export const meetingsSlice = createSlice({
         getMeetings: (state, action) => {
             return state.meetings;
         },
+        loadGroups: (state, action) => {
+            state.groups = action.payload;
+        },
+        getGroup: (state, action) => {
+            const grp = state.groups.filter(
+                (g) => g.meetingId === action.payload
+            );
+            return grp;
+        },
+        updateGroup: (state, action) => {
+            const newValue = action.payload;
+            // console.log('newValue:', newValue);
+            const newGroupList = state.groups.map((g) => {
+                // console.log('typeof ral:', typeof ral);
+                // console.log('typeof action.payload', typeof action.payload);
+                return g.groupId === newValue.groupId ? newValue : g;
+            });
+
+            state.meetings = newGroupList;
+            return state;
+        },
+        clearGroups: (state) => {
+            state.groups = [];
+            return state;
+        },
 
         logout: (state) => {
             state.meetings = [];
             state.activeMeetings = [];
             state.historicMeetings = [];
+            state.groups = [];
             state.tmpMeeting = {};
             return state;
         },
@@ -146,22 +178,47 @@ export const {
     deleteMeeting,
     createTmp,
     updateTmp,
+    loadGroups,
+    clearGroups,
+    updateGroup,
+    getGroup,
     logout,
 } = meetingsSlice.actions;
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-
-export const getHistoricMeetings = () => (dispatch) => {
+export const getMeetingGroups = (meetingId) => (dispatch) => {
     // this will get some remove data
+    const getData = async (meetingId) => {
+        dispatch(clearGroups());
+        let obj = {
+            operation: 'getGroupsByMeetingId',
+            payload: {
+                meetingId: meetingId,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        const results = res.data.body;
+        dispatch(loadGroups(results));
+        return results;
+    };
+    getData(meetingId);
+};
+export const getHistoricMeetings = () => (dispatch) => {
+    var d = new Date();
+    let yesterday = getDateMinusDays(d, 1);
+    let twoMonthsAgo = getDateMinusDays(d, 120);
+
     const getData = async () => {
         let obj = {
             operation: 'getMeetingsBetweenDates',
             payload: {
                 clientId: 'wbc',
-                startDate: '2022-01-01',
-                stopDate: '2022-09-30',
+                startDate: twoMonthsAgo,
+                stopDate: yesterday,
                 direction: 'DESC',
             },
         };
@@ -173,6 +230,23 @@ export const getHistoricMeetings = () => (dispatch) => {
         return;
     };
     getData();
+};
+export const updateGroupValues = (values) => (dispatch) => {
+    const saveGroupToDDB = async () => {
+        let obj = {
+            operation: 'updateGroup',
+            payload: {
+                Item: values,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        //const results = res.data.body.Items;
+        dispatch(updateGroup(values));
+        return;
+    };
+    saveGroupToDDB();
 };
 
 // The function below is called a selector and allows us to select a value from

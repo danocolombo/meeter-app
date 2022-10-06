@@ -3,19 +3,32 @@ import {
     View,
     Text,
     ImageBackground,
-    StyleSheet,
     Image,
+    StyleSheet,
     FlatList,
 } from 'react-native';
 import Constants from 'expo-constants';
 import * as Application from 'expo-application';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
+import * as SplashScreen from 'expo-splash-screen';
+import Logo from '../../assets/M-square.png';
 import CustomButton from '../components/ui/CustomButton';
 // import { Colors } from '../constants/colors';
 import { Surface, withTheme, useTheme } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
+import {
+    useFonts,
+    NotoSerifJP_200ExtraLight,
+    NotoSerifJP_300Light,
+    NotoSerifJP_400Regular,
+    NotoSerifJP_500Medium,
+    NotoSerifJP_600SemiBold,
+    NotoSerifJP_700Bold,
+    NotoSerifJP_900Black,
+} from '@expo-google-fonts/noto-serif-jp';
+
 const LandingScreen = () => {
     const mtrTheme = useTheme();
     const navigation = useNavigation();
@@ -29,29 +42,63 @@ const LandingScreen = () => {
 
     useLayoutEffect(() => {
         navigation.setOptions({
-            title: meeter.appName,
+            title: '',
         });
     }, [navigation, meeter]);
 
-    return (
-        <>
-            <Surface style={styles.welcomeSurface}>
-                <View>
-                    <Text style={mtrTheme.screenTitle}>WELCOME</Text>
-                    <Text style={mtrTheme.subTitle}>Now What?</Text>
-                </View>
-                <View>
-                    <FlatList
-                        data={activeMeetings}
-                        keyExtractor={(item) => item.meetingId}
-                        renderItem={({ item }) => (
-                            <MeetingListCard meeting={item} active={true} />
-                        )}
-                    />
-                </View>
-            </Surface>
-        </>
-    );
+    let [fontsLoaded] = useFonts({
+        NotoSerifJP_200ExtraLight,
+        NotoSerifJP_300Light,
+        NotoSerifJP_400Regular,
+        NotoSerifJP_500Medium,
+        NotoSerifJP_600SemiBold,
+        NotoSerifJP_700Bold,
+        NotoSerifJP_900Black,
+    });
+    if (!fontsLoaded) {
+        // Keep the splash screen visible while we fetch resources
+        SplashScreen.preventAutoHideAsync();
+    } else {
+        return (
+            <>
+                <Surface style={styles.welcomeSurface}>
+                    <View style={{ marginTop: 20 }}>
+                        <Text style={mtrTheme.screenTitle}>WELCOME</Text>
+                    </View>
+                    <View style={{ alignItems: 'center', marginTop: 30 }}>
+                        <Image style={styles.logo} source={Logo} />
+                    </View>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text
+                            style={{
+                                fontFamily: 'NotoSerifJP_700Bold',
+                                fontSize: 40,
+                                color: mtrTheme.colors.landingAppName,
+                            }}
+                        >
+                            MEETER
+                        </Text>
+                    </View>
+
+                    {activeMeetings.length > 0 && (
+                        <>
+                            <View style={{ marginTop: 10 }}>
+                                <Text style={styles.announcement}>
+                                    Next Meeting...
+                                </Text>
+                            </View>
+                            <View style={{ marginHorizontal: 20 }}>
+                                <MeetingListCard
+                                    meeting={activeMeetings[0]}
+                                    active={true}
+                                />
+                            </View>
+                        </>
+                    )}
+                </Surface>
+            </>
+        );
+    }
 };
 export default withTheme(LandingScreen);
 const styles = StyleSheet.create({
@@ -60,6 +107,10 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         alignItems: 'center',
+    },
+    logo: {
+        width: 240,
+        height: 124,
     },
     heroImageContainer: {
         // flexDirection: 'column',
@@ -85,9 +136,12 @@ const styles = StyleSheet.create({
         // color: 'white',
         textAlign: 'center',
     },
-    subTitle: {
+    announcement: {
+        marginTop: 20,
+        color: 'white',
         fontSize: 18,
-        fontWeight: '600',
+        fontWeight: '400',
+        textAlign: 'center',
         // color: 'white',
     },
     affiliateHeader: {
