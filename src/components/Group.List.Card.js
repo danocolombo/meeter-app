@@ -57,6 +57,13 @@ const GroupListCard = ({ group }) => {
                                             Men's {group.title}
                                         </Text>
                                     )}
+                                    {group.gender === 'x' && (
+                                        <Text
+                                            style={mtrTheme.groupListCardTitle}
+                                        >
+                                            {group.title}
+                                        </Text>
+                                    )}
                                 </View>
                                 {group.location && (
                                     <View>

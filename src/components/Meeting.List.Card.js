@@ -19,11 +19,11 @@ const MeetingListCard = ({ meeting, active }) => {
     }
     return (
         <>
-            <Pressable
-                onPress={meetingPressHandler}
-                style={({ pressed }) => pressed && styles.pressed}
-            >
-                <View style={styles.rootContainer}>
+            <View style={styles.rootContainer}>
+                <Pressable
+                    onPress={meetingPressHandler}
+                    style={({ pressed }) => pressed && styles.pressed}
+                >
                     <View
                         style={[
                             styles.meetingItem,
@@ -35,7 +35,7 @@ const MeetingListCard = ({ meeting, active }) => {
                     >
                         <View style={styles.firstRow}>
                             {Platform.OS === 'ios' && (
-                                <View style={{ padding: 5 }}>
+                                <View>
                                     <DateBall
                                         date={meeting.meetingDate}
                                         style={
@@ -131,8 +131,8 @@ const MeetingListCard = ({ meeting, active }) => {
                             </View>
                         </View>
                     </View>
-                </View>
-            </Pressable>
+                </Pressable>
+            </View>
         </>
     );
 };
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         opacity: 0.75,
     },
     rootContainer: {
-        marginHorizontal: 5,
+        marginHorizontal: 10,
     },
     meetingItem: {
         marginVertical: 5,

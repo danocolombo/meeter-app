@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import {
+    View,
+    Text,
+    ImageBackground,
+    StyleSheet,
+    Image,
+    ScrollView,
+} from 'react-native';
 import Constants from 'expo-constants';
 import * as Application from 'expo-application';
 import { useSelector, useDispatch } from 'react-redux';
@@ -30,45 +37,47 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
     }, [navigation, group]);
     return (
         <>
-            <Surface style={styles.surface}>
-                <View
-                    style={{
-                        width: '95%',
-                        height: '100%',
-
-                        backgroundColor: 'white',
-                    }}
-                >
+            <ScrollView>
+                <Surface style={styles.surface}>
                     <View
                         style={{
-                            margin: 4,
-                            borderWidth: 1,
-                            boderColor: 'black',
-                            width: 'auto',
+                            width: '95%',
                             height: '100%',
+
+                            backgroundColor: 'white',
                         }}
                     >
                         <View
                             style={{
-                                margin: 2,
+                                margin: 4,
                                 borderWidth: 1,
                                 boderColor: 'black',
                                 width: 'auto',
                                 height: '100%',
                             }}
                         >
-                            <View>
-                                <Text style={mtrTheme.editScreenTitle}>
-                                    GROUP DETAILS
-                                </Text>
-                            </View>
-                            <View>
-                                <GroupForm group={group} />
+                            <View
+                                style={{
+                                    margin: 2,
+                                    borderWidth: 1,
+                                    boderColor: 'black',
+                                    width: 'auto',
+                                    height: '100%',
+                                }}
+                            >
+                                <View>
+                                    <Text style={mtrTheme.editScreenTitle}>
+                                        GROUP DETAILS
+                                    </Text>
+                                </View>
+                                <View>
+                                    <GroupForm group={group} />
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-            </Surface>
+                </Surface>
+            </ScrollView>
         </>
     );
 };

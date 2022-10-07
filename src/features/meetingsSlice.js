@@ -124,6 +124,13 @@ export const meetingsSlice = createSlice({
             );
             return grp;
         },
+        deleteGroup: (state, action) => {
+            const smaller = state.groups.filter(
+                (m) => m.groupId !== action.payload.groupId
+            );
+            state.groups = smaller;
+            return state;
+        },
         updateGroup: (state, action) => {
             const newValue = action.payload;
             // console.log('newValue:', newValue);
@@ -179,6 +186,7 @@ export const {
     createTmp,
     updateTmp,
     loadGroups,
+    deleteGroup,
     clearGroups,
     updateGroup,
     getGroup,
@@ -247,6 +255,25 @@ export const updateGroupValues = (values) => (dispatch) => {
         return;
     };
     saveGroupToDDB();
+};
+export const deleteGroupEntry = (groupId) => {
+    const deleteGroupFromDDB = async () => {
+        let obj = {
+            operation: 'deleteGroup',
+            payload: {
+                Key: {
+                    groupId: groupId,
+                },
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        //const results = res.data.body.Items;
+        dispatch(deleteGroup(groupId));
+        return;
+    };
+    deleteGroupFromDDB();
 };
 
 // The function below is called a selector and allows us to select a value from
