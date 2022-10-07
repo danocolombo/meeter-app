@@ -23,6 +23,7 @@ import { Style } from 'domelementtype';
 import GroupForm from '../components/GroupForm';
 const GroupDetailsEditScreen = ({ route, navigation }) => {
     const group = route.params.group;
+    const meeting = route.params.meeting;
     const mtrTheme = useTheme();
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -71,7 +72,10 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
                                     </Text>
                                 </View>
                                 <View>
-                                    <GroupForm group={group} />
+                                    <GroupForm
+                                        group={group}
+                                        meeting={meeting}
+                                    />
                                 </View>
                             </View>
                         </View>

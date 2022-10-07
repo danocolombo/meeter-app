@@ -11,6 +11,9 @@ const GroupList = ({ meetingId }) => {
     const [isLoading, setIsLoadiing] = useState(true);
     const dispatch = useDispatch();
     const mtrTheme = useTheme();
+    const meeting = useSelector((state) =>
+        state.meetings.meetings.filter((m) => m.meetingId === meetingId)
+    );
     const groups = useSelector((state) => state.meetings.groups);
 
     useEffect(() => {
@@ -23,20 +26,17 @@ const GroupList = ({ meetingId }) => {
     if (isLoading) {
         return <ActivityIndicator color={mtrTheme.colors.accent} size={40} />;
     }
+    printObject('GL:29-->meeting', meeting);
     return (
         <>
             {groups.length > 0 && (
                 <FlatList
-                    LisHeaderComponent={
-                        <>
-                            <View>
-                                <Text>Existing Groups</Text>
-                            </View>
-                        </>
-                    }
                     data={groups}
                     keyExtractor={(item) => item.groupId}
-                    renderItem={({ item }) => <GroupListCard group={item} />}
+                    persistentScrollbar={true}
+                    renderItem={({ item }) => (
+                        <GroupListCard group={item} meeting={meeting} />
+                    )}
                     ListFooterComponent={<></>}
                 />
             )}

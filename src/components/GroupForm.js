@@ -8,7 +8,7 @@ import CustomButton from './ui/CustomButton';
 import NumberInput from './ui/NumberInput/NumberInput';
 import { printObject } from '../utils/helpers';
 import { updateGroupValues } from '../features/meetingsSlice';
-const GroupForm = ({ route, group }) => {
+const GroupForm = ({ route, group, meeting }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const meeter = useSelector((state) => state.system);
@@ -65,8 +65,8 @@ const GroupForm = ({ route, group }) => {
         //   handle SAVE request
 
         dispatch(updateGroupValues(values));
-        navigation.navigate('GroupDetails', {
-            group: values,
+        navigation.navigate('MeetingDetails', {
+            meeting: meeting,
         });
     };
     const inputStyle = {

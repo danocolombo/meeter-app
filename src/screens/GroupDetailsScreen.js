@@ -24,6 +24,7 @@ import MeetingCardDate from '../components/ui/Meeting.Card.Date';
 import { Style } from 'domelementtype';
 const GroupDetailsScreen = ({ route, navigation }) => {
     const group = route.params.group;
+    const meeting = route.params.meeting;
     const mtrTheme = useTheme();
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const GroupDetailsScreen = ({ route, navigation }) => {
                     onPress={() =>
                         navigation.navigate('GroupEdit', {
                             group: group,
+                            meeting: meeting,
                         })
                     }
                     color={'white'}

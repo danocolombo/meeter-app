@@ -3,7 +3,7 @@ import React from 'react';
 import { useTheme, withTheme, Surface, Badge } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { printObject } from '../utils/helpers';
-const GroupListCard = ({ group }) => {
+const GroupListCard = ({ group, meeting }) => {
     const navigation = useNavigation();
     const mtrTheme = useTheme();
     function groupPressHandler() {
@@ -11,6 +11,7 @@ const GroupListCard = ({ group }) => {
 
         navigation.navigate('GroupDetails', {
             group: group,
+            meeting: meeting,
         });
     }
     return (
