@@ -14,6 +14,7 @@ const GroupListCard = ({ group, meeting }) => {
             meeting: meeting,
         });
     }
+
     return (
         <>
             <Pressable

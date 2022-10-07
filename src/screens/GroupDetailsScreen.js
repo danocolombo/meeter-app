@@ -59,8 +59,9 @@ const GroupDetailsScreen = ({ route, navigation }) => {
     };
     const handleConfirmDelete = () => {
         dispatch(deleteGroupEntry(group.groupId));
+        navigation.navigate('MeetingDetails', { meeting, meeting });
     };
-    // printObject('GDS:49-->group:', group);
+    // printObject('GDS:63-->meeting', meeting);
     return (
         <>
             <View style={{ flex: 1 }}>

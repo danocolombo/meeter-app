@@ -133,13 +133,17 @@ export const meetingsSlice = createSlice({
         },
         updateGroup: (state, action) => {
             const newValue = action.payload;
-            // console.log('newValue:', newValue);
+
+            // printObject('newValue:', newValue);
             const newGroupList = state.groups.map((g) => {
                 // console.log('typeof ral:', typeof ral);
                 // console.log('typeof action.payload', typeof action.payload);
+
+                console.log('g.groupId', g.groupId);
+                console.log('newValue.groupId', newValue.groupId);
                 return g.groupId === newValue.groupId ? newValue : g;
             });
-
+            printObject('newGroupList:', newGroupList);
             state.meetings = newGroupList;
             return state;
         },

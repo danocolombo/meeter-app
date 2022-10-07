@@ -36,6 +36,7 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
             headerBackTitle: 'Cancel',
         });
     }, [navigation, group]);
+    //printObject('GDES:39-->meeting:', meeting);
     return (
         <>
             <ScrollView>

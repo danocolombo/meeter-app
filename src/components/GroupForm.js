@@ -76,7 +76,7 @@ const GroupForm = ({ route, group, meeting }) => {
         color: 'black',
         marginHorizontal: 10,
     };
-    // printObject('GF:50-->values', values);
+    //printObject('GF:79-->meeting', meeting);
     return (
         <>
             <View style={styles.formContainer}>

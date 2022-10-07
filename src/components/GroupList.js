@@ -11,22 +11,37 @@ const GroupList = ({ meetingId }) => {
     const [isLoading, setIsLoadiing] = useState(true);
     const dispatch = useDispatch();
     const mtrTheme = useTheme();
-    const meeting = useSelector((state) =>
-        state.meetings.meetings.filter((m) => m.meetingId === meetingId)
+    const [meeting, setMeeting] = useState({});
+    const historicMeetings = useSelector((state) =>
+        state.meetings.historicMeetings.filter((m) => m.meetingId === meetingId)
     );
+    const activeMeetings = useSelector((state) =>
+        state.meetings.activeMeetings.filter((m) => m.meetingId === meetingId)
+    );
+
     const groups = useSelector((state) => state.meetings.groups);
 
     useEffect(() => {
         //check for groups
         dispatch(clearGroups());
         const groups = dispatch(getMeetingGroups(meetingId));
+        const count = historicMeetings.filter(
+            (item) => item.meetingId !== '0'
+        ).length;
+        if (count) {
+            setMeeting(historicMeetings[0]);
+        } else {
+            setMeeting(activeMeetings[0]);
+        }
         // setGroups(groups);
+        //get meeting, majority of time, we are getting historic so check that first
+
         setIsLoadiing(false);
     }, []);
     if (isLoading) {
         return <ActivityIndicator color={mtrTheme.colors.accent} size={40} />;
     }
-    printObject('GL:29-->meeting', meeting);
+
     return (
         <>
             {groups.length > 0 && (
