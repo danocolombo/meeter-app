@@ -76,7 +76,8 @@ const theme = {
         fontWeight: '700',
         color: darkText,
         textAlign: 'center',
-        paddingTop: 20,
+        marginTop: 5,
+        // paddingTop: 20,
     },
     subTitle: {
         fontSize: 24,
@@ -112,24 +113,27 @@ const theme = {
     groupCardDetailsLabel: {
         fontSize: 26,
         paddingLeft: 0,
-        fontWeight: '600',
+        fontWeight: '400',
         textAlign: 'left',
         letterSpacing: 0.5,
         color: lightText,
     },
     groupCardDetailsData: {
         fontSize: 26,
-        fontWeight: '400',
-        paddingLeft: 10,
+        fontWeight: '200',
+        paddingHorizontal: 5,
         color: lightText,
     },
     groupCardTopRow: {
         flexDirection: 'row',
         marginTop: 30,
+        marginHorizontal: 5,
+        alignItems: 'center',
     },
     groupCardRow: {
         flexDirection: 'row',
         marginTop: 10,
+        marginHorizontal: 5,
     },
     groupDetailsAttendanceBadge: {
         backgroundColor: lightColor,
@@ -223,12 +227,12 @@ const theme = {
     },
     detailsRowLabel: {
         color: lightText,
-        fontSize: 30,
+        fontSize: 24,
         fontWeight: '600',
     },
     detailsRowValue: {
         color: lightText,
-        fontSize: 28,
+        fontSize: 24,
         padding: 10,
     },
     detailsBadge: {

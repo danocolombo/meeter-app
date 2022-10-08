@@ -124,15 +124,37 @@ export const meetingsSlice = createSlice({
             );
             return grp;
         },
+        addNewGroup: (state, action) => {
+            let grps = state.groups;
+            grps.push(action.payload);
+            function asc_sort(a, b) {
+                return a.gender - b.gender;
+            }
+            let newBigger = grps.sort(asc_sort);
+            state.groups = newBigger;
+            // return
+            return state;
+        },
+        deleteGroup: (state, action) => {
+            const smaller = state.groups.filter(
+                (m) => m.groupId !== action.payload.groupId
+            );
+            state.groups = smaller;
+            return state;
+        },
         updateGroup: (state, action) => {
             const newValue = action.payload;
-            // console.log('newValue:', newValue);
+
+            // printObject('newValue:', newValue);
             const newGroupList = state.groups.map((g) => {
                 // console.log('typeof ral:', typeof ral);
                 // console.log('typeof action.payload', typeof action.payload);
+
+                console.log('g.groupId', g.groupId);
+                console.log('newValue.groupId', newValue.groupId);
                 return g.groupId === newValue.groupId ? newValue : g;
             });
-
+            printObject('newGroupList:', newGroupList);
             state.meetings = newGroupList;
             return state;
         },
@@ -179,7 +201,9 @@ export const {
     createTmp,
     updateTmp,
     loadGroups,
+    deleteGroup,
     clearGroups,
+    addNewGroup,
     updateGroup,
     getGroup,
     logout,
@@ -247,6 +271,45 @@ export const updateGroupValues = (values) => (dispatch) => {
         return;
     };
     saveGroupToDDB();
+};
+export const addGroupValues = (values) => (dispatch) => {
+    //   this is NEW group
+    const saveGroupToDDB = async () => {
+        let obj = {
+            operation: 'addGroup',
+            payload: {
+                Item: values,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        // now take the response that has GroupId and save to redux
+        printObject('MS:288-->res', res);
+        const results = res.data.Item;
+        dispatch(addNewGroup(results));
+        return;
+    };
+    saveGroupToDDB();
+};
+export const deleteGroupEntry = (groupId) => (dispatch) => {
+    const deleteGroupFromDDB = async () => {
+        let obj = {
+            operation: 'deleteGroup',
+            payload: {
+                Key: {
+                    groupId: groupId,
+                },
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/groups';
+        let res = await axios.post(api2use, body, config);
+        //const results = res.data.body.Items;
+        dispatch(deleteGroup(groupId));
+        return;
+    };
+    deleteGroupFromDDB();
 };
 
 // The function below is called a selector and allows us to select a value from

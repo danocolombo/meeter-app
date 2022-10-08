@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Text, ImageBackground, StyleSheet, Image } from 'react-native';
+import {
+    View,
+    Text,
+    ImageBackground,
+    StyleSheet,
+    Image,
+    ScrollView,
+} from 'react-native';
 import Constants from 'expo-constants';
 import * as Application from 'expo-application';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,6 +23,7 @@ import { Style } from 'domelementtype';
 import GroupForm from '../components/GroupForm';
 const GroupDetailsEditScreen = ({ route, navigation }) => {
     const group = route.params.group;
+    const meeting = route.params.meeting;
     const mtrTheme = useTheme();
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -28,47 +36,53 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
             headerBackTitle: 'Cancel',
         });
     }, [navigation, group]);
+    //printObject('GDES:39-->meeting:', meeting);
     return (
         <>
-            <Surface style={styles.surface}>
-                <View
-                    style={{
-                        width: '95%',
-                        height: '100%',
-
-                        backgroundColor: 'white',
-                    }}
-                >
+            <ScrollView>
+                <Surface style={styles.surface}>
                     <View
                         style={{
-                            margin: 4,
-                            borderWidth: 1,
-                            boderColor: 'black',
-                            width: 'auto',
+                            width: '95%',
                             height: '100%',
+
+                            backgroundColor: 'white',
                         }}
                     >
                         <View
                             style={{
-                                margin: 2,
+                                margin: 4,
                                 borderWidth: 1,
                                 boderColor: 'black',
                                 width: 'auto',
                                 height: '100%',
                             }}
                         >
-                            <View>
-                                <Text style={mtrTheme.editScreenTitle}>
-                                    GROUP DETAILS
-                                </Text>
-                            </View>
-                            <View>
-                                <GroupForm group={group} />
+                            <View
+                                style={{
+                                    margin: 2,
+                                    borderWidth: 1,
+                                    boderColor: 'black',
+                                    width: 'auto',
+                                    height: '100%',
+                                }}
+                            >
+                                <View>
+                                    <Text style={mtrTheme.editScreenTitle}>
+                                        GROUP DETAILS
+                                    </Text>
+                                </View>
+                                <View>
+                                    <GroupForm
+                                        group={group}
+                                        meeting={meeting}
+                                    />
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-            </Surface>
+                </Surface>
+            </ScrollView>
         </>
     );
 };

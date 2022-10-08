@@ -7,16 +7,17 @@ import GenderSelectors from './GenderSelectors';
 import CustomButton from './ui/CustomButton';
 import NumberInput from './ui/NumberInput/NumberInput';
 import { printObject } from '../utils/helpers';
-import { updateGroupValues } from '../features/meetingsSlice';
-const GroupForm = ({ route, group }) => {
+import { updateGroupValues, addGroupValues } from '../features/meetingsSlice';
+const GroupForm = ({ route, group, meeting }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const meeter = useSelector((state) => state.system);
     printObject('GF:11-->group', group);
+    printObject('GF:16-->meeting:,', meeting);
     const [values, setValeus] = useState({
-        meetingId: group.meetingId,
-        groupId: group.groupId,
-        gender: group.gender,
+        meetingId: meeting.meetingId,
+        groupId: group.groupId ? group.id : '0',
+        gender: group.gender ? group.gender : 'x',
         title: group.title ? group.title : '',
         attendance: group.attendance ? group.attendance : '0',
         location: group.location ? group.location : '',
@@ -63,10 +64,15 @@ const GroupForm = ({ route, group }) => {
     }
     const handleFormSubmit = () => {
         //   handle SAVE request
-
-        dispatch(updateGroupValues(values));
-        navigation.navigate('GroupDetails', {
-            group: values,
+        if (values.groupId === undefined) {
+            console.log('yep');
+            values.groupId = 0;
+            dispatch(addGroupValues(values));
+        } else {
+            dispatch(updateGroupValues(values));
+        }
+        navigation.navigate('MeetingDetails', {
+            meeting: meeting,
         });
     };
     const inputStyle = {
@@ -76,7 +82,7 @@ const GroupForm = ({ route, group }) => {
         color: 'black',
         marginHorizontal: 10,
     };
-    printObject('GF:50-->values', values);
+    //printObject('GF:79-->meeting', meeting);
     return (
         <>
             <View style={styles.formContainer}>
@@ -103,13 +109,14 @@ const GroupForm = ({ route, group }) => {
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             value: values.title,
-                            padding: 10,
+                            paddingHorizontal: 10,
                             fontSize: 24,
                             color: 'black',
                             marginHorizontal: 20,
                             placeholder: 'Group Title',
                             style: { color: 'white' },
-                            fontWeight: '600',
+                            fontWeight: '500',
+                            letterSpacing: 0,
                             onChangeText: inputChangedHandler.bind(
                                 this,
                                 'title'
@@ -127,7 +134,7 @@ const GroupForm = ({ route, group }) => {
                         label='Location'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
-                            padding: 10,
+                            paddingHorizontal: 10,
                             value: values.location,
                             fontSize: 24,
                             color: 'black',
@@ -135,7 +142,8 @@ const GroupForm = ({ route, group }) => {
                             marginHorizontal: 20,
                             placeholder: 'where was group?',
                             style: { color: 'white' },
-                            fontWeight: '600',
+                            fontWeight: '500',
+                            letterSpacing: 0,
                             onChangeText: inputChangedHandler.bind(
                                 this,
                                 'location'
@@ -153,7 +161,7 @@ const GroupForm = ({ route, group }) => {
                         label='Faciliatator'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
-                            padding: 10,
+                            paddingHorizontal: 10,
                             fontSize: 24,
                             value: values.facilitator,
                             color: 'black',
@@ -161,7 +169,8 @@ const GroupForm = ({ route, group }) => {
                             marginHorizontal: 20,
                             placeholder: 'who facilitated?',
                             style: { color: 'white' },
-                            fontWeight: '600',
+                            fontWeight: '500',
+                            letterSpacing: 0,
                             onChangeText: inputChangedHandler.bind(
                                 this,
                                 'facilitator'
@@ -174,7 +183,7 @@ const GroupForm = ({ route, group }) => {
                         label='Co-Faciliatator'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
-                            padding: 10,
+                            paddingHorizontal: 10,
                             fontSize: 24,
                             value: values.cofacilitator,
                             color: 'black',
@@ -182,7 +191,8 @@ const GroupForm = ({ route, group }) => {
                             marginHorizontal: 20,
                             placeholder: 'who co-facilitated?',
                             style: { color: 'white' },
-                            fontWeight: '600',
+                            fontWeight: '500',
+                            letterSpacing: 0,
                             onChangeText: inputChangedHandler.bind(
                                 this,
                                 'cofacilitator'
@@ -195,7 +205,7 @@ const GroupForm = ({ route, group }) => {
                         label='Notes'
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
-                            padding: 10,
+                            paddingHorizontal: 10,
                             fontSize: 24,
                             color: 'black',
                             value: values.notes,
@@ -204,7 +214,8 @@ const GroupForm = ({ route, group }) => {
                             marginHorizontal: 20,
                             placeholder: '',
                             style: { color: 'white' },
-                            fontWeight: '600',
+                            fontWeight: '500',
+                            letterSpacing: 0,
                             multiline: true,
                             minHeight: 100,
                             onChangeText: inputChangedHandler.bind(
@@ -234,7 +245,7 @@ export default GroupForm;
 
 const styles = StyleSheet.create({
     formContainer: {
-        marginTop: 10,
+        //marginTop: 10,
     },
     rowStyle: {
         marginTop: 5,
@@ -247,7 +258,7 @@ const styles = StyleSheet.create({
         color: 'red',
         fontWeight: '700',
     },
-    buttonContainer: { marginTop: 20, marginHorizontal: 20 },
+    buttonContainer: { marginTop: 10, marginHorizontal: 20 },
     button: {
         backgroundColor: 'blue',
         marginHorizontal: 20,

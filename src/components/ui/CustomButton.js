@@ -24,7 +24,14 @@ const CustomButton = ({
             cStyle = 'container_TERTIARY';
             tStyle = 'text_TERTIARY';
             break;
-
+        case 'DELETE':
+            cStyle = 'container_DELETE';
+            tStyle = 'text_DELETE';
+            break;
+        case 'CANCEL':
+            cStyle = 'container_CANCEL';
+            tStyle = 'text_CANCEL';
+            break;
         default:
             break;
     }
@@ -71,15 +78,29 @@ const styles = StyleSheet.create({
         borderColor: '#3b71f3',
         borderWidth: 2,
     },
+    container_CANCEL: {
+        background: 'lightgrey',
+    },
+    container_DELETE: {},
     container_TERTIARY: {},
     text: {
         color: 'white',
-        fontWeight: 'bold',
+        fontWeight: '700',
     },
     text_TERTIARY: {
         color: 'gray',
     },
     text_SECONDARY: {
         color: '#3b71f3',
+    },
+    text_DELETE: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: '600',
+    },
+    text_CANCEL: {
+        color: 'black',
+        fontWeight: '600',
+        fontSize: 20,
     },
 });
