@@ -180,6 +180,7 @@ const MeetingDetails = ({ route }) => {
                                             attendance: '0',
                                             gender: 'x',
                                         },
+                                        meeting: meeting,
                                     })
                                 }
                                 style={({ pressed }) =>

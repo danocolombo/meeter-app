@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
 import {
     View,
     Text,
@@ -52,20 +52,27 @@ const GroupDetailsScreen = ({ route, navigation }) => {
         });
     }, [navigation, meeter]);
     const handleDeleteClick = () => {
+        dispatch(deleteGroupEntry(group.groupId));
+        navigation.navigate('MeetingDetails', { meeting, meeting });
+    };
+    const WAShandleDeleteClick = () => {
         setShowConfirmDelete(true);
     };
     const handleConfirmCancel = () => {
         setShowConfirmDelete(false);
     };
     const handleConfirmDelete = () => {
+        setShowConfirmDelete(false);
         dispatch(deleteGroupEntry(group.groupId));
+        //     setShowConfirmDelete(false);
         navigation.navigate('MeetingDetails', { meeting, meeting });
     };
     // printObject('GDS:63-->meeting', meeting);
     return (
         <>
             <View style={{ flex: 1 }}>
-                <Modal visible={showConfirmDelete} animationStyle='slide'>
+                {/* <Modal visible={showConfirmDelete} animationStyle='slide'> */}
+                <Modal visible={showConfirmDelete}>
                     <Surface
                         style={[styles.surfaceContainer, { marginTop: 70 }]}
                     >
@@ -82,6 +89,9 @@ const GroupDetailsScreen = ({ route, navigation }) => {
                         <View
                             style={{
                                 marginVertical: 20,
+                                marginHorizontal: 30,
+                                borderRadius: 20,
+
                                 backgroundColor: mtrTheme.colors.accent,
                                 alignItems: 'center',
                             }}

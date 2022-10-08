@@ -7,16 +7,17 @@ import GenderSelectors from './GenderSelectors';
 import CustomButton from './ui/CustomButton';
 import NumberInput from './ui/NumberInput/NumberInput';
 import { printObject } from '../utils/helpers';
-import { updateGroupValues } from '../features/meetingsSlice';
+import { updateGroupValues, addGroupValues } from '../features/meetingsSlice';
 const GroupForm = ({ route, group, meeting }) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const meeter = useSelector((state) => state.system);
-    // printObject('GF:11-->group', group);
+    printObject('GF:11-->group', group);
+    printObject('GF:16-->meeting:,', meeting);
     const [values, setValeus] = useState({
-        meetingId: group.meetingId,
-        groupId: group.groupId,
-        gender: group.gender,
+        meetingId: meeting.meetingId,
+        groupId: group.groupId ? group.id : '0',
+        gender: group.gender ? group.gender : 'x',
         title: group.title ? group.title : '',
         attendance: group.attendance ? group.attendance : '0',
         location: group.location ? group.location : '',
@@ -63,8 +64,13 @@ const GroupForm = ({ route, group, meeting }) => {
     }
     const handleFormSubmit = () => {
         //   handle SAVE request
-
-        dispatch(updateGroupValues(values));
+        if (values.groupId === undefined) {
+            console.log('yep');
+            values.groupId = 0;
+            dispatch(addGroupValues(values));
+        } else {
+            dispatch(updateGroupValues(values));
+        }
         navigation.navigate('MeetingDetails', {
             meeting: meeting,
         });
