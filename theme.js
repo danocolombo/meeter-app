@@ -106,6 +106,9 @@ const theme = {
     navButtonLight: {
         color: 'white',
     },
+    navButtonPrimary: {
+        color: '#293462',
+    },
     //   GROUP DETAILS CARD
     groupCardPrimary: {
         backgroundColor: primaryColor,

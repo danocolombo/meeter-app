@@ -298,12 +298,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         </View>
                     </View>
                 )}
-                <View styles={styles.row}>
-                    <Button
-                        title='DATE'
-                        onPress={() => setModalMeetingDateVisible(true)}
-                    />
-                </View>
+
                 <DateTimePickerModal
                     isVisible={modalMeetingDateVisible}
                     date={meetingDate}

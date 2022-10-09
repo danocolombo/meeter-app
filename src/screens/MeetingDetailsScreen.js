@@ -37,6 +37,10 @@ const MeetingDetails = ({ route }) => {
     // determin if active or historic
     const historic = isDateDashBeforeToday(meeting.meetingDate);
     useLayoutEffect(() => {
+        let headerLabelColor = '';
+        if (Platform.OS === 'ios') {
+            headerLabelColor = 'white';
+        }
         navigation.setOptions({
             title: meeter.appName,
             headerBackTitle: 'Back',
@@ -47,8 +51,8 @@ const MeetingDetails = ({ route }) => {
                             meeting: meeting,
                         })
                     }
-                    color={'white'}
-                    // color={mtrTheme.navButtonLight}
+                    // color='red'
+                    color={headerLabelColor}
                     title='Edit'
                 />
             ),
