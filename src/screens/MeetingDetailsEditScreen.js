@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import { getMeetingGroups, clearGroups } from '../features/meetingsSlice';
 import GroupList from '../components/GroupList';
-
+import NumberInput from '../components/ui/NumberInput/NumberInput';
 import DateBall from '../components/ui/DateBall';
 import DateStack from '../components/ui/DateStack';
 import { Surface, withTheme, useTheme, Badge } from 'react-native-paper';
@@ -300,13 +300,24 @@ const MeetingDetailsEditScreen = ({ route }) => {
                             />
                         </Text>
                     </View>
-                    {historic && (
-                        <View style={{ marginLeft: 'auto', padding: 10 }}>
-                            <Badge size={30} style={mtrTheme.detailsBadge}>
-                                {meeting.mealCount}
-                            </Badge>
-                        </View>
-                    )}
+
+                    <View style={{ marginLeft: 'auto', padding: 10 }}>
+                        <NumberInput
+                            numberStyle={{
+                                color: 'white',
+                                borderColor: 'white',
+                            }}
+                            graphicStyle={{
+                                color: 'white',
+                                borderColor: 'white',
+                            }}
+                            value={values.mealCount}
+                            onAction={inputChangedHandler.bind(
+                                this,
+                                'mealCount'
+                            )}
+                        />
+                    </View>
                 </View>
 
                 {historic && (
