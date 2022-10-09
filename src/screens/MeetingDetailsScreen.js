@@ -3,6 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
+    Button,
     TouchableOpacity,
     Platform,
 } from 'react-native';
@@ -38,6 +39,19 @@ const MeetingDetails = ({ route }) => {
     useLayoutEffect(() => {
         navigation.setOptions({
             title: meeter.appName,
+            headerBackTitle: 'Back',
+            headerRight: () => (
+                <Button
+                    onPress={() =>
+                        navigation.navigate('MeetingEdit', {
+                            meeting: meeting,
+                        })
+                    }
+                    color={'white'}
+                    // color={mtrTheme.navButtonLight}
+                    title='Edit'
+                />
+            ),
         });
     }, [navigation, meeter]);
 
