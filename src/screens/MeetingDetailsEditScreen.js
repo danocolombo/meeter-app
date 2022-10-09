@@ -94,6 +94,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
         meetingType: meeting.meetingType ? meeting.meetingType : '',
         title: meeting.title ? meeting.title : '',
     });
+    const [isTitleValid, setIsTitleValid] = useState(true);
     function inputChangedHandler(inputIdentifier, enteredValue) {
         setValues((curInputValues) => {
             if (inputIdentifier === 'title') {
@@ -220,31 +221,53 @@ const MeetingDetailsEditScreen = ({ route }) => {
                             {meeting.meetingType === 'Lesson' && (
                                 <Input
                                     label='Lesson'
+                                    labelColor='white'
                                     textInputConfig={{
                                         backgroundColor: 'lightgrey',
                                         value: values.title,
-                                        paddingHorizontal: 10,
+                                        paddingHorizontal: 1,
                                         fontSize: 24,
                                         color: 'black',
-                                        marginHorizontal: 20,
+                                        marginHorizontal: 10,
                                         placeholder: 'Lesson Title',
-                                        style: { color: 'white' },
-                                        fontWeight: '500',
+                                        // style: { color: 'white' },
+                                        fontWeight: '300',
                                         letterSpacing: 0,
                                         onChangeText: inputChangedHandler.bind(
                                             this,
-                                            'meetingTitle'
+                                            'title'
                                         ),
                                     }}
                                 />
                             )}
-                            <View style={{ alignContent: 'flex-start' }}>
+                            {meeting.supportContact && (
+                                <Input
+                                    label='Contact'
+                                    labelColor='white'
+                                    textInputConfig={{
+                                        backgroundColor: 'lightgrey',
+                                        value: values.supportContact,
+                                        paddingHorizontal: 1,
+                                        fontSize: 24,
+                                        color: 'black',
+                                        marginHorizontal: 10,
+                                        placeholder: 'Contact',
+                                        fontWeight: '300',
+                                        letterSpacing: 0,
+                                        onChangeText: inputChangedHandler.bind(
+                                            this,
+                                            'supportContact'
+                                        ),
+                                    }}
+                                />
+                            )}
+                            {/* <View style={{ alignContent: 'flex-start' }}>
                                 <Text style={mtrTheme.detailsTitle}>
                                     {meeting.meetingType === 'Lesson'
                                         ? meeting.supportContact
                                         : meeting.title}
                                 </Text>
-                            </View>
+                            </View> */}
                         </View>
                     </View>
                 </View>
@@ -256,7 +279,25 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                     <View style={{ marginHorizontal: 2 }}>
                         <Text style={mtrTheme.detailsRowValue}>
-                            {meeting.meal === '' ? 'TBD' : meeting.meal}
+                            <Input
+                                label='Contact'
+                                labelColor=''
+                                textInputConfig={{
+                                    backgroundColor: 'lightgrey',
+                                    value: values.meal,
+                                    paddingHorizontal: 1,
+                                    fontSize: 24,
+                                    color: 'black',
+                                    marginHorizontal: 10,
+                                    placeholder: 'Meal',
+                                    fontWeight: '300',
+                                    letterSpacing: 0,
+                                    onChangeText: inputChangedHandler.bind(
+                                        this,
+                                        'meal'
+                                    ),
+                                }}
+                            />
                         </Text>
                     </View>
                     {historic && (

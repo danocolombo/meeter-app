@@ -68,15 +68,15 @@ const LandingScreen = () => {
                     <View style={{ alignItems: 'center', marginTop: 30 }}>
                         <Image style={styles.logo} source={Logo} />
                     </View>
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{ marginTop: 10, alignItems: 'center' }}>
                         <Text
                             style={{
                                 fontFamily: 'NotoSerifJP_700Bold',
-                                fontSize: 40,
+                                fontSize: 20,
                                 color: mtrTheme.colors.landingAppName,
                             }}
                         >
-                            MEETER
+                            {meeter.affiliateTitle}
                         </Text>
                     </View>
 
