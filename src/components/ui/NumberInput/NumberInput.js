@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { RoundedButton } from './RoundedButton';
 import { useTheme } from 'react-native-paper';
 function NumberInput({ value, numberStyle, graphicStyle, onAction }) {
     const mtrTheme = useTheme();
     const inputStyles = [styles.input];
+    const [gsStyle, setGsStyle] = useState('black');
 
     let numericValue = parseInt(value);
     const increaseValue = () => {
@@ -18,6 +19,11 @@ function NumberInput({ value, numberStyle, graphicStyle, onAction }) {
             onAction(0);
         }
     };
+    useEffect(() => {
+        if (graphicStyle?.color) {
+            setGsStyle(graphicStyle.color);
+        }
+    }, []);
 
     return (
         <View>
@@ -32,7 +38,7 @@ function NumberInput({ value, numberStyle, graphicStyle, onAction }) {
                         },
                         numberStyle,
                     ]}
-                    style={{ borderColor: 'white' }}
+                    style={{ borderColor: gsStyle }}
                     onPress={decreaseValue}
                 />
                 <View style={[styles.numberBox, graphicStyle]}>
@@ -43,9 +49,9 @@ function NumberInput({ value, numberStyle, graphicStyle, onAction }) {
                 <RoundedButton
                     title='+'
                     size={25}
-                    style={{ borderColor: 'white' }}
+                    style={{ borderColor: gsStyle }}
                     textStyle={{
-                        color: graphicStyle.color,
+                        color: gsStyle,
                         fontSize: 16,
                         alignItems: 'center',
                     }}

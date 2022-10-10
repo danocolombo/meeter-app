@@ -53,7 +53,7 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
                             style={{
                                 margin: 4,
                                 borderWidth: 1,
-                                boderColor: 'black',
+                                borderColor: 'black',
                                 width: 'auto',
                                 height: '100%',
                             }}
@@ -62,7 +62,7 @@ const GroupDetailsEditScreen = ({ route, navigation }) => {
                                 style={{
                                     margin: 2,
                                     borderWidth: 1,
-                                    boderColor: 'black',
+                                    borderColor: 'black',
                                     width: 'auto',
                                     height: '100%',
                                 }}

@@ -106,6 +106,11 @@ const GroupForm = ({ route, group, meeting }) => {
                 <View style={styles.rowStyle}>
                     <Input
                         label='Group Title'
+                        labelStyle={{
+                            fontSize: 24,
+                            fontColor: 'black',
+                            marginLeft: 20,
+                        }}
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             value: values.title,
@@ -132,6 +137,11 @@ const GroupForm = ({ route, group, meeting }) => {
                 <View style={styles.rowStyle}>
                     <Input
                         label='Location'
+                        labelStyle={{
+                            fontSize: 24,
+                            fontColor: 'black',
+                            marginLeft: 20,
+                        }}
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             paddingHorizontal: 10,
@@ -159,6 +169,11 @@ const GroupForm = ({ route, group, meeting }) => {
                 <View style={styles.rowStyle}>
                     <Input
                         label='Faciliatator'
+                        labelStyle={{
+                            fontSize: 24,
+                            fontColor: 'black',
+                            marginLeft: 20,
+                        }}
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             paddingHorizontal: 10,
@@ -181,6 +196,11 @@ const GroupForm = ({ route, group, meeting }) => {
                 <View style={styles.rowStyle}>
                     <Input
                         label='Co-Faciliatator'
+                        labelStyle={{
+                            fontSize: 24,
+                            fontColor: 'black',
+                            marginLeft: 20,
+                        }}
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             paddingHorizontal: 10,
@@ -203,6 +223,11 @@ const GroupForm = ({ route, group, meeting }) => {
                 <View style={styles.rowStyle}>
                     <Input
                         label='Notes'
+                        labelStyle={{
+                            fontSize: 24,
+                            fontColor: 'black',
+                            marginLeft: 20,
+                        }}
                         textInputConfig={{
                             backgroundColor: 'lightgrey',
                             paddingHorizontal: 10,
