@@ -105,7 +105,7 @@ const MeetingDetails = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <View>
+                    <View style={{ marginLeft: 20 }}>
                         <Text style={mtrTheme.detailsRowLabel}>
                             {historic ? 'Meal:' : 'Meal Plans:'}
                         </Text>
@@ -123,10 +123,25 @@ const MeetingDetails = ({ route }) => {
                         </View>
                     )}
                 </View>
-
+                {!historic && (
+                    <View style={[styles.row, { marginBottom: 10 }]}>
+                        <View style={{ marginLeft: 20 }}>
+                            <Text style={mtrTheme.detailsRowLabel}>
+                                Meal Contact:
+                            </Text>
+                        </View>
+                        <View style={{ marginHorizontal: 2 }}>
+                            <Text style={mtrTheme.detailsRowValue}>
+                                {meeting.mealContact === ''
+                                    ? 'TBD'
+                                    : meeting.mealContact}
+                            </Text>
+                        </View>
+                    </View>
+                )}
                 {historic && (
                     <View style={styles.row}>
-                        <View>
+                        <View style={{ marginLeft: 20 }}>
                             <Text style={mtrTheme.detailsRowLabel}>
                                 Attendance:
                             </Text>

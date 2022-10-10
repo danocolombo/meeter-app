@@ -30,6 +30,7 @@ import {
 import GroupListCard from '../components/Group.List.Card';
 import MeetingListCard from '../components/Meeting.List.Card';
 import TypeSelectors from '../components/TypeSelectors';
+import { DrawerContentScrollView } from '@react-navigation/drawer';
 const MeetingDetailsEditScreen = ({ route }) => {
     const meeting = route.params.meeting;
     const { width } = useWindowDimensions();
@@ -189,7 +190,6 @@ const MeetingDetailsEditScreen = ({ route }) => {
     };
     const handleFormSubmit = () => {
         // need to create updated mtgCompKey from date
-        console.log('starting date:' + values.meetingDate);
         const dateParts = values.meetingDate.split('-');
         const newKey =
             meeter.affiliation.toLowerCase() +
@@ -203,8 +203,9 @@ const MeetingDetailsEditScreen = ({ route }) => {
             ...values,
             mtgCompKey: newKey,
         };
-        setValues(newValues);
-        printObject('handleFormSubmit::values:', values);
+        console.log('---------------------------');
+        printObject('newValues', newValues);
+        console.log('---------------------------');
         return;
         //   handle SAVE request
         // if (values.groupId === undefined) {
@@ -248,7 +249,8 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </TouchableOpacity>
                     <View>
                         <View style={{ flexDirection: 'column' }}>
-                            {meeting.meetingType === 'Lesson' && (
+                            {(meeting.meetingType === 'Lesson' ||
+                                meeting.meetingType === 'Testimonay') && (
                                 <Input
                                     label='Lesson'
                                     labelStyle={{
@@ -266,6 +268,33 @@ const MeetingDetailsEditScreen = ({ route }) => {
                                         placeholder: 'Lesson Title',
                                         // style: { color: 'white' },
                                         fontWeight: '300',
+                                        letterSpacing: 0,
+                                        onChangeText: inputChangedHandler.bind(
+                                            this,
+                                            'title'
+                                        ),
+                                    }}
+                                />
+                            )}
+                            {meeting.meetingType === 'Special' && (
+                                <Input
+                                    label='Event Title'
+                                    labelStyle={{
+                                        fontSize: 24,
+                                        color: 'white',
+                                        marginLeft: 10,
+                                    }}
+                                    textInputConfig={{
+                                        backgroundColor: 'white',
+                                        value: values.title,
+                                        paddingHorizontal: 1,
+                                        fontSize: 24,
+                                        color: 'black',
+                                        marginHorizontal: 10,
+                                        placeholder: 'Event Title',
+                                        // style: { color: 'white' },
+                                        fontWeight: '300',
+                                        minWidth: width * 0.6,
                                         letterSpacing: 0,
                                         onChangeText: inputChangedHandler.bind(
                                             this,
@@ -311,10 +340,12 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                 </View>
 
-                <View style={[styles.row, { marginTop: 15 }]}>
+                <View
+                    style={[styles.row, { marginTop: 15, marginVertical: 4 }]}
+                >
                     <View
                         style={{
-                            width: '25%',
+                            width: '40%',
                             paddingLeft: 'auto',
                         }}
                     >
@@ -355,7 +386,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         />
                     </View>
                 </View>
-                <View style={styles.row}>
+                <View style={[styles.row, { marginVertical: 4 }]}>
                     <View
                         style={{
                             width: '50%',
@@ -399,7 +430,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         />
                     </View>
                 </View>
-                <View style={[styles.row, { marginBottom: 15 }]}>
+                <View style={[styles.row, { marginVertical: 4 }]}>
                     <View
                         style={{
                             width: '50%',
@@ -439,7 +470,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         />
                     </View>
                 </View>
-                <View style={styles.row}>
+                <View style={[styles.row, { marginVertical: 4 }]}>
                     <View
                         style={{
                             width: '50%',
@@ -479,7 +510,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         />
                     </View>
                 </View>
-                <View style={styles.row}>
+                <View style={[styles.row, { marginVertical: 4 }]}>
                     <View
                         style={{
                             width: '50%',
