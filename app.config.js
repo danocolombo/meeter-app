@@ -26,13 +26,12 @@ export default ({ config }) => {
         assetBundlePatterns: ['**/*'],
         ios: {
             supportsTablet: true,
-            bundleIdentifier: 'guru.fortson.eor',
+            bundleIdentifier: 'guru.fortson.meeter',
             infoPlist: {
                 // UIBackgroundModes: ['location', 'fetch'],
             },
             config: {
-                googleMapsApiKey: 'AIzaSyAFWegK19_bMbbYuTeKatromwzuiC4lADo',
-                MEETER_API:
+                AWS_API_ENDPOINT:
                     'https://2byneyioe4.execute-api.us-east-1.amazonaws.com/dev',
             },
         },
@@ -45,7 +44,7 @@ export default ({ config }) => {
                 backgroundColor: '#FFFFFF',
             },
             config: {
-                MEETER_API:
+                AWS_API_ENDPOINT:
                     'https://2byneyioe4.execute-api.us-east-1.amazonaws.com/dev',
             },
         },
