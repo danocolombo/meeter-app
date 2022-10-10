@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { RoundedButton } from './RoundedButton';
 import { useTheme } from 'react-native-paper';
-function NumberInput({ value, onAction }) {
+function NumberInput({ value, numberStyle, graphicStyle, onAction }) {
     const mtrTheme = useTheme();
+    const inputStyles = [styles.input];
+    const [gsStyle, setGsStyle] = useState('black');
+
     let numericValue = parseInt(value);
     const increaseValue = () => {
         const newOne = numericValue + 1;
@@ -16,6 +19,11 @@ function NumberInput({ value, onAction }) {
             onAction(0);
         }
     };
+    useEffect(() => {
+        if (graphicStyle?.color) {
+            setGsStyle(graphicStyle.color);
+        }
+    }, []);
 
     return (
         <View>
@@ -23,21 +31,27 @@ function NumberInput({ value, onAction }) {
                 <RoundedButton
                     title='-'
                     size={25}
-                    textStyle={{
-                        color: 'black',
-                        fontSize: 16,
-                        alignItems: 'center',
-                    }}
+                    textStyle={[
+                        {
+                            fontSize: 16,
+                            alignItems: 'center',
+                        },
+                        numberStyle,
+                    ]}
+                    style={{ borderColor: gsStyle }}
                     onPress={decreaseValue}
                 />
-                <View style={styles.numberBox}>
-                    <Text style={styles.number}>{numericValue}</Text>
+                <View style={[styles.numberBox, graphicStyle]}>
+                    <Text style={[styles.number, graphicStyle]}>
+                        {numericValue}
+                    </Text>
                 </View>
                 <RoundedButton
                     title='+'
                     size={25}
+                    style={{ borderColor: gsStyle }}
                     textStyle={{
-                        color: 'black',
+                        color: gsStyle,
                         fontSize: 16,
                         alignItems: 'center',
                     }}

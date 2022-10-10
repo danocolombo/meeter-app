@@ -1,18 +1,20 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native';
 import React from 'react';
 // import { TextInput } from '@react-native-material/core';
-const Input = ({ label, textInputConfig }) => {
+const Input = ({ label, labelStyle, textInputConfig }) => {
     const inputStyles = [styles.input];
     if (textInputConfig && textInputConfig.multiline) {
         inputStyles.push(styles.inputMultiline);
     }
     return (
         <>
-            <View style={styles.inputContainer}>
-                <View style={{ marginLeft: 22 }}>
-                    <Text style={{ fontSize: 20 }}>{label}</Text>
-                </View>
-                <View>
+            <View>
+                {label && (
+                    <View>
+                        <Text style={labelStyle}>{label}</Text>
+                    </View>
+                )}
+                <View style={[]}>
                     <TextInput style={inputStyles} {...textInputConfig} />
                 </View>
             </View>

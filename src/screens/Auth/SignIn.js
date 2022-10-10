@@ -1,5 +1,6 @@
 import {
     View,
+    Text,
     Image,
     ScrollView,
     StyleSheet,
@@ -8,7 +9,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import React, { useState } from 'react';
-//import Logo from '../../../../assets/images/FEO-words.png';
+import Logo from '../../../assets/M-square.png';
 import CustomInput from '../../components/ui/CustomInput';
 import CustomButton from '../../components/ui/Auth/CustomButton';
 import { useNavigation } from '@react-navigation/native';
@@ -416,6 +417,19 @@ const SignInScreen = () => {
                     // resizeMode='stretch'
                 /> */}
                 {/* <Image style={styles.tinyLogo} source={Logo} /> */}
+                <View style={{ alignItems: 'center', marginTop: 30 }}>
+                    <Image style={styles.logo} source={Logo} />
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                    <Text
+                        style={{
+                            fontSize: 40,
+                            color: 'black',
+                        }}
+                    >
+                        MEETER
+                    </Text>
+                </View>
                 <CustomInput
                     name='username'
                     rules={{
@@ -473,9 +487,8 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
     },
     logo: {
-        width: '40%',
-        maxheight: 150,
-        maxWidth: 150,
+        width: 240,
+        height: 124,
     },
     tinyLogo: {
         width: 225,

@@ -3,6 +3,7 @@ import {
     View,
     Text,
     StyleSheet,
+    Button,
     TouchableOpacity,
     Platform,
 } from 'react-native';
@@ -36,8 +37,25 @@ const MeetingDetails = ({ route }) => {
     // determin if active or historic
     const historic = isDateDashBeforeToday(meeting.meetingDate);
     useLayoutEffect(() => {
+        let headerLabelColor = '';
+        if (Platform.OS === 'ios') {
+            headerLabelColor = 'white';
+        }
         navigation.setOptions({
             title: meeter.appName,
+            headerBackTitle: 'Back',
+            headerRight: () => (
+                <Button
+                    onPress={() =>
+                        navigation.navigate('MeetingEdit', {
+                            meeting: meeting,
+                        })
+                    }
+                    // color='red'
+                    color={headerLabelColor}
+                    title='Edit'
+                />
+            ),
         });
     }, [navigation, meeter]);
 
@@ -87,7 +105,7 @@ const MeetingDetails = ({ route }) => {
                     </View>
                 </View>
                 <View style={styles.row}>
-                    <View>
+                    <View style={{ marginLeft: 20 }}>
                         <Text style={mtrTheme.detailsRowLabel}>
                             {historic ? 'Meal:' : 'Meal Plans:'}
                         </Text>
@@ -105,10 +123,25 @@ const MeetingDetails = ({ route }) => {
                         </View>
                     )}
                 </View>
-
+                {!historic && (
+                    <View style={[styles.row, { marginBottom: 10 }]}>
+                        <View style={{ marginLeft: 20 }}>
+                            <Text style={mtrTheme.detailsRowLabel}>
+                                Meal Contact:
+                            </Text>
+                        </View>
+                        <View style={{ marginHorizontal: 2 }}>
+                            <Text style={mtrTheme.detailsRowValue}>
+                                {meeting.mealContact === ''
+                                    ? 'TBD'
+                                    : meeting.mealContact}
+                            </Text>
+                        </View>
+                    </View>
+                )}
                 {historic && (
                     <View style={styles.row}>
-                        <View>
+                        <View style={{ marginLeft: 20 }}>
                             <Text style={mtrTheme.detailsRowLabel}>
                                 Attendance:
                             </Text>

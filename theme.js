@@ -39,6 +39,9 @@ const theme = {
         onSurface: 'yellow',
         // background color for badges
         landingAppName: '#FEDB39',
+        success: 'green',
+        warning: 'yellow',
+        critical: 'red',
         notification: 'red',
         navActive: '#D61C4E',
         navInactive: '#8c8c8c',
@@ -105,6 +108,9 @@ const theme = {
     //   SCREEN NAVIGATION
     navButtonLight: {
         color: 'white',
+    },
+    navButtonPrimary: {
+        color: '#293462',
     },
     //   GROUP DETAILS CARD
     groupCardPrimary: {
@@ -228,7 +234,7 @@ const theme = {
     detailsRowLabel: {
         color: lightText,
         fontSize: 24,
-        fontWeight: '600',
+        fontWeight: '400',
     },
     detailsRowValue: {
         color: lightText,

@@ -44,7 +44,7 @@ const initialState = {
     region: 'us#east#dflt',
     eventRegion: 'test',
     stateProv: 'GA',
-    affiliateTitle: 'default affTitle',
+    affiliateTitle: 'MEETER',
     today: today,
     affiliation: 'DFLT',
     isLoading: true,

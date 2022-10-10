@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
-const Selectors = ({
+const TypeSelector = ({
     label,
     children,
     values,
@@ -32,7 +32,7 @@ const Selectors = ({
         borderWidth: 0,
     };
     const tSelected = {
-        color: mtrTheme.colors.selectedText,
+        color: mtrTheme.colors.darkText,
     };
     return (
         <>
@@ -53,11 +53,11 @@ const Selectors = ({
                                     selectedValue === value && tSelected,
                                 ]}
                             >
-                                {value === 'f'
-                                    ? 'Women'
-                                    : value === 'm'
-                                    ? 'Men'
-                                    : 'Mixed'}
+                                {value === 'Lesson'
+                                    ? 'Lesson'
+                                    : value === 'Testimony'
+                                    ? 'Testimony'
+                                    : 'Special'}
                             </Text>
                         </TouchableOpacity>
                     ))}
@@ -71,8 +71,10 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
+
         //flexWrap: "wrap",
     },
 });
 
-export default Selectors;
+export default TypeSelector;
