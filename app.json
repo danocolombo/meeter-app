@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Meeter",
+    "name": "Fortson Meeter",
     "slug": "FortsonMeeter",
     "ios": {
       "bundleIdentifier": "guru.fortson.meeter"
