@@ -231,6 +231,23 @@ export const getMeetingGroups = (meetingId) => (dispatch) => {
     };
     getData(meetingId);
 };
+export const updateMeetingValues = (values) => (dispatch) => {
+    const updateData = async (values) => {
+        let obj = {
+            operation: 'putMeeting',
+            payload: {
+                Item: values,
+            },
+        };
+        let body = JSON.stringify(obj);
+        let api2use = process.env.AWS_API_ENDPOINT + '/meetings';
+        let res = await axios.post(api2use, body, config);
+        const results = res.data.body;
+        dispatch(updateMeeting(values));
+        return results;
+    };
+    updateData(values);
+};
 export const getHistoricMeetings = () => (dispatch) => {
     var d = new Date();
     let yesterday = getDateMinusDays(d, 1);

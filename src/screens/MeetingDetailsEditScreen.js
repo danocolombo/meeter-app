@@ -15,7 +15,11 @@ import CurrencyInput from 'react-native-currency-input';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
-import { getMeetingGroups, clearGroups } from '../features/meetingsSlice';
+import {
+    getMeetingGroups,
+    clearGroups,
+    updateMeetingValues,
+} from '../features/meetingsSlice';
 import GroupList from '../components/GroupList';
 import NumberInput from '../components/ui/NumberInput/NumberInput';
 import DateBall from '../components/ui/DateBall';
@@ -202,22 +206,19 @@ const MeetingDetailsEditScreen = ({ route }) => {
         const newValues = {
             ...values,
             mtgCompKey: newKey,
+            mealCount: parseInt(values.mealCount),
+            attendanceCount: parseInt(values.attendanceCount),
+            newcomersCount: parseInt(values.newcomersCount),
         };
+
         console.log('---------------------------');
         printObject('newValues', newValues);
         console.log('---------------------------');
-        return;
-        //   handle SAVE request
-        // if (values.groupId === undefined) {
-        //     console.log('yep');
-        //     values.groupId = 0;
-        //     dispatch(addGroupValues(values));
-        // } else {
-        //     dispatch(updateGroupValues(values));
-        // }
-        // navigation.navigate('MeetingDetails', {
-        //     meeting: meeting,
-        // });
+        dispatch(updateMeetingValues(values));
+
+        navigation.navigate('MeetingDetails', {
+            meeting: meeting,
+        });
     };
     // printObject('MDS:58-->meeting:', meeting);
     return (
