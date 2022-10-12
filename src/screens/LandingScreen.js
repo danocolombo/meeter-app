@@ -18,16 +18,6 @@ import CustomButton from '../components/ui/CustomButton';
 import { Surface, withTheme, useTheme } from 'react-native-paper';
 import { printObject } from '../utils/helpers';
 import MeetingListCard from '../components/Meeting.List.Card';
-import {
-    useFonts,
-    NotoSerifJP_200ExtraLight,
-    NotoSerifJP_300Light,
-    NotoSerifJP_400Regular,
-    NotoSerifJP_500Medium,
-    NotoSerifJP_600SemiBold,
-    NotoSerifJP_700Bold,
-    NotoSerifJP_900Black,
-} from '@expo-google-fonts/noto-serif-jp';
 
 const LandingScreen = () => {
     const mtrTheme = useTheme();
@@ -46,59 +36,45 @@ const LandingScreen = () => {
         });
     }, [navigation, meeter]);
 
-    let [fontsLoaded] = useFonts({
-        NotoSerifJP_200ExtraLight,
-        NotoSerifJP_300Light,
-        NotoSerifJP_400Regular,
-        NotoSerifJP_500Medium,
-        NotoSerifJP_600SemiBold,
-        NotoSerifJP_700Bold,
-        NotoSerifJP_900Black,
-    });
-    if (!fontsLoaded) {
-        // Keep the splash screen visible while we fetch resources
-        SplashScreen.preventAutoHideAsync();
-    } else {
-        return (
-            <>
-                <Surface style={styles.welcomeSurface}>
-                    <View style={{ marginTop: 20 }}>
-                        <Text style={mtrTheme.screenTitle}>WELCOME</Text>
-                    </View>
-                    <View style={{ alignItems: 'center', marginTop: 30 }}>
-                        <Image style={styles.logo} source={Logo} />
-                    </View>
-                    <View style={{ marginTop: 10, alignItems: 'center' }}>
-                        <Text
-                            style={{
-                                fontFamily: 'NotoSerifJP_700Bold',
-                                fontSize: 20,
-                                color: mtrTheme.colors.landingAppName,
-                            }}
-                        >
-                            {meeter.affiliateTitle}
-                        </Text>
-                    </View>
+    return (
+        <>
+            <Surface style={styles.welcomeSurface}>
+                <View style={{ marginTop: 20 }}>
+                    <Text style={mtrTheme.screenTitle}>WELCOME</Text>
+                </View>
+                <View style={{ alignItems: 'center', marginTop: 30 }}>
+                    <Image style={styles.logo} source={Logo} />
+                </View>
+                <View style={{ marginTop: 10, alignItems: 'center' }}>
+                    <Text
+                        style={{
+                            fontFamily: 'Merriweather-Bold',
+                            fontSize: 20,
+                            color: mtrTheme.colors.landingAppName,
+                        }}
+                    >
+                        {meeter.affiliateTitle}
+                    </Text>
+                </View>
 
-                    {activeMeetings.length > 0 && (
-                        <>
-                            <View style={{ marginTop: 10 }}>
-                                <Text style={styles.announcement}>
-                                    Next Meeting...
-                                </Text>
-                            </View>
-                            <View style={{ marginHorizontal: 20 }}>
-                                <MeetingListCard
-                                    meeting={activeMeetings[0]}
-                                    active={true}
-                                />
-                            </View>
-                        </>
-                    )}
-                </Surface>
-            </>
-        );
-    }
+                {activeMeetings.length > 0 && (
+                    <>
+                        <View style={{ marginTop: 10 }}>
+                            <Text style={styles.announcement}>
+                                Next Meeting...
+                            </Text>
+                        </View>
+                        <View style={{ marginHorizontal: 20 }}>
+                            <MeetingListCard
+                                meeting={activeMeetings[0]}
+                                active={true}
+                            />
+                        </View>
+                    </>
+                )}
+            </Surface>
+        </>
+    );
 };
 export default withTheme(LandingScreen);
 const styles = StyleSheet.create({

@@ -423,6 +423,7 @@ const SignInScreen = () => {
                 <View style={{ alignItems: 'center' }}>
                     <Text
                         style={{
+                            fontFamily: 'Merriweather-Bold',
                             fontSize: 40,
                             color: 'black',
                         }}

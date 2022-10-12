@@ -30,10 +30,7 @@ export default ({ config }) => {
             infoPlist: {
                 // UIBackgroundModes: ['location', 'fetch'],
             },
-            config: {
-                AWS_API_ENDPOINT:
-                    'https://2byneyioe4.execute-api.us-east-1.amazonaws.com/dev',
-            },
+            config: {},
         },
         android: {
             package: 'guru.fortson.meeter',
@@ -43,10 +40,7 @@ export default ({ config }) => {
                 foregroundImage: './assets/adaptive-icon.png',
                 backgroundColor: '#FFFFFF',
             },
-            config: {
-                AWS_API_ENDPOINT:
-                    'https://2byneyioe4.execute-api.us-east-1.amazonaws.com/dev',
-            },
+            config: {},
         },
         web: {
             favicon: './assets/favicon.png',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import {
     View,
@@ -11,6 +11,7 @@ import {
 import Navigation from './src/navigation/Navigation';
 import { store } from './src/app/store';
 import { Provider, useSelector } from 'react-redux';
+import { useFonts } from 'expo-font';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import theme from './theme';
 import awsconfig from './src/aws-exports';
@@ -41,6 +42,27 @@ const mtrTheme = {
 };
 
 function App() {
+    const [fontsLoaded] = useFonts({
+        'Merriweather-Bold': require('./assets/fonts/Merriweather-Bold.ttf'),
+    });
+
+    useEffect(() => {
+        async function prepare() {
+            await SplashScreen.preventAutoHideAsync();
+        }
+        prepare();
+    }, []);
+
+    const onLayoutRootView = useCallback(async () => {
+        if (fontsLoaded) {
+            await SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded]);
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
