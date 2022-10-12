@@ -9,6 +9,7 @@ import {
     Button,
 } from 'react-native';
 import Input from '../components/ui/Input';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 // import * as Application from 'expo-application';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import CurrencyInput from 'react-native-currency-input';
@@ -45,6 +46,8 @@ const MeetingDetailsEditScreen = ({ route }) => {
     const meeter = useSelector((state) => state.system);
     const groups = useSelector((state) => state.meetings.groups);
     const [modalMeetingDateVisible, setModalMeetingDateVisible] =
+        useState(false);
+    const [modalDeleteConfirmVisible, setModalDeleteConfirmVisible] =
         useState(false);
     const [meetingDate, setMeetingDate] = useState();
     const dashDate =
@@ -133,6 +136,19 @@ const MeetingDetailsEditScreen = ({ route }) => {
         navigation.setOptions({
             title: meeter.appName,
             headerBackTitle: 'Cancel',
+            headerRight: () => (
+                <>
+                    <TouchableOpacity
+                        onPress={() => setModalDeleteConfirmVisible(true)}
+                    >
+                        <MaterialCommunityIcons
+                            name='delete-forever'
+                            size={30}
+                            color={mtrTheme.colors.critical}
+                        />
+                    </TouchableOpacity>
+                </>
+            ),
         });
     }, [navigation, meeter]);
 
@@ -224,25 +240,33 @@ const MeetingDetailsEditScreen = ({ route }) => {
     return (
         <>
             <Surface style={styles.surface}>
-                <View style={styles.firstRow}>
+                <View style={mtrTheme.meetingEditTypeSelectorRow}>
                     <TypeSelectors
                         pick={values.meetingType}
                         setPick={handleTypeChange}
                     />
                 </View>
 
-                <View style={styles.firstRow}>
+                <View style={mtrTheme.meetingEditFirstRow}>
                     <TouchableOpacity
                         onPress={() => setModalMeetingDateVisible(true)}
                     >
-                        <View style={styles.dateWrapper}>
+                        <View style={mtrTheme.meetingEditDateWrapper}>
                             {Platform.OS === 'ios' && (
-                                <View style={{ padding: 5 }}>
+                                <View
+                                    style={
+                                        mtrTheme.meetingEditIOSDataCompContainer
+                                    }
+                                >
                                     <DateBall date={values.meetingDate} />
                                 </View>
                             )}
                             {Platform.OS === 'android' && (
-                                <View style={{ padding: 1 }}>
+                                <View
+                                    style={
+                                        mtrTheme.meetingEditAndroidDataCompContainer
+                                    }
+                                >
                                     <DateStack date={values.meetingDate} />
                                 </View>
                             )}
@@ -251,14 +275,10 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     <View>
                         <View style={{ flexDirection: 'column' }}>
                             {(meeting.meetingType === 'Lesson' ||
-                                meeting.meetingType === 'Testimonay') && (
+                                meeting.meetingType === 'Testimony') && (
                                 <Input
                                     label='Lesson'
-                                    labelStyle={{
-                                        fontSize: 24,
-                                        color: 'white',
-                                        marginLeft: 10,
-                                    }}
+                                    labelStyle={mtrTheme.meetingEditInputLabel}
                                     textInputConfig={{
                                         backgroundColor: 'white',
                                         value: values.title,
@@ -280,11 +300,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                             {meeting.meetingType === 'Special' && (
                                 <Input
                                     label='Event Title'
-                                    labelStyle={{
-                                        fontSize: 24,
-                                        color: 'white',
-                                        marginLeft: 10,
-                                    }}
+                                    labelStyle={mtrTheme.meetingEditInputLabel}
                                     textInputConfig={{
                                         backgroundColor: 'white',
                                         value: values.title,
@@ -307,11 +323,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                             {meeting.supportContact && (
                                 <Input
                                     label='Contact'
-                                    labelStyle={{
-                                        fontSize: 24,
-                                        color: 'white',
-                                        marginLeft: 10,
-                                    }}
+                                    labelStyle={mtrTheme.meetingEditInputLabel}
                                     textInputConfig={{
                                         backgroundColor: 'white',
                                         value: values.supportContact,
@@ -330,42 +342,22 @@ const MeetingDetailsEditScreen = ({ route }) => {
                                     }}
                                 />
                             )}
-                            {/* <View style={{ alignContent: 'flex-start' }}>
-                                <Text style={mtrTheme.detailsTitle}>
-                                    {meeting.meetingType === 'Lesson'
-                                        ? meeting.supportContact
-                                        : meeting.title}
-                                </Text>
-                            </View> */}
                         </View>
                     </View>
                 </View>
 
                 <View
-                    style={[styles.row, { marginTop: 15, marginVertical: 4 }]}
+                    style={[
+                        mtrTheme.meetingEditBasicRow,
+                        mtrTheme.meetingEditMealRow,
+                    ]}
                 >
-                    <View
-                        style={{
-                            width: '40%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 24,
-                                textAlign: 'right',
-                            }}
-                        >
+                    <View style={mtrTheme.meetingEditMealLabelContainer}>
+                        <Text style={mtrTheme.meetingEditMealLabelText}>
                             {historic ? 'Meal:' : 'Meal Plans:'}
                         </Text>
                     </View>
-                    <View
-                        style={{
-                            width: '60%',
-                            paddingRight: 'auto',
-                        }}
-                    >
+                    <View style={mtrTheme.meetingEditMealInputContainer}>
                         <Input
                             label=''
                             textInputConfig={{
@@ -387,20 +379,14 @@ const MeetingDetailsEditScreen = ({ route }) => {
                         />
                     </View>
                 </View>
-                <View style={[styles.row, { marginVertical: 4 }]}>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 24,
-                                textAlign: 'right',
-                            }}
-                        >
+                <View
+                    style={[
+                        mtrTheme.meetingEditBasicRow,
+                        mtrTheme.meetingEditMealContactRow,
+                    ]}
+                >
+                    <View style={mtrTheme.meetingEditMealContactContainer}>
+                        <Text style={mtrTheme.meetingEditMealLabelText}>
                             Meal Contact:
                         </Text>
                     </View>
@@ -432,28 +418,12 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                 </View>
                 <View style={[styles.row, { marginVertical: 4 }]}>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 24,
-                                textAlign: 'right',
-                            }}
-                        >
+                    <View style={mtrTheme.meetingEditNumberLabelContainer}>
+                        <Text style={mtrTheme.meetingEditMealNumberText}>
                             Meals Served:
                         </Text>
                     </View>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingRight: 'auto',
-                        }}
-                    >
+                    <View style={mtrTheme.meetingEditMealNumberContainer}>
                         <NumberInput
                             numberStyle={{
                                 color: 'white',
@@ -472,28 +442,12 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                 </View>
                 <View style={[styles.row, { marginVertical: 4 }]}>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 24,
-                                textAlign: 'right',
-                            }}
-                        >
+                    <View style={mtrTheme.meetingEditNumberLabelContainer}>
+                        <Text style={mtrTheme.meetingEditMealNumberText}>
                             Attendance:
                         </Text>
                     </View>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingRight: 'auto',
-                        }}
-                    >
+                    <View style={mtrTheme.meetingEditMealNumberContainer}>
                         <NumberInput
                             numberStyle={{
                                 color: 'white',
@@ -512,28 +466,12 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                 </View>
                 <View style={[styles.row, { marginVertical: 4 }]}>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
-                        <Text
-                            style={{
-                                color: 'white',
-                                fontSize: 24,
-                                textAlign: 'right',
-                            }}
-                        >
+                    <View style={mtrTheme.meetingEditNumberLabelContainer}>
+                        <Text style={mtrTheme.meetingEditMealNumberText}>
                             Newcomers:
                         </Text>
                     </View>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingRight: 'auto',
-                        }}
-                    >
+                    <View style={mtrTheme.meetingEditMealNumberContainer}>
                         <NumberInput
                             numberStyle={{
                                 color: 'white',
@@ -552,12 +490,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
                     </View>
                 </View>
                 <View style={[styles.row, { marginTop: 10 }]}>
-                    <View
-                        style={{
-                            width: '50%',
-                            paddingLeft: 'auto',
-                        }}
-                    >
+                    <View style={mtrTheme.meetingEditNumberLabelContainer}>
                         <Text
                             style={{
                                 color: 'white',

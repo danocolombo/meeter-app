@@ -53,7 +53,7 @@ export const meetingsSlice = createSlice({
         },
         createTmp: (state, action) => {
             state.tmpMeeting = {};
-            state.tmpMeeting = action.payload;
+            state.tmpMeeting = action.payload[0];
             return state;
         },
         updateTmp: (state, action) => {
@@ -67,26 +67,62 @@ export const meetingsSlice = createSlice({
             return state;
         },
         getMeeting: (state, action) => {
-            let found = state.meetings.filter((m) => m.mid === action.payload);
-            return found;
+            //could be in historic or active
+            console.log(action.payload);
+            let returnValue = {};
+            let found = state.historicMeetings.filter(
+                (m) => m.meetingId === action.payload
+            );
+            console.log('size:', found.length);
+            if (found.length !== 0) {
+                printObject('meeting:', found);
+                returnValue = found[0];
+                printObject('returnValue', returnValue);
+                return state;
+            }
+            // if (found.length === 1) {
+            //     return found[0];
+            // } else {
+            //     let active = state.activeMeetings.filter(
+            //         (m) => m.meetingId === action.payload
+            //     );
+            //     return active[0];
+            // }
         },
 
         updateMeeting: (state, action) => {
+            // this update could be in either the historic or the active.
+            // probability is that it is in historic, do that first
+            let historic = false;
             const newValue = action.payload;
-            // console.log('newValue:', newValue);
-            const newMeetingList = state.meetings.map((m) => {
-                // console.log('typeof ral:', typeof ral);
-                // console.log('typeof action.payload', typeof action.payload);
-                return m.uid === newValue.mid ? newValue : m;
+            //stort with historic
+            let newMeetingList = [];
+            newMeetingList = state.historicMeetings.map((m) => {
+                if (m.meetingId === newValue.meetingId) {
+                    historic = true;
+                    return newValue;
+                } else {
+                    return m;
+                }
             });
-            // console.log('=========FEATURE START==============');
-            // console.log('f.r.RS:82-->newRallyList', newRallyList);
-            // console.log('=========FEATURE END==============');
+            if (!historic) {
+                newMeetingList = state.activeMeetings.map((m) => {
+                    if (m.meetingId === newValue.meetingId) {
+                        return newValue;
+                    } else {
+                        return m;
+                    }
+                });
+            }
             function asc_sort(a, b) {
                 return a.meetingDate - b.meetingDate;
             }
             let newBigger = newMeetingList.sort(asc_sort);
-            state.meetings = newBigger;
+            if (historic) {
+                state.historicMeetings = newBigger;
+            } else {
+                state.activeMeetings = newBigger;
+            }
 
             return state;
         },
@@ -243,10 +279,19 @@ export const updateMeetingValues = (values) => (dispatch) => {
         let api2use = process.env.AWS_API_ENDPOINT + '/meetings';
         let res = await axios.post(api2use, body, config);
         const results = res.data.body;
+        dispatch(updateTmp(values));
         dispatch(updateMeeting(values));
         return results;
     };
     updateData(values);
+};
+export const getAMeeting = (meetingId) => (dispatch) => {
+    const getIt = async (meetingId) => {
+        let mtg = dispatch(getMeeting(meetingId));
+        printObject('getAMeeting response:', mtg);
+        return mtg;
+    };
+    getIt(meetingId);
 };
 export const getHistoricMeetings = () => (dispatch) => {
     var d = new Date();

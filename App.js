@@ -12,6 +12,7 @@ import Navigation from './src/navigation/Navigation';
 import { store } from './src/app/store';
 import { Provider, useSelector } from 'react-redux';
 import { useFonts } from 'expo-font';
+//import * as SplashScreen from 'expo-splash-screen';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import theme from './theme';
 import awsconfig from './src/aws-exports';

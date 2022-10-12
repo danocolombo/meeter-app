@@ -225,7 +225,81 @@ const theme = {
         fontWeight: '400',
         letterSpacing: 0.5,
     },
+    //   MEETING EDIT
+    meetingEditNavDeleteButton: {
+        backgroundColor: 'red',
+        color: 'white",',
+    },
+    meetingEditTypeSelectorRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 10,
+        marginHorizontal: 10,
+    },
+    meetingEditFirstRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 0,
+        marginHorizontal: 10,
+    },
+    meetingEditDateWrapper: { margin: 5 },
+    meetingEditIOSDataCompContainer: { padding: 5 },
+    meetingEditAndroidDataCompContainer: { padding: 1 },
+    meetingEditInputLabel: {
+        fontSize: 24,
+        color: 'white',
+        marginLeft: 10,
+    },
+    meetingEditBasicRow: {
+        flexDirection: 'row',
+        marginHorizontal: 10,
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+    },
+    meetingEditMealRow: {
+        marginTop: 15,
+        marginVertical: 4,
+        marginRight: 30,
+    },
+    meetingEditMealLabelContainer: {
+        width: '50%',
+        paddingLeft: 'auto',
+    },
+    meetingEditMealLabelText: {
+        color: 'white',
+        fontSize: 24,
+        textAlign: 'right',
+    },
+    meetingEditMealInputContainer: {
+        width: '60%',
+        paddingRight: 'auto',
+    },
+    meetingEditMealContactRow: {
+        marginVertical: 5,
+        marginRight: 30,
+    },
+    meetingEditMealContactContainer: {
+        width: '60%',
+        paddingRight: 'auto',
+    },
+    meetingEditMealNumberText: {
+        color: 'white',
+        fontSize: 24,
+        textAlign: 'right',
+    },
+    meetingEditMealNumberContainer: {
+        width: '50%',
+        paddingRight: 'auto',
+    },
+    meetingEditNumberLabelContainer: {
+        width: '50%',
+        paddingLeft: 'auto',
+    },
+
+    meetingDetailsTypeContainer: {},
     //   MEETING DETAILS
+    meetingDetailsTypeContainer: {},
     detailsTitle: {
         color: lightText,
         fontSize: 24,
