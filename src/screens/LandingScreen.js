@@ -71,7 +71,7 @@ const LandingScreen = () => {
                     <View style={{ marginTop: 10, alignItems: 'center' }}>
                         <Text
                             style={{
-                                fontFamily: 'NotoSerifJP_700Bold',
+                                //fontFamily: 'NotoSerifJP_700Bold',
                                 fontSize: 20,
                                 color: mtrTheme.colors.landingAppName,
                             }}

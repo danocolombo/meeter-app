@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import Navigation from './src/navigation/Navigation';
 import { store } from './src/app/store';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import { FontAwesome, AnitIcon } from '@expo/vector-icons/FontAwesome';
 import { Provider, useSelector } from 'react-redux';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import theme from './theme';
@@ -39,8 +42,43 @@ const mtrTheme = {
         gray75: '#404040',
     },
 };
+function cacheFonts(fonts) {
+    return fonts.map((font) => Font.loadAsync(font));
+}
 
 function App() {
+    const [appIsReady, setAppIsReady] = useState(false);
+
+    // Load any resources or data that you need prior to rendering the app
+    useEffect(() => {
+        async function loadResourcesAndDataAsync() {
+            try {
+                SplashScreen.preventAutoHideAsync();
+
+                // const imageAssets = cacheImages([
+                //     'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png',
+                //     require('./assets/images/circle.jpg'),
+                // ]);
+
+                const fontAssets = cacheFonts([FontAwesome.font]);
+
+                // await Promise.all([...imageAssets, ...fontAssets]);
+                await Promise.all([...fontAssets]);
+            } catch (e) {
+                // You might want to provide this error information to an error reporting service
+                console.warn(e);
+            } finally {
+                setAppIsReady(true);
+                SplashScreen.hideAsync();
+            }
+        }
+
+        loadResourcesAndDataAsync();
+    }, []);
+
+    if (!appIsReady) {
+        return null;
+    }
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryClient}>
