@@ -12,7 +12,7 @@ import Navigation from './src/navigation/Navigation';
 import { store } from './src/app/store';
 import { Provider, useSelector } from 'react-redux';
 import { useFonts } from 'expo-font';
-//import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from 'expo-splash-screen';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import theme from './theme';
 import awsconfig from './src/aws-exports';
@@ -50,13 +50,15 @@ function App() {
     useEffect(() => {
         async function prepare() {
             await SplashScreen.preventAutoHideAsync();
+            await SplashScreen.hideAsync();
         }
         prepare();
     }, []);
 
     const onLayoutRootView = useCallback(async () => {
         if (fontsLoaded) {
-            await SplashScreen.hideAsync();
+            await SplashScreen.preventAutoHideAsync();
+            // await SplashScreen.hideAsync();
         }
     }, [fontsLoaded]);
 

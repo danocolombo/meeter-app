@@ -15,7 +15,7 @@ export default ({ config }) => {
 
         extra: {
             eas: {
-                // projectId: '6e0dd50c-2b68-4f82-9ea3-8a76df387b43',
+                projectId: '7ef587ae-ab5b-4032-905d-af78d83b8fd9',
             },
             meeter: '1.0.0-1',
         },

@@ -7,6 +7,7 @@ import {
     useWindowDimensions,
     Platform,
     Button,
+    Modal,
 } from 'react-native';
 import Input from '../components/ui/Input';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -39,6 +40,7 @@ import { DrawerContentScrollView } from '@react-navigation/drawer';
 const MeetingDetailsEditScreen = ({ route }) => {
     const meeting = route.params.meeting;
     const { width } = useWindowDimensions();
+    const { height } = useWindowDimensions();
     const mtrTheme = useTheme();
     const isFocused = useIsFocused();
     const dispatch = useDispatch();
@@ -48,7 +50,7 @@ const MeetingDetailsEditScreen = ({ route }) => {
     const [modalMeetingDateVisible, setModalMeetingDateVisible] =
         useState(false);
     const [modalDeleteConfirmVisible, setModalDeleteConfirmVisible] =
-        useState(false);
+        useState(true);
     const [meetingDate, setMeetingDate] = useState();
     const dashDate =
         meeter.today.substr(0, 3) +
@@ -239,6 +241,58 @@ const MeetingDetailsEditScreen = ({ route }) => {
     // printObject('MDS:58-->meeting:', meeting);
     return (
         <>
+            <Modal visible={modalDeleteConfirmVisible} animationStyle='slide'>
+                <Surface
+                    style={[styles.modalSurface, { height: height * 0.8 }]}
+                >
+                    <View>
+                        <Text style={styles.modalTitle}>
+                            Confirm You Want To Delete
+                        </Text>
+                    </View>
+                    <View style={{ marginVertical: 20 }}>
+                        <View>
+                            <Text
+                                style={{ color: 'white', textAlign: 'center' }}
+                            >
+                                {values.meetingDate}
+                            </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Text
+                                style={{ color: 'white', textAlign: 'center' }}
+                            >
+                                {values.meetingType}
+                            </Text>
+
+                            <Text
+                                style={{ color: 'white', textAlign: 'center' }}
+                            >
+                                {values.title}
+                            </Text>
+                        </View>
+                    </View>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+
+                            justifyContent: 'space-evenly',
+                        }}
+                    >
+                        <View style={{ width: width * 0.35, marginRight: 20 }}>
+                            <CustomButton
+                                text='No, cancel'
+                                onPress={() =>
+                                    setModalDeleteConfirmVisible(false)
+                                }
+                            />
+                        </View>
+                        <View style={{ width: width * 0.35, marginLeft: 20 }}>
+                            <CustomButton text='Yes, DELETE' bgColor='red' />
+                        </View>
+                    </View>
+                </Surface>
+            </Modal>
             <Surface style={styles.surface}>
                 <View style={mtrTheme.meetingEditTypeSelectorRow}>
                     <TypeSelectors
@@ -627,5 +681,29 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue',
         marginHorizontal: 20,
         marginTop: 20,
+    },
+    modalContainer: {
+        marginTop: 50,
+        // alignSelf: 'flex-end',
+    },
+    modalSurface: {
+        marginTop: 100,
+        marginHorizontal: 10,
+        padding: 30,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 5,
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: 'white',
+    },
+    modalButtonContainer: {
+        marginVertical: 20,
+        flexDirection: 'row',
+    },
+    modalButtonWrapper: {
+        marginHorizontal: 10,
     },
 });

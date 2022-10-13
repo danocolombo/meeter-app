@@ -87,6 +87,9 @@ const MeetingDetails = ({ route }) => {
         const groups = dispatch(getMeetingGroups(meeting.meetingId));
     }, [route, isFocused]);
     // printObject('MDS:58-->meeting:', meeting);
+    useEffect(() => {
+        setMeeting(tmpMeeting);
+    }, [tmpMeeting]);
     return (
         <>
             <Surface style={styles.surface}>
